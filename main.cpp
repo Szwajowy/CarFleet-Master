@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <vector>
+#include <fstream>
 
 using namespace std;
 
@@ -75,7 +76,7 @@ class Pojazd {
 vector <Pojazd> tablicaPojazdow;
 
 // Metoda dodajaca dane pojazdu dla odpowiedniego indeksu wektora
-// (je¿eli dla danego indeksu istnieje ju¿ obiekt to nastêpuje inkrementacja indeksu tego obiektu i ka¿dego nastêpnego i dopiero dodanie naszego obiektu)	
+// (je¿eli dla danego indeksu istnieje ju¿ obiekt to nastêpuje inkrementacja indeksu tego obiektu i ka¿dego nastêpnego, czyli przesuniêcie w prawo i dopiero dodanie naszego obiektu)	
 string dodajPojazd(unsigned int id) {
 	
 	string typ, marka, model, silnik;
@@ -103,6 +104,7 @@ string dodajPojazd() {
 	return dodajPojazd(tablicaPojazdow.size());
 }
 
+// Metoda edytuj¹ca dane pojazdu o danym ID
 string edytujPojazd(unsigned int id) {
 	// Obs³uga b³êdu - wektor jest pusty
 	if (tablicaPojazdow.size()<=0){
@@ -153,6 +155,8 @@ string edytujPojazd(unsigned int id) {
 	return "x20";
 }
 
+// Metoda usuwaj¹ca pojazd o danym ID	
+// (po usuniêciu obiektu nastêpuje dekrementacja indeksu ka¿dego nastêpnego, czyli przesuniêcie w lewo)	
 string usunPojazd(unsigned int id) {
 	// Obs³uga b³êdu - wektor jest pusty
 	if (tablicaPojazdow.size()<=0){
@@ -262,10 +266,82 @@ string filtrujDanePojazdu() {
 	return "x50";
 }
 
-int main(int argc, char *argv[]) {
+string zapiszPlik() {
 	
-	dodajPojazd(0);
-	cout << filtrujDanePojazdu();
+	cout << "Rozpoczynam zapis do pliku.";
+	
+	fstream plik("Pojazdy.txt",ios::out);
+	if( plik.good() ) {
+		for (int i=0; i<tablicaPojazdow.size();i++) {
+			plik << "Pojazd nr." << i << endl;
+			plik << "Typ: " << tablicaPojazdow[i].oddajTyp() << endl;
+			plik << "Marka: " << tablicaPojazdow[i].oddajMarka() << endl;
+			plik << "Model: " << tablicaPojazdow[i].oddajModel() << endl;
+			plik << "Typ silnika: " << tablicaPojazdow[i].oddajSilnik() << endl;
+			plik << "Nr.VIN: " << tablicaPojazdow[i].oddajVin() << endl;
+			plik << endl;
+			plik.flush();
+		}	
+	}
+	plik.close();
+	
+	cout << "Pomyœlnie zakoñczono zapis do pliku.";
+	return "x60";
+}
+
+string otworzPlik() {
+	string wiersz, typ, marka, model, silnik;
+	int id, i, vin;
+	
+	cout << "Rozpoczynam odczyt z pliku.";
+	
+	fstream plik("Pojazdy.txt",ios::in);
+	if( plik.good() ) {
+		while (getline(plik, wiersz) != 0) {
+			if (wiersz != "") {
+				if (i==0) {
+					cout << wiersz << endl;
+					wiersz.erase(0,10);
+					id = stoi(wiersz);
+					i++;
+				} else if (i==1) {
+					cout << wiersz << endl;
+					wiersz.erase(0,5);
+					typ = wiersz;
+					i++;
+				} else if (i==2) {
+					cout << wiersz << endl;
+					wiersz.erase(0,7);
+					marka = wiersz;
+					i++;
+				} else if (i==3) {
+					cout << wiersz << endl;
+					wiersz.erase(0,7);
+					model = wiersz;
+					i++;
+				} else if (i==4) {
+					cout << wiersz << endl;
+					wiersz.erase(0,13);
+					silnik = wiersz;
+					i++;
+				} else if (i==5) {
+					cout << wiersz << endl;
+					cout << endl;
+					wiersz.erase(0,8);
+					vin = stoi(wiersz);
+					tablicaPojazdow.insert (tablicaPojazdow.begin() + id,Pojazd(typ,marka,model,silnik,vin));
+					i=0;
+				}
+			}
+		}	
+	}
+	plik.close();
+	
+	cout << "Pomyœlnie zakoñczono odczyt z pliku.";
+	return "x70";
+}
+
+int main(int argc, char *argv[]) {
 	
     return EXIT_SUCCESS;
 }
