@@ -4,7 +4,7 @@
 #include <fstream>
 
 using namespace std;
-
+//Test
 // Wszelkie dane pojazdu i dostêp do operacji z nim zwi¹zanych przechowywane s¹ w klasie "Pojazd"
 class Pojazd {
 	// Dane pojazdu
