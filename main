@@ -1,0 +1,172 @@
+#include <cstdlib>
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+// Wszelkie dane pojazdu i dostęp do operacji z nim związanych przechowywane są w klasie "Pojazd"
+class Pojazd {
+	// Dane pojazdu
+	string Typ, Marka, Model, Silnik;
+    int VIN;
+	 
+	public:     
+    // Konstruktor parametrowy dla zmiennych obowiązkowych (Typ, Marka, Model, VIN)  
+	Pojazd(string Typ, string Marka, string Model, string Silnik, int VIN) {
+    	this->Typ = Typ;
+        this->Marka = Marka;
+        this->Model = Model;
+        this->Silnik = Silnik;
+        this->VIN = VIN;
+    }
+    
+	// Konstruktor bezparametrowy  
+	Pojazd() {
+    	Pojazd("Nieznany","Nieznana","Nieznany","Nieznany",0);
+    }    
+	
+	// Zwracanie i ustawianie wartości zmiennej "Typ"
+	string OddajTyp() {
+		return Typ;	
+	}
+	
+	void UstawTyp(string Typ) {
+		this->Typ = Typ;	
+	}
+	
+	// Zwracanie i ustawianie wartości zmiennej "Marka"
+	string OddajMarka() {
+		return Marka;	
+	}
+	
+	void UstawMarka(string Marka) {
+		this->Marka = Marka;	
+	}
+	
+	// Zwracanie i ustawianie wartości zmiennej "Model"
+	string OddajModel() {
+		return Model;	
+	}
+	
+	void UstawModel(string Model) {
+		this->Model = Model;	
+	}  
+	
+	// Zwracanie i ustawianie wartości zmiennej "Silnik"
+	string OddajSilnik() {
+		return Silnik;	
+	}
+	
+	void UstawSilnik(string Silnik) {
+		this->Silnik = Silnik;	
+	}
+	
+	// Zwracanie i ustawianie wartości zmiennej "VIN"
+	int OddajVIN() {
+		return VIN;	
+	}
+	
+	void UstawVIN(int VIN) {
+		this->VIN = VIN;	
+	}     
+};
+
+// Definicja wektora obiektow Pojazd
+vector <Pojazd> tablicaPojazdow;
+
+// Metoda dodajaca dane pojazdu dla odpowiedniego indeksu wektora
+// (jeżeli dla danego indeksu istnieje już zadeklarowany obiekt przesuwa go i każdy następny o jeden tak)	
+string DodajPojazd(unsigned int ID) {
+	string Typ,Marka,Model,Silnik;
+	int VIN;
+
+	cout << "Podaj typ pojazdu: ";
+	cin >> Typ;
+	cout << "Podaj marke pojazdu: ";
+	cin >> Marka;
+	cout << "Podaj model pojazdu: ";
+	cin >> Model;
+	cout << "Podaj typ silnika: ";
+	cin >> Silnik;
+	do {
+		cout << "Podaj identyfikator VIN pojazdu: ";
+		cin >> VIN;
+		if (VIN == 0) cout << "Identyfikator VIN nie może wynosić 0!" << endl;
+	} while (VIN==0);
+	tablicaPojazdow.insert (tablicaPojazdow.begin() + ID,Pojazd(Typ,Marka,Model,Silnik,VIN));
+	return "Operacja wykonana pomyślnie!";
+}
+
+// Metoda dodajaca dane pojazdu na koniec wektora
+string DodajPojazd() {
+	return DodajPojazd(tablicaPojazdow.size());
+}
+
+// Metoda wyswietlajaca dane pojazdu o danym ID	
+string WyswietlDanePojazdu(unsigned int ID) {
+	if (tablicaPojazdow[ID].OddajVIN()==0) {
+		return "Błąd! Nie zdefiniowano pojazdu o takim ID";
+	} else {
+		cout << "Typ: " << tablicaPojazdow[ID].OddajTyp() << endl;
+       	cout << "Marka: " << tablicaPojazdow[ID].OddajMarka() << endl;
+      	cout << "Model: " << tablicaPojazdow[ID].OddajModel() << endl;
+        cout << "Typ silnika: " << tablicaPojazdow[ID].OddajSilnik() << endl;
+        cout << "Nr. VIN: " << tablicaPojazdow[ID].OddajVIN() << endl;
+        return "Operacja wykonana pomyślnie!";
+	}
+}
+
+// Metoda filtrująca dane pojazdu
+string FiltrujDanePojazdu(string Atrybut, string Wartosc) {
+	unsigned int ZnalezionoWyniki = 0;
+	for (int i=0; i<tablicaPojazdow.size();i++) {
+		if (Atrybut == "Typ") {
+			if (tablicaPojazdow[i].OddajTyp()==Wartosc) {
+				WyswietlDanePojazdu(i);
+				ZnalezionoWyniki = 1;	
+			}
+		} else if (Atrybut == "Marka") {
+			if (tablicaPojazdow[i].OddajMarka()==Wartosc) {
+				WyswietlDanePojazdu(i);
+				ZnalezionoWyniki = 1;	
+			}
+		} else if (Atrybut == "Model") {
+			if (tablicaPojazdow[i].OddajModel()==Wartosc) {
+				WyswietlDanePojazdu(i);
+				ZnalezionoWyniki = 1;	
+			}
+		} else if (Atrybut == "Typ silnika") {
+			if (tablicaPojazdow[i].OddajSilnik()==Wartosc) {
+				WyswietlDanePojazdu(i);
+				ZnalezionoWyniki = 1;	
+			}
+		// Sortowanie po VIN nie działa z powodu niedziałającego parsowania zmiennej "wartosc"
+		} /* else if (Atrybut == "Nr.VIN") {
+			if (tablicaPojazdow[i].OddajVIN()==atoi(Wartosc.c_str())) {
+				WyswietlDanePojazdu(i);
+				ZnalezionoWyniki = 1;	
+			}
+		} */
+	}			
+	return "Operacja wykonana pomyślnie!";
+}
+
+int main(int argc, char *argv[]) {
+
+	int ilosc;
+	
+	cout << "Ile pojazdów chcesz dodać do bazy: ";
+	cin >> ilosc;
+	for(int i=0;i<ilosc;i++) {
+		DodajPojazd();
+	}
+	
+	string Atrybut, Wartosc;
+	cout << "Podej atrybut: ";
+	cin >> Atrybut;
+	cout << "Podej wartość: ";
+	cin >> Wartosc;
+	FiltrujDanePojazdu(Atrybut,Wartosc);
+
+    return EXIT_SUCCESS;
+}
