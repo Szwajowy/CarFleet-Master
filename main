@@ -7,17 +7,17 @@ using namespace std;
 // Wszelkie dane pojazdu i dostęp do operacji z nim związanych przechowywane są w klasie "Pojazd"
 class Pojazd {
 	// Dane pojazdu
-	string Typ, Marka, Model, Silnik;
-    int VIN;
+	string typ, marka, model, silnik;
+    int vin;
 	 
 	public:     
-    // Konstruktor parametrowy dla zmiennych obowiązkowych (Typ, Marka, Model, VIN)  
-	Pojazd(string Typ, string Marka, string Model, string Silnik, int VIN) {
-    	this->Typ = Typ;
-        this->Marka = Marka;
-        this->Model = Model;
-        this->Silnik = Silnik;
-        this->VIN = VIN;
+    // Konstruktor parametrowy dla zmiennych obowiązkowych  
+	Pojazd(string typ, string marka, string model, string silnik, int vin) {
+    	this->typ = typ;
+        this->marka = marka;
+        this->model = model;
+        this->silnik = silnik;
+        this->vin = vin;
     }
     
 	// Konstruktor bezparametrowy  
@@ -26,48 +26,48 @@ class Pojazd {
     }    
 	
 	// Zwracanie i ustawianie wartości zmiennej "Typ"
-	string OddajTyp() {
-		return Typ;	
+	string oddajTyp() {
+		return typ;	
 	}
 	
-	void UstawTyp(string Typ) {
-		this->Typ = Typ;	
+	void ustawTyp(string typ) {
+		this->typ = typ;	
 	}
 	
 	// Zwracanie i ustawianie wartości zmiennej "Marka"
-	string OddajMarka() {
-		return Marka;	
+	string oddajMarka() {
+		return marka;	
 	}
 	
-	void UstawMarka(string Marka) {
-		this->Marka = Marka;	
+	void ustawMarka(string marka) {
+		this->marka = marka;	
 	}
 	
 	// Zwracanie i ustawianie wartości zmiennej "Model"
-	string OddajModel() {
-		return Model;	
+	string oddajModel() {
+		return model;	
 	}
 	
-	void UstawModel(string Model) {
-		this->Model = Model;	
+	void ustawModel(string model) {
+		this->model = model;	
 	}  
 	
 	// Zwracanie i ustawianie wartości zmiennej "Silnik"
-	string OddajSilnik() {
-		return Silnik;	
+	string oddajSilnik() {
+		return silnik;	
 	}
 	
-	void UstawSilnik(string Silnik) {
-		this->Silnik = Silnik;	
+	void ustawSilnik(string silnik) {
+		this->silnik = silnik;	
 	}
 	
 	// Zwracanie i ustawianie wartości zmiennej "VIN"
-	int OddajVIN() {
-		return VIN;	
+	int oddajVin() {
+		return vin;	
 	}
 	
-	void UstawVIN(int VIN) {
-		this->VIN = VIN;	
+	void ustawVIN(int vin) {
+		this->vin = vin;	
 	}     
 };
 
@@ -76,80 +76,124 @@ vector <Pojazd> tablicaPojazdow;
 
 // Metoda dodajaca dane pojazdu dla odpowiedniego indeksu wektora
 // (jeżeli dla danego indeksu istnieje już obiekt to następuje inkrementacja indeksu tego obiektu i każdego następnego i dopiero dodanie naszego obiektu)	
-string DodajPojazd(unsigned int ID) {
-	string Typ,Marka,Model,Silnik;
-	int VIN;
+string dodajPojazd(unsigned int id) {
+	
+	string typ,marka,model,silnik;
+	int vin;
 
 	cout << "Podaj typ pojazdu: ";
-	cin >> Typ;
+	cin >> typ;
 	cout << "Podaj marke pojazdu: ";
-	cin >> Marka;
+	cin >> marka;
 	cout << "Podaj model pojazdu: ";
-	cin >> Model;
+	cin >> model;
 	cout << "Podaj typ silnika: ";
-	cin >> Silnik;
+	cin >> silnik;
 	cout << "Podaj identyfikator VIN pojazdu: ";
-	cin >> VIN;
+	cin >> vin;
 	
-	tablicaPojazdow.insert (tablicaPojazdow.begin() + ID,Pojazd(Typ,Marka,Model,Silnik,VIN));
+	tablicaPojazdow.insert (tablicaPojazdow.begin() + id,Pojazd(typ,marka,model,silnik,vin));
 	return "Operacja wykonana pomyślnie!";
 }
 
 // Metoda dodajaca dane pojazdu na koniec wektora
-string DodajPojazd() {
-	return DodajPojazd(tablicaPojazdow.size());
+string dodajPojazd() {
+	return dodajPojazd(tablicaPojazdow.size());
 }
 
 // Metoda wyswietlajaca dane pojazdu o danym ID	
-string WyswietlDanePojazdu(unsigned int ID) {
-	try {
-	cout << "Typ: " << tablicaPojazdow[ID].OddajTyp() << endl;
-       	cout << "Marka: " << tablicaPojazdow[ID].OddajMarka() << endl;
-      	cout << "Model: " << tablicaPojazdow[ID].OddajModel() << endl;
-        cout << "Typ silnika: " << tablicaPojazdow[ID].OddajSilnik() << endl;
-        cout << "Nr. VIN: " << tablicaPojazdow[ID].OddajVIN() << endl;
-        return "Operacja wykonana pomyślnie!";
-	} catch (...) {
-		return "Błąd! Możliwe, że nie istnieje pojazd o takim ID!";
-	}	
+string wyswietlDanePojazdu(unsigned int id) {
+	if (id >=tablicaPojazdow.size()) {
+		cout << "Błąd x11" << endl;
+		cout << endl;
+		return "x11";
+	} else {
+		cout << "Typ: " << tablicaPojazdow[id].oddajTyp() << endl;
+       	cout << "Marka: " << tablicaPojazdow[id].oddajMarka() << endl;
+      	cout << "Model: " << tablicaPojazdow[id].oddajModel() << endl;
+        cout << "Typ silnika: " << tablicaPojazdow[id].oddajSilnik() << endl;
+        cout << "Nr. VIN: " << tablicaPojazdow[id].oddajVin() << endl;
+        cout << endl;
+        return "x10";	
+	}
 }
 
 // Metoda filtrująca dane pojazdu
-string FiltrujDanePojazdu(string Atrybut, string Wartosc) {
-	unsigned int ZnalezionoWyniki = 0;
+string filtrujDanePojazdu(string atrybut, string wartosc) {
+	unsigned int znalezionoWyniki = 0;
+	
+	// Przeszukiwanie wszystkich obiektów
 	for (int i=0; i<tablicaPojazdow.size();i++) {
-		if (Atrybut == "Typ") {
-			if (tablicaPojazdow[i].OddajTyp()==Wartosc) {
-				WyswietlDanePojazdu(i);
-				ZnalezionoWyniki = 1;	
+		if (atrybut == "Typ" || "typ" || "TYP") {
+			if (tablicaPojazdow[i].oddajTyp()==wartosc) {
+				wyswietlDanePojazdu(i);
+				znalezionoWyniki = 1;	
 			}
-		} else if (Atrybut == "Marka") {
-			if (tablicaPojazdow[i].OddajMarka()==Wartosc) {
-				WyswietlDanePojazdu(i);
-				ZnalezionoWyniki = 1;	
+		} else if (atrybut == "Marka" || "marka" || "MARKA") {
+			if (tablicaPojazdow[i].oddajMarka()==wartosc) {
+				wyswietlDanePojazdu(i);
+				znalezionoWyniki = 1;	
 			}
-		} else if (Atrybut == "Model") {
-			if (tablicaPojazdow[i].OddajModel()==Wartosc) {
-				WyswietlDanePojazdu(i);
-				ZnalezionoWyniki = 1;	
+		} else if (atrybut == "Model" || "model" || "MODEL") {
+			if (tablicaPojazdow[i].oddajModel()==wartosc) {
+				wyswietlDanePojazdu(i);
+				znalezionoWyniki = 1;	
 			}
-		} else if (Atrybut == "Typ silnika") {
-			if (tablicaPojazdow[i].OddajSilnik()==Wartosc) {
-				WyswietlDanePojazdu(i);
-				ZnalezionoWyniki = 1;	
+		} else if (atrybut == "Typ silnika" || "typ silnik" || "TYP SILNIKA" || "Silnik" || "silnik" || "SILNIK") {
+			if (tablicaPojazdow[i].oddajSilnik()==wartosc) {
+				wyswietlDanePojazdu(i);
+				znalezionoWyniki = 1;	
 			}
-		// Sortowanie po VIN nie działa z powodu niedziałającego parsowania zmiennej "wartosc"
-		} /* else if (Atrybut == "Nr.VIN") {
-			if (tablicaPojazdow[i].OddajVIN()==atoi(Wartosc.c_str())) {
-				WyswietlDanePojazdu(i);
-				ZnalezionoWyniki = 1;	
+		// Filtrowanie po VIN nie działa z powodu niedziałającego parsowania zmiennej "wartosc"
+		} else if (atrybut == "Nr.Vin" || "nr.vin" || "NR.VIN" || "Vin" || "vin" || "VIN" || "NrVin" || "nrvin" || "NRVIN" || "Numer Vin" || "numer vin" || "NUMER VIN" || "Numer VIN") {
+			if (tablicaPojazdow[i].oddajVin()==atoi(wartosc.c_str())) {
+				wyswietlDanePojazdu(i);
+				znalezionoWyniki = 1;	
 			}
-		} */
-	}			
-	return "Operacja wykonana pomyślnie!";
+		// Obsługa błędu - nieistnieje taki atrybut
+		} else {
+				cout << "Taki atrybut został nieznaleziony." << endl;
+				cout << "Sprawdź pisownie i spróbuj ponownie." << endl;
+				cout << endl;
+				return "x21";
+		}
+		cout << endl;
+	}
+	
+	// Obsługa błędu - nieistnieją obiekty o takich atrybutach
+	if (znalezionoWyniki == 0) {
+		cout << "Nieznaleziono elementów odpowiadających podanym kryteriom." << endl;
+		return "x22";	
+	}
+				
+	return "x20";
 }
 
 int main(int argc, char *argv[]) {
+	int ilosc;
+	
+	cout << "Ile pojazdów chcesz dodać do bazy: ";
+	cin >> ilosc;
+	cout << endl;
+	
+	for(int i=0;i<ilosc;i++) {
+		dodajPojazd();
+	}
+	
+	for(int i=0;i<ilosc;i++) {
+		wyswietlDanePojazdu(i);
+		cout << endl;
+	}
+	
+	string atrybut, wartosc;
+	
+	cout << "Podej atrybut: ";
+	cin >> atrybut;
+	cout << "Podej wartość: ";
+	cin >> wartosc;
+	cout << endl;
+	
+	filtrujDanePojazdu(atrybut,wartosc);
 
     return EXIT_SUCCESS;
 }
