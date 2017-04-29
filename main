@@ -170,30 +170,6 @@ string filtrujDanePojazdu(string atrybut, string wartosc) {
 }
 
 int main(int argc, char *argv[]) {
-	int ilosc;
-	
-	cout << "Ile pojazdów chcesz dodać do bazy: ";
-	cin >> ilosc;
-	cout << endl;
-	
-	for(int i=0;i<ilosc;i++) {
-		dodajPojazd();
-	}
-	
-	for(int i=0;i<ilosc;i++) {
-		wyswietlDanePojazdu(i);
-		cout << endl;
-	}
-	
-	string atrybut, wartosc;
-	
-	cout << "Podej atrybut: ";
-	cin >> atrybut;
-	cout << "Podej wartość: ";
-	cin >> wartosc;
-	cout << endl;
-	
-	filtrujDanePojazdu(atrybut,wartosc);
 
     return EXIT_SUCCESS;
 }
