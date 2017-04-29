@@ -93,6 +93,8 @@ string dodajPojazd(unsigned int id) {
 	cin >> vin;
 	
 	tablicaPojazdow.insert (tablicaPojazdow.begin() + id,Pojazd(typ,marka,model,silnik,vin));
+	cout << endl;
+	
 	return "Operacja wykonana pomyślnie!";
 }
 
@@ -139,7 +141,7 @@ string filtrujDanePojazdu(string atrybut, string wartosc) {
 				wyswietlDanePojazdu(i);
 				znalezionoWyniki = 1;	
 			}
-		} else if (atrybut == "Typ silnika" || "typ silnik" || "TYP SILNIKA" || "Silnik" || "silnik" || "SILNIK") {
+		} else if (atrybut == "Typ silnika" || "typ silnika" || "TYP SILNIKA" || "Silnik" || "silnik" || "SILNIK") {
 			if (tablicaPojazdow[i].oddajSilnik()==wartosc) {
 				wyswietlDanePojazdu(i);
 				znalezionoWyniki = 1;	
@@ -150,19 +152,19 @@ string filtrujDanePojazdu(string atrybut, string wartosc) {
 				wyswietlDanePojazdu(i);
 				znalezionoWyniki = 1;	
 			}
-		// Obsługa błędu - nieistnieje taki atrybut
+		// Obsługa błędu - nie istnieje taki atrybut
 		} else {
-				cout << "Taki atrybut został nieznaleziony." << endl;
-				cout << "Sprawdź pisownie i spróbuj ponownie." << endl;
-				cout << endl;
-				return "x21";
+			cout << "Taki atrybut został nie znaleziony." << endl;
+			cout << "Sprawdź pisownie i spróbuj ponownie." << endl;
+			cout << endl;
+			return "x21";
 		}
-		cout << endl;
 	}
 	
-	// Obsługa błędu - nieistnieją obiekty o takich atrybutach
+	// Obsługa błędu - nie istnieją obiekty o takich atrybutach
 	if (znalezionoWyniki == 0) {
-		cout << "Nieznaleziono elementów odpowiadających podanym kryteriom." << endl;
+		cout << "Nie znaleziono elementów odpowiadających podanym kryteriom." << endl;
+		cout << endl;
 		return "x22";	
 	}
 				
