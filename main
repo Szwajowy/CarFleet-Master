@@ -75,7 +75,7 @@ class Pojazd {
 vector <Pojazd> tablicaPojazdow;
 
 // Metoda dodajaca dane pojazdu dla odpowiedniego indeksu wektora
-// (jeżeli dla danego indeksu istnieje już zadeklarowany obiekt przesuwa go i każdy następny o jeden tak)	
+// (jeżeli dla danego indeksu istnieje już obiekt to następuje inkrementacja indeksu tego obiektu i każdego następnego i dopiero dodanie naszego obiektu)	
 string DodajPojazd(unsigned int ID) {
 	string Typ,Marka,Model,Silnik;
 	int VIN;
@@ -88,11 +88,9 @@ string DodajPojazd(unsigned int ID) {
 	cin >> Model;
 	cout << "Podaj typ silnika: ";
 	cin >> Silnik;
-	do {
-		cout << "Podaj identyfikator VIN pojazdu: ";
-		cin >> VIN;
-		if (VIN == 0) cout << "Identyfikator VIN nie może wynosić 0!" << endl;
-	} while (VIN==0);
+	cout << "Podaj identyfikator VIN pojazdu: ";
+	cin >> VIN;
+	
 	tablicaPojazdow.insert (tablicaPojazdow.begin() + ID,Pojazd(Typ,Marka,Model,Silnik,VIN));
 	return "Operacja wykonana pomyślnie!";
 }
@@ -104,16 +102,16 @@ string DodajPojazd() {
 
 // Metoda wyswietlajaca dane pojazdu o danym ID	
 string WyswietlDanePojazdu(unsigned int ID) {
-	if (tablicaPojazdow[ID].OddajVIN()==0) {
-		return "Błąd! Nie zdefiniowano pojazdu o takim ID";
-	} else {
-		cout << "Typ: " << tablicaPojazdow[ID].OddajTyp() << endl;
+	try {
+	cout << "Typ: " << tablicaPojazdow[ID].OddajTyp() << endl;
        	cout << "Marka: " << tablicaPojazdow[ID].OddajMarka() << endl;
       	cout << "Model: " << tablicaPojazdow[ID].OddajModel() << endl;
         cout << "Typ silnika: " << tablicaPojazdow[ID].OddajSilnik() << endl;
         cout << "Nr. VIN: " << tablicaPojazdow[ID].OddajVIN() << endl;
         return "Operacja wykonana pomyślnie!";
-	}
+	} catch (...) {
+		return "Błąd! Możliwe, że nie istnieje pojazd o takim ID!";
+	}	
 }
 
 // Metoda filtrująca dane pojazdu
@@ -152,21 +150,6 @@ string FiltrujDanePojazdu(string Atrybut, string Wartosc) {
 }
 
 int main(int argc, char *argv[]) {
-
-	int ilosc;
-	
-	cout << "Ile pojazdów chcesz dodać do bazy: ";
-	cin >> ilosc;
-	for(int i=0;i<ilosc;i++) {
-		DodajPojazd();
-	}
-	
-	string Atrybut, Wartosc;
-	cout << "Podej atrybut: ";
-	cin >> Atrybut;
-	cout << "Podej wartość: ";
-	cin >> Wartosc;
-	FiltrujDanePojazdu(Atrybut,Wartosc);
 
     return EXIT_SUCCESS;
 }
