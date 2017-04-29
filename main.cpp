@@ -78,7 +78,7 @@ vector <Pojazd> tablicaPojazdow;
 // (je¿eli dla danego indeksu istnieje ju¿ obiekt to nastêpuje inkrementacja indeksu tego obiektu i ka¿dego nastêpnego i dopiero dodanie naszego obiektu)	
 string dodajPojazd(unsigned int id) {
 	
-	string typ,marka,model,silnik;
+	string typ, marka, model, silnik;
 	int vin;
 
 	cout << "Podaj typ pojazdu: ";
@@ -95,7 +95,7 @@ string dodajPojazd(unsigned int id) {
 	tablicaPojazdow.insert (tablicaPojazdow.begin() + id,Pojazd(typ,marka,model,silnik,vin));
 	cout << endl;
 	
-	return "Operacja wykonana pomyœlnie!";
+	return "x10";
 }
 
 // Metoda dodajaca dane pojazdu na koniec wektora
@@ -103,25 +103,111 @@ string dodajPojazd() {
 	return dodajPojazd(tablicaPojazdow.size());
 }
 
+string edytujPojazd(unsigned int id) {
+	// Obs³uga b³êdu - wektor jest pusty
+	if (tablicaPojazdow.size()<=0){
+			cout << "Nie dodano jeszcze ¿adnego pojazdu." << endl;
+			cout << endl;
+			return "x21";	
+	}
+	
+	// Obs³uga b³êdu - nie istnieje taki element
+	if (id >=tablicaPojazdow.size()) {
+		cout << "Nie istnieje pojazd o podanym ID." << endl;
+		cout << endl;
+		return "x22";
+	}
+	
+	string typ, marka, model, silnik, atrybut, exit;
+	int vin;
+	
+	do {
+		cout << "Podaj nazwe w³asnoœci pojazdu: " << endl;
+		cin >> atrybut;
+		
+		if (atrybut == "Typ" || atrybut == "typ" || atrybut == "TYP") {
+			cout << "Podaj typ pojazdu: ";
+			cin >> typ;
+			tablicaPojazdow[id].ustawTyp(typ);
+		} else if (atrybut == "Marka" || atrybut == "marka" || atrybut == "MARKA") {
+			cout << "Podaj marke pojazdu: ";
+			cin >> marka;
+			tablicaPojazdow[id].ustawMarka(marka);
+		} else if (atrybut == "Model" || atrybut == "model" || atrybut == "MODEL") {
+			cout << "Podaj model pojazdu: ";
+			cin >> model;
+			tablicaPojazdow[id].ustawModel(model);
+		} else if (atrybut == "Typ silnika" || atrybut == "typ silnika" || atrybut == "TYP SILNIKA" || atrybut == "Silnik" || atrybut == "silnik" || atrybut == "SILNIK") {
+			cout << "Podaj typ silnika: ";
+			cin >> silnik;
+			tablicaPojazdow[id].ustawSilnik(silnik);
+		} else if (atrybut == "Nr.Vin" || atrybut == "nr.vin" || atrybut == "NR.VIN" || atrybut == "Vin" || atrybut == "vin" || atrybut == "VIN" || atrybut == "NrVin" || atrybut == "nrvin" || atrybut == "NRVIN") {
+			cout << "Podaj identyfikator VIN pojazdu: ";
+			cin >> vin;
+			tablicaPojazdow[id].ustawVIN(vin);
+		}
+		cout << "Czy chcesz kontynuowaæ edycjê ?" << endl;
+		cin >> exit;
+	} while (exit != "tak");
+	
+	return "x20";
+}
+
+string usunPojazd(unsigned int id) {
+	// Obs³uga b³êdu - wektor jest pusty
+	if (tablicaPojazdow.size()<=0){
+			cout << "Nie dodano jeszcze ¿adnego pojazdu." << endl;
+			cout << endl;
+			return "x31";	
+	}
+	
+	// Obs³uga b³êdu - nie istnieje taki element
+	if (id >=tablicaPojazdow.size()) {
+		cout << "Nie istnieje pojazd o podanym ID." << endl;
+		cout << endl;
+		return "x32";
+	}
+	
+	tablicaPojazdow.erase (tablicaPojazdow.begin() + id);
+	
+	return "x30";
+}
+
 // Metoda wyswietlajaca dane pojazdu o danym ID	
 string wyswietlDanePojazdu(unsigned int id) {
-	if (id >=tablicaPojazdow.size()) {
-		cout << "B³¹d x11" << endl;
-		cout << endl;
-		return "x11";
-	} else {
-		cout << "Typ: " << tablicaPojazdow[id].oddajTyp() << endl;
-       	cout << "Marka: " << tablicaPojazdow[id].oddajMarka() << endl;
-      	cout << "Model: " << tablicaPojazdow[id].oddajModel() << endl;
-        cout << "Typ silnika: " << tablicaPojazdow[id].oddajSilnik() << endl;
-        cout << "Nr. VIN: " << tablicaPojazdow[id].oddajVin() << endl;
-        cout << endl;
-        return "x10";	
+	// Obs³uga b³êdu - wektor jest pusty
+	if (tablicaPojazdow.size()<=0){
+			cout << "Nie dodano jeszcze ¿adnego pojazdu." << endl;
+			cout << endl;
+			return "x41";	
 	}
+	
+	// Obs³uga b³êdu - nie istnieje taki element
+	if (id >=tablicaPojazdow.size()) {
+		cout << "Nie istnieje pojazd o podanym ID." << endl;
+		cout << endl;
+		return "x42";
+	}
+	
+	cout << "Typ: " << tablicaPojazdow[id].oddajTyp() << endl;
+    cout << "Marka: " << tablicaPojazdow[id].oddajMarka() << endl;
+    cout << "Model: " << tablicaPojazdow[id].oddajModel() << endl;
+    cout << "Typ silnika: " << tablicaPojazdow[id].oddajSilnik() << endl;
+    cout << "Nr. VIN: " << tablicaPojazdow[id].oddajVin() << endl;
+    cout << endl;
+    
+    return "x40";	
 }
 
 // Metoda filtruj¹ca dane pojazdu
 string filtrujDanePojazdu() {
+	// Obs³uga b³êdu - wektor jest pusty
+	if (tablicaPojazdow.size()<=0){
+			cout << "Nie dodano jeszcze ¿adnego pojazdu." << endl;
+			cout << endl;
+			return "x51";	
+	}
+	
 	unsigned int znalezionoWyniki = 0;
 	string atrybut, wartosc;
 	
@@ -129,13 +215,6 @@ string filtrujDanePojazdu() {
 	cin >> atrybut;
 	cout << "Podaj wartoœc tej w³asnoœci: ";
 	cin >> wartosc;
-
-	// Obs³uga b³êdu - wektor jest pusty
-	if (tablicaPojazdow.size()<=0){
-			cout << "Nie dodano jeszcze ¿adnego pojazdu." << endl;
-			cout << endl;
-			return "x23";	
-	}
 	
 	// Przeszukiwanie wszystkich obiektów wektora
 	for (int i=0; i<tablicaPojazdow.size();i++) {
@@ -159,7 +238,6 @@ string filtrujDanePojazdu() {
 				wyswietlDanePojazdu(i);
 				znalezionoWyniki = 1;	
 			}
-		// Filtrowanie po VIN nie dzia³a z powodu niedzia³aj¹cego parsowania zmiennej "wartosc"
 		} else if (atrybut == "Nr.Vin" || atrybut == "nr.vin" || atrybut == "NR.VIN" || atrybut == "Vin" || atrybut == "vin" || atrybut == "VIN" || atrybut == "NrVin" || atrybut == "nrvin" || atrybut == "NRVIN") {
 			if (tablicaPojazdow[i].oddajVin()==stoi(wartosc)) {
 				wyswietlDanePojazdu(i);
@@ -170,7 +248,7 @@ string filtrujDanePojazdu() {
 			cout << "Taki atrybut zosta³ nie znaleziony." << endl;
 			cout << "SprawdŸ pisownie i spróbuj ponownie." << endl;
 			cout << endl;
-			return "x22";
+			return "x52";
 		}
 	}
 	
@@ -178,10 +256,10 @@ string filtrujDanePojazdu() {
 	if (znalezionoWyniki == 0) {
 		cout << "Nie znaleziono elementów odpowiadaj¹cych podanym kryteriom." << endl;
 		cout << endl;
-		return "x21";	
+		return "x53";	
 	}
 				
-	return "x20";
+	return "x50";
 }
 
 int main(int argc, char *argv[]) {
