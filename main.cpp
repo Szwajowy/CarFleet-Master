@@ -21,8 +21,8 @@ class Pojazd {
     	this->typ = typ;
         this->marka = marka;
 		this->model = model;
-       	this->silnik = silnik;
-        this->vin = vin;
+    	this->silnik = silnik;
+    	this->vin = vin;
    	}
     
 	// Konstruktor bezparametrowy  
@@ -131,31 +131,38 @@ string edytujPojazd(unsigned int id) {
 	do {
 		cout << "Podaj nazwe w³asnoœci pojazdu: " << endl;
 		cin >> atrybut;
+		cout << endl;
 		
 		if (atrybut == "Typ" || atrybut == "typ" || atrybut == "TYP") {
 			cout << "Podaj typ pojazdu: ";
 			cin >> typ;
+			cout << endl;
 			tablicaPojazdow[id].ustawTyp(typ);
 		} else if (atrybut == "Marka" || atrybut == "marka" || atrybut == "MARKA") {
 			cout << "Podaj marke pojazdu: ";
 			cin >> marka;
+			cout << endl;
 			tablicaPojazdow[id].ustawMarka(marka);
 		} else if (atrybut == "Model" || atrybut == "model" || atrybut == "MODEL") {
 			cout << "Podaj model pojazdu: ";
 			cin >> model;
+			cout << endl;
 			tablicaPojazdow[id].ustawModel(model);
 		} else if (atrybut == "Typ silnika" || atrybut == "typ silnika" || atrybut == "TYP SILNIKA" || atrybut == "Silnik" || atrybut == "silnik" || atrybut == "SILNIK") {
 			cout << "Podaj typ silnika: ";
 			cin >> silnik;
+			cout << endl;
 			tablicaPojazdow[id].ustawSilnik(silnik);
 		} else if (atrybut == "Nr.Vin" || atrybut == "nr.vin" || atrybut == "NR.VIN" || atrybut == "Vin" || atrybut == "vin" || atrybut == "VIN" || atrybut == "NrVin" || atrybut == "nrvin" || atrybut == "NRVIN") {
 			cout << "Podaj identyfikator VIN pojazdu: ";
 			cin >> vin;
+			cout << endl;
 			tablicaPojazdow[id].ustawVIN(vin);
 		}
 		cout << "Czy chcesz kontynuowaæ edycjê ?" << endl;
 		cin >> exit;
-	} while (exit != "tak");
+		cout << endl;
+	} while (exit == "Tak" || exit == "tak" || exit == "TAK");
 	
 	return "x20";
 }
@@ -178,6 +185,8 @@ string usunPojazd(unsigned int id) {
 	}
 	
 	tablicaPojazdow.erase (tablicaPojazdow.begin() + id);
+	cout << "Pomyœlnie usuniêto pojazd." << endl;
+	cout << endl;
 	
 	return "x30";
 }
@@ -226,33 +235,39 @@ string filtrujDanePojazdu() {
 	cin >> atrybut;
 	cout << "Podaj wartoœc tej w³asnoœci: ";
 	cin >> wartosc;
+	cout << endl;
 	
 	// Przeszukiwanie wszystkich obiektów wektora
 	for (int i=0; i<tablicaPojazdow.size();i++) {
 		if (atrybut == "Typ" || atrybut == "typ" || atrybut == "TYP") {
 			if (tablicaPojazdow[i].oddajTyp()==wartosc) {
 				wyswietlDanePojazdu(i);
-				znalezionoWyniki = 1;	
+				cout << endl;
+				znalezionoWyniki += 1;	
 			}
 		} else if (atrybut == "Marka" || atrybut == "marka" || atrybut == "MARKA") {
 			if (tablicaPojazdow[i].oddajMarka()==wartosc) {
 				wyswietlDanePojazdu(i);
-				znalezionoWyniki = 1;	
+				cout << endl;
+				znalezionoWyniki += 1;	
 			}
 		} else if (atrybut == "Model" || atrybut == "model" || atrybut == "MODEL") {
 			if (tablicaPojazdow[i].oddajModel()==wartosc) {
 				wyswietlDanePojazdu(i);
-				znalezionoWyniki = 1;	
+				cout << endl;
+				znalezionoWyniki += 1;	
 			}
 		} else if (atrybut == "Typ silnika" || atrybut == "typ silnika" || atrybut == "TYP SILNIKA" || atrybut == "Silnik" || atrybut == "silnik" || atrybut == "SILNIK") {
 			if (tablicaPojazdow[i].oddajSilnik()==wartosc) {
 				wyswietlDanePojazdu(i);
-				znalezionoWyniki = 1;	
+				cout << endl;
+				znalezionoWyniki += 1;	
 			}
 		} else if (atrybut == "Nr.Vin" || atrybut == "nr.vin" || atrybut == "NR.VIN" || atrybut == "Vin" || atrybut == "vin" || atrybut == "VIN" || atrybut == "NrVin" || atrybut == "nrvin" || atrybut == "NRVIN") {
 			if (tablicaPojazdow[i].oddajVin()==stoi(wartosc)) {
 				wyswietlDanePojazdu(i);
-				znalezionoWyniki = 1;	
+				cout << endl;
+				znalezionoWyniki += 1;	
 			}
 		// Obs³uga b³êdu - nie istnieje taki atrybut
 		} else {
@@ -268,17 +283,20 @@ string filtrujDanePojazdu() {
 		cout << "Nie znaleziono elementów odpowiadaj¹cych podanym kryteriom." << endl;
 		cout << endl;
 		return "x53";	
+	} else {
+		cout << "Znaleziono " << znalezionoWyniki << " elementów odpowiadaj¹cych podanym kryteriom." << endl;
+		cout << endl;
+		return "x50";
 	}
-				
-	return "x50";
 }
 
 // Metoda zapisuj¹ca wektor do pliku
-string zapiszPlik() {
+string zapiszPlik(string nazwaPliku) {
 	
-	cout << "Rozpoczynam zapis do pliku.";
+	cout << "Rozpoczynam zapis do pliku." << endl;
+	cout << endl;
 	
-	fstream plik(string nazwaPliku,ios::out);
+	fstream plik(nazwaPliku,ios::out);
 	if( plik.good() ) {
 		for (int i=0; i<tablicaPojazdow.size();i++) {
 			plik << "Pojazd nr." << i << endl;
@@ -289,30 +307,34 @@ string zapiszPlik() {
 			plik << "Nr.VIN: " << tablicaPojazdow[i].oddajVin() << endl;
 			plik << endl;
 			plik.flush();
-			plik.close();
-		}	
+		}
+		plik.close();	
 	} else {
-		cout << "Wyst¹pi³ problem z plikiem.";
-		cout << "Upewnij siê, ¿e wprowadzi³eœ poprawn¹ nazwê i rozszerzenie pliku.";
+		cout << "Wyst¹pi³ problem z plikiem." << endl;
+		cout << "Upewnij siê, ¿e wprowadzi³eœ poprawn¹ nazwê i rozszerzenie pliku." << endl;
+		cout << endl;
 		return "x61";
 	}
 	
-	cout << "Pomyœlnie zakoñczono zapis do pliku.";
+	cout << "Pomyœlnie zakoñczono zapis do pliku." << endl;
+	cout << endl;
 	return "x60";
 }
 
 // Metoda odczytuj¹ca dane pojazdów z pliku i zapisuj¹ca je do wektora
 string otworzPlik(string nazwaPliku) {
-	string wiersz, typ, marka, model, silnik;
+	string wiersz, typ, marka, model, silnik, exit;
 	int id, i, vin;
 
 	cout << "Otwarcie pliku nadpisze wszelkie wprowadzone zmiany." << endl;
 	cout << "Przed rozpoczeciem nale¿y zapisaæ swoj¹ prace." << endl;
 	cout << "Czy chcesz kontynuowaæ ?" << endl;
 	cin >> exit;
+	cout << endl;
 
-	if (exit=="tak") {
-		cout << "Rozpoczynam odczyt z pliku.";
+	if (exit == "Tak" || exit == "tak" || exit == "TAK") {
+		cout << "Rozpoczynam odczyt z pliku." << endl;
+		cout << endl;
 
 		fstream plik(nazwaPliku,ios::in);
 		if( plik.good() ) {
@@ -355,21 +377,147 @@ string otworzPlik(string nazwaPliku) {
 			}
 			plik.close();
 		} else {
-			cout << "Wyst¹pi³ problem z plikiem.";
-			cout << "Upewnij siê, ¿e wprowadzi³eœ poprawn¹ nazwê i rozszerzenie pliku.";
+			cout << "Wyst¹pi³ problem z plikiem."<< endl;
+			cout << "Upewnij siê, ¿e wprowadzi³eœ poprawn¹ nazwê i rozszerzenie pliku."<< endl;
+			cout << endl;
 			return "x72";
 		}
-		cout << "Pomyœlnie zakoñczono odczyt z pliku.";
+		cout << "Pomyœlnie zakoñczono odczyt z pliku."<< endl;
+		cout << endl;
 		return "x70";
 	} else {
-		cout << "Operacja zosta³a anulowana.";
+		cout << "Operacja zosta³a anulowana."<< endl;
+		cout << endl;
 		return "x71";
 	}	
-	cout << "Pomyœlnie zakoñczono odczyt z pliku.";
+	cout << "Pomyœlnie zakoñczono odczyt z pliku."<< endl;
+	cout << endl;
 	return "x70";
 }
 
-int main(int argc, char *argv[]) {
+int wyswietlMenu() {
+	int opcja, ile, id;
+	string plik, odpowiedz;
 	
+	cout << "#############################" << endl;
+	cout << "1. Plik" << endl;
+	cout << "2. Dodaj pojazd" << endl;
+	cout << "3. Edytuj pojazd" << endl;
+	cout << "4. Usuñ pojazd" << endl;
+	cout << "5. Wyswietl pojazd/y" << endl;
+	cout << "6. Filtruj pojazdy" << endl;
+	cout << "7. Wyjœcie" << endl;
+	cout << "#############################" << endl;
+	cout << endl;
+	
+	cin >> opcja;
+	cout << endl;
+	
+	switch (opcja) {
+		case 1:
+			cout << "1. Otworz" << endl;
+			cout << "2. Zapisz" << endl;
+			cout << endl;
+			
+			cin >> opcja;
+			cout << endl;
+			
+			switch(opcja) {
+				case 1:
+					cout << "Podaj nazwê pliku do otwarcia (np. Pojazdy.txt)." << endl;
+					cout << endl;
+					
+					cin >> plik;
+					cout << endl;
+					
+					otworzPlik(plik);
+					break;
+				case 2:
+					cout << "Podaj nazwê pliku do którego chcesz zapisaæ (np. Pojazdy.txt)." << endl;
+					cout << endl;
+					
+					cin >> plik;
+					cout << endl;
+					
+					zapiszPlik(plik);
+					break;
+			}
+			break;
+		case 2:
+			cout << "Ile pojazdów chcesz dodaæ ?" << endl;
+			cout << endl;
+								
+			cin >> ile;
+			cout << endl;
+			
+			for (int i=0; i<ile;i++) {
+				dodajPojazd();
+			}
+			break;
+		case 3:
+			cout << "Podaj ID pojazdu do edycji." << endl;
+			cout << endl;
+								
+			cin >> id;
+			cout << endl;
+			
+			edytujPojazd(id);
+			break;
+		case 4:
+			cout << "Podaj ID pojazdu do usuniêcia." << endl;
+			cout << endl;
+								
+			cin >> id;
+			cout << endl;
+			
+			usunPojazd(id);
+			break;	
+		case 5:
+			cout << "1. Wyœwietl jeden pojazd o podanym ID." << endl;
+			cout << "2. Wyœwietl wszystkie pojazdy." << endl;
+			cout << endl;
+			
+			cin >> opcja;
+			cout << endl;
+			
+			switch(opcja) {
+				case 1:
+					cout << "Podaj ID pojazdu do wyœwietlnia." << endl;
+					cout << endl;
+					
+					cin >> id;
+					cout << endl;
+					
+					wyswietlDanePojazdu(id);
+					break;
+				case 2:
+					for (int i=0; i<tablicaPojazdow.size();i++) {
+						wyswietlDanePojazdu(i);	
+					}
+					break;
+			}
+			break;
+		case 6:
+			filtrujDanePojazdu();
+			break;
+		case 7:
+			cout << "Czy chcesz zapisaæ pracê przed wyjœciem ?" << endl;
+			cin >> odpowiedz;
+			cout << endl;
+			
+			if (odpowiedz == "Tak" || odpowiedz == "tak" || odpowiedz == "TAK") {
+				zapiszPlik("baza.txt");
+			}
+			return 1;
+			break;
+	}
+	return 0;
+}
+
+int main(int argc, char *argv[]) {
+	SetConsoleCP( 852 );
+	do {
+		wyswietlMenu();
+	} while (wyswietlMenu() != 1);
     return EXIT_SUCCESS;
 }
