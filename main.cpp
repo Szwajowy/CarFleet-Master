@@ -9,22 +9,22 @@ using namespace std;
 class Pojazd {
 	// Dane pojazdu
 	string typ, marka, model, silnik;
-    int vin;
+   	int vin;
 	 
 	public:     
-    // Konstruktor parametrowy dla zmiennych obowiązkowych  
+   	// Konstruktor parametrowy dla zmiennych obowiązkowych  
 	Pojazd(string typ, string marka, string model, string silnik, int vin) {
-    	this->typ = typ;
-        this->marka = marka;
-        this->model = model;
-        this->silnik = silnik;
-        this->vin = vin;
-    }
+    		this->typ = typ;
+        	this->marka = marka;
+		this->model = model;
+        	this->silnik = silnik;
+        	this->vin = vin;
+    	}
     
 	// Konstruktor bezparametrowy  
 	Pojazd() {
-    	Pojazd("Nieznany","Nieznana","Nieznany","Nieznany",0);
-    }    
+    		Pojazd("Nieznany","Nieznana","Nieznany","Nieznany",0);
+    	}    
 	
 	// Zwracanie i ustawianie wartości zmiennej "Typ"
 	string oddajTyp() {
