@@ -4,15 +4,15 @@
 #include <fstream>
 
 using namespace std;
-//Test
-// Wszelkie dane pojazdu i dostêp do operacji z nim zwi¹zanych przechowywane s¹ w klasie "Pojazd"
+
+// Wszelkie dane pojazdu i dostÄ™p do operacji z nim zwiÄ…zanych przechowywane sÄ… w klasie "Pojazd"
 class Pojazd {
 	// Dane pojazdu
 	string typ, marka, model, silnik;
     int vin;
 	 
 	public:     
-    // Konstruktor parametrowy dla zmiennych obowi¹zkowych  
+    // Konstruktor parametrowy dla zmiennych obowiÄ…zkowych  
 	Pojazd(string typ, string marka, string model, string silnik, int vin) {
     	this->typ = typ;
         this->marka = marka;
@@ -26,7 +26,7 @@ class Pojazd {
     	Pojazd("Nieznany","Nieznana","Nieznany","Nieznany",0);
     }    
 	
-	// Zwracanie i ustawianie wartoœci zmiennej "Typ"
+	// Zwracanie i ustawianie wartoÅ›ci zmiennej "Typ"
 	string oddajTyp() {
 		return typ;	
 	}
@@ -35,7 +35,7 @@ class Pojazd {
 		this->typ = typ;	
 	}
 	
-	// Zwracanie i ustawianie wartoœci zmiennej "Marka"
+	// Zwracanie i ustawianie wartoÅ›ci zmiennej "Marka"
 	string oddajMarka() {
 		return marka;	
 	}
@@ -44,7 +44,7 @@ class Pojazd {
 		this->marka = marka;	
 	}
 	
-	// Zwracanie i ustawianie wartoœci zmiennej "Model"
+	// Zwracanie i ustawianie wartoÅ›ci zmiennej "Model"
 	string oddajModel() {
 		return model;	
 	}
@@ -53,7 +53,7 @@ class Pojazd {
 		this->model = model;	
 	}  
 	
-	// Zwracanie i ustawianie wartoœci zmiennej "Silnik"
+	// Zwracanie i ustawianie wartoÅ›ci zmiennej "Silnik"
 	string oddajSilnik() {
 		return silnik;	
 	}
@@ -62,7 +62,7 @@ class Pojazd {
 		this->silnik = silnik;	
 	}
 	
-	// Zwracanie i ustawianie wartoœci zmiennej "VIN"
+	// Zwracanie i ustawianie wartoÅ›ci zmiennej "VIN"
 	int oddajVin() {
 		return vin;	
 	}
@@ -76,7 +76,7 @@ class Pojazd {
 vector <Pojazd> tablicaPojazdow;
 
 // Metoda dodajaca dane pojazdu dla odpowiedniego indeksu wektora
-// (je¿eli dla danego indeksu istnieje ju¿ obiekt to nastêpuje inkrementacja indeksu tego obiektu i ka¿dego nastêpnego, czyli przesuniêcie w prawo i dopiero dodanie naszego obiektu)	
+// (jeÅ¼eli dla danego indeksu istnieje juÅ¼ obiekt to nastÄ™puje inkrementacja indeksu tego obiektu i kaÅ¼dego nastÄ™pnego, czyli przesuniÄ™cie w prawo i dopiero dodanie naszego obiektu)	
 string dodajPojazd(unsigned int id) {
 	
 	string typ, marka, model, silnik;
@@ -104,16 +104,16 @@ string dodajPojazd() {
 	return dodajPojazd(tablicaPojazdow.size());
 }
 
-// Metoda edytuj¹ca dane pojazdu o danym ID
+// Metoda edytujÄ…ca dane pojazdu o danym ID
 string edytujPojazd(unsigned int id) {
-	// Obs³uga b³êdu - wektor jest pusty
+	// ObsÅ‚uga bÅ‚Ä™du - wektor jest pusty
 	if (tablicaPojazdow.size()<=0){
-			cout << "Nie dodano jeszcze ¿adnego pojazdu." << endl;
+			cout << "Nie dodano jeszcze Å¼adnego pojazdu." << endl;
 			cout << endl;
 			return "x21";	
 	}
 	
-	// Obs³uga b³êdu - nie istnieje taki element
+	// ObsÅ‚uga bÅ‚Ä™du - nie istnieje taki element
 	if (id >=tablicaPojazdow.size()) {
 		cout << "Nie istnieje pojazd o podanym ID." << endl;
 		cout << endl;
@@ -124,7 +124,7 @@ string edytujPojazd(unsigned int id) {
 	int vin;
 	
 	do {
-		cout << "Podaj nazwe w³asnoœci pojazdu: " << endl;
+		cout << "Podaj nazwe wÅ‚asnoÅ›ci pojazdu: " << endl;
 		cin >> atrybut;
 		
 		if (atrybut == "Typ" || atrybut == "typ" || atrybut == "TYP") {
@@ -148,24 +148,24 @@ string edytujPojazd(unsigned int id) {
 			cin >> vin;
 			tablicaPojazdow[id].ustawVIN(vin);
 		}
-		cout << "Czy chcesz kontynuowaæ edycjê ?" << endl;
+		cout << "Czy chcesz kontynuowaÄ‡ edycjÄ™ ?" << endl;
 		cin >> exit;
 	} while (exit != "tak");
 	
 	return "x20";
 }
 
-// Metoda usuwaj¹ca pojazd o danym ID	
-// (po usuniêciu obiektu nastêpuje dekrementacja indeksu ka¿dego nastêpnego, czyli przesuniêcie w lewo)	
+// Metoda usuwajÄ…ca pojazd o danym ID	
+// (po usuniÄ™ciu obiektu nastÄ™puje dekrementacja indeksu kaÅ¼dego nastÄ™pnego, czyli przesuniÄ™cie w lewo)	
 string usunPojazd(unsigned int id) {
-	// Obs³uga b³êdu - wektor jest pusty
+	// ObsÅ‚uga bÅ‚Ä™du - wektor jest pusty
 	if (tablicaPojazdow.size()<=0){
-			cout << "Nie dodano jeszcze ¿adnego pojazdu." << endl;
+			cout << "Nie dodano jeszcze Å¼adnego pojazdu." << endl;
 			cout << endl;
 			return "x31";	
 	}
 	
-	// Obs³uga b³êdu - nie istnieje taki element
+	// ObsÅ‚uga bÅ‚Ä™du - nie istnieje taki element
 	if (id >=tablicaPojazdow.size()) {
 		cout << "Nie istnieje pojazd o podanym ID." << endl;
 		cout << endl;
@@ -179,14 +179,14 @@ string usunPojazd(unsigned int id) {
 
 // Metoda wyswietlajaca dane pojazdu o danym ID	
 string wyswietlDanePojazdu(unsigned int id) {
-	// Obs³uga b³êdu - wektor jest pusty
+	// ObsÅ‚uga bÅ‚Ä™du - wektor jest pusty
 	if (tablicaPojazdow.size()<=0){
-			cout << "Nie dodano jeszcze ¿adnego pojazdu." << endl;
+			cout << "Nie dodano jeszcze Å¼adnego pojazdu." << endl;
 			cout << endl;
 			return "x41";	
 	}
 	
-	// Obs³uga b³êdu - nie istnieje taki element
+	// ObsÅ‚uga bÅ‚Ä™du - nie istnieje taki element
 	if (id >=tablicaPojazdow.size()) {
 		cout << "Nie istnieje pojazd o podanym ID." << endl;
 		cout << endl;
@@ -203,11 +203,11 @@ string wyswietlDanePojazdu(unsigned int id) {
     return "x40";	
 }
 
-// Metoda filtruj¹ca dane pojazdu
+// Metoda filtrujÄ…ca dane pojazdu
 string filtrujDanePojazdu() {
-	// Obs³uga b³êdu - wektor jest pusty
+	// ObsÅ‚uga bÅ‚Ä™du - wektor jest pusty
 	if (tablicaPojazdow.size()<=0){
-			cout << "Nie dodano jeszcze ¿adnego pojazdu." << endl;
+			cout << "Nie dodano jeszcze Å¼adnego pojazdu." << endl;
 			cout << endl;
 			return "x51";	
 	}
@@ -215,12 +215,12 @@ string filtrujDanePojazdu() {
 	unsigned int znalezionoWyniki = 0;
 	string atrybut, wartosc;
 	
-	cout << "Podaj nazwe w³asnoœci pojazdu: ";
+	cout << "Podaj nazwe wÅ‚asnoÅ›ci pojazdu: ";
 	cin >> atrybut;
-	cout << "Podaj wartoœc tej w³asnoœci: ";
+	cout << "Podaj wartoÅ›c tej wÅ‚asnoÅ›ci: ";
 	cin >> wartosc;
 	
-	// Przeszukiwanie wszystkich obiektów wektora
+	// Przeszukiwanie wszystkich obiektÃ³w wektora
 	for (int i=0; i<tablicaPojazdow.size();i++) {
 		if (atrybut == "Typ" || atrybut == "typ" || atrybut == "TYP") {
 			if (tablicaPojazdow[i].oddajTyp()==wartosc) {
@@ -247,18 +247,18 @@ string filtrujDanePojazdu() {
 				wyswietlDanePojazdu(i);
 				znalezionoWyniki = 1;	
 			}
-		// Obs³uga b³êdu - nie istnieje taki atrybut
+		// ObsÅ‚uga bÅ‚Ä™du - nie istnieje taki atrybut
 		} else {
-			cout << "Taki atrybut zosta³ nie znaleziony." << endl;
-			cout << "SprawdŸ pisownie i spróbuj ponownie." << endl;
+			cout << "Taki atrybut zostaÅ‚ nie znaleziony." << endl;
+			cout << "SprawdÅº pisownie i sprÃ³buj ponownie." << endl;
 			cout << endl;
 			return "x52";
 		}
 	}
 	
-	// Obs³uga b³êdu - nie istniej¹ obiekty o takich atrybutach
+	// ObsÅ‚uga bÅ‚Ä™du - nie istniejÄ… obiekty o takich atrybutach
 	if (znalezionoWyniki == 0) {
-		cout << "Nie znaleziono elementów odpowiadaj¹cych podanym kryteriom." << endl;
+		cout << "Nie znaleziono elementÃ³w odpowiadajÄ…cych podanym kryteriom." << endl;
 		cout << endl;
 		return "x53";	
 	}
@@ -285,7 +285,7 @@ string zapiszPlik() {
 	}
 	plik.close();
 	
-	cout << "Pomyœlnie zakoñczono zapis do pliku.";
+	cout << "PomyÅ›lnie zakoÅ„czono zapis do pliku.";
 	return "x60";
 }
 
@@ -337,7 +337,7 @@ string otworzPlik() {
 	}
 	plik.close();
 	
-	cout << "Pomyœlnie zakoñczono odczyt z pliku.";
+	cout << "PomyÅ›lnie zakoÅ„czono odczyt z pliku.";
 	return "x70";
 }
 
