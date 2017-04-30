@@ -274,11 +274,11 @@ string filtrujDanePojazdu() {
 }
 
 // Metoda zapisuj¹ca wektor do pliku
-string zapiszPlik() {
+string zapiszPlik(string nazwaPliku) {
 	
 	cout << "Rozpoczynam zapis do pliku.";
 	
-	fstream plik(string nazwaPliku,ios::out);
+	fstream plik(nazwaPliku,ios::out);
 	if( plik.good() ) {
 		for (int i=0; i<tablicaPojazdow.size();i++) {
 			plik << "Pojazd nr." << i << endl;
@@ -303,7 +303,7 @@ string zapiszPlik() {
 
 // Metoda odczytuj¹ca dane pojazdów z pliku i zapisuj¹ca je do wektora
 string otworzPlik(string nazwaPliku) {
-	string wiersz, typ, marka, model, silnik;
+	string wiersz, typ, marka, model, silnik, exit;
 	int id, i, vin;
 
 	cout << "Otwarcie pliku nadpisze wszelkie wprowadzone zmiany." << endl;
