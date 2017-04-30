@@ -6,20 +6,24 @@
 using namespace std;
 
 // Wszelkie dane pojazdu i dostêp do operacji z nim zwi¹zanych przechowywane s¹ w klasie "Pojazd"
+/* Mo¿na jeszcze dodaæ podklasy odpowiadaj¹ce typom pojazdów (osobowe,ciê¿arowe,dostawcze) */
 class Pojazd {
+	private:
 	// Dane pojazdu
+	/* Sprecyzowaæ dane jakie powinniœmy przechowywaæ */
 	string typ, marka, model, silnik;
-    int vin;
+   	int vin;
 	 
 	public:     
-    // Konstruktor parametrowy dla zmiennych obowi¹zkowych  
+   	// Konstruktor parametrowy dla zmiennych obowi¹zkowych
+	/* Ustaliæ jakie zmienne s¹ obowi¹zkowe przy dodawaniu pojazdu */  
 	Pojazd(string typ, string marka, string model, string silnik, int vin) {
     	this->typ = typ;
         this->marka = marka;
-        this->model = model;
-        this->silnik = silnik;
+		this->model = model;
+       	this->silnik = silnik;
         this->vin = vin;
-    }
+   	}
     
 	// Konstruktor bezparametrowy  
 	Pojazd() {
@@ -77,8 +81,8 @@ vector <Pojazd> tablicaPojazdow;
 
 // Metoda dodajaca dane pojazdu dla odpowiedniego indeksu wektora
 // (je¿eli dla danego indeksu istnieje ju¿ obiekt to nastêpuje inkrementacja indeksu tego obiektu i ka¿dego nastêpnego, czyli przesuniêcie w prawo i dopiero dodanie naszego obiektu)	
+/* Dodaæ sprawdzanie podawanych warto¹ci i porównywanie ich do wzorów, sprecyzowanie obi¹zkowych i nieobowi¹zkowych danych */
 string dodajPojazd(unsigned int id) {
-	
 	string typ, marka, model, silnik;
 	int vin;
 
@@ -105,12 +109,13 @@ string dodajPojazd() {
 }
 
 // Metoda edytuj¹ca dane pojazdu o danym ID
+/* Dodaæ sprawdzanie podawanych wartoœci i porównywanie ich do wzorów, dodanie mo¿liwoœci edycji tylko zmiennych atrybutów pojazdów */
 string edytujPojazd(unsigned int id) {
 	// Obs³uga b³êdu - wektor jest pusty
 	if (tablicaPojazdow.size()<=0){
-			cout << "Nie dodano jeszcze ¿adnego pojazdu." << endl;
-			cout << endl;
-			return "x21";	
+		cout << "Nie dodano jeszcze ¿adnego pojazdu." << endl;
+		cout << endl;
+		return "x21";	
 	}
 	
 	// Obs³uga b³êdu - nie istnieje taki element
@@ -160,9 +165,9 @@ string edytujPojazd(unsigned int id) {
 string usunPojazd(unsigned int id) {
 	// Obs³uga b³êdu - wektor jest pusty
 	if (tablicaPojazdow.size()<=0){
-			cout << "Nie dodano jeszcze ¿adnego pojazdu." << endl;
-			cout << endl;
-			return "x31";	
+		cout << "Nie dodano jeszcze ¿adnego pojazdu." << endl;
+		cout << endl;
+		return "x31";	
 	}
 	
 	// Obs³uga b³êdu - nie istnieje taki element
@@ -178,12 +183,13 @@ string usunPojazd(unsigned int id) {
 }
 
 // Metoda wyswietlajaca dane pojazdu o danym ID	
+/* Dodanie mo¿liwoœci wyœwietlania danych w ró¿ny sposób (tabela, lista) */
 string wyswietlDanePojazdu(unsigned int id) {
 	// Obs³uga b³êdu - wektor jest pusty
 	if (tablicaPojazdow.size()<=0){
-			cout << "Nie dodano jeszcze ¿adnego pojazdu." << endl;
-			cout << endl;
-			return "x41";	
+		cout << "Nie dodano jeszcze ¿adnego pojazdu." << endl;
+		cout << endl;
+		return "x41";	
 	}
 	
 	// Obs³uga b³êdu - nie istnieje taki element
@@ -204,12 +210,13 @@ string wyswietlDanePojazdu(unsigned int id) {
 }
 
 // Metoda filtruj¹ca dane pojazdu
+/* Dodanie mo¿liwoœci filtrowania po kilku atrybutach i ich wartoœciach */
 string filtrujDanePojazdu() {
 	// Obs³uga b³êdu - wektor jest pusty
 	if (tablicaPojazdow.size()<=0){
-			cout << "Nie dodano jeszcze ¿adnego pojazdu." << endl;
-			cout << endl;
-			return "x51";	
+		cout << "Nie dodano jeszcze ¿adnego pojazdu." << endl;
+		cout << endl;
+		return "x51";	
 	}
 	
 	unsigned int znalezionoWyniki = 0;
@@ -266,11 +273,12 @@ string filtrujDanePojazdu() {
 	return "x50";
 }
 
+// Metoda zapisuj¹ca wektor do pliku
 string zapiszPlik() {
 	
 	cout << "Rozpoczynam zapis do pliku.";
 	
-	fstream plik("Pojazdy.txt",ios::out);
+	fstream plik(string nazwaPliku,ios::out);
 	if( plik.good() ) {
 		for (int i=0; i<tablicaPojazdow.size();i++) {
 			plik << "Pojazd nr." << i << endl;
@@ -281,62 +289,82 @@ string zapiszPlik() {
 			plik << "Nr.VIN: " << tablicaPojazdow[i].oddajVin() << endl;
 			plik << endl;
 			plik.flush();
+			plik.close();
 		}	
+	} else {
+		cout << "Wyst¹pi³ problem z plikiem.";
+		cout << "Upewnij siê, ¿e wprowadzi³eœ poprawn¹ nazwê i rozszerzenie pliku.";
+		return "x61";
 	}
-	plik.close();
 	
 	cout << "Pomyœlnie zakoñczono zapis do pliku.";
 	return "x60";
 }
 
-string otworzPlik() {
+// Metoda odczytuj¹ca dane pojazdów z pliku i zapisuj¹ca je do wektora
+string otworzPlik(string nazwaPliku) {
 	string wiersz, typ, marka, model, silnik;
 	int id, i, vin;
-	
-	cout << "Rozpoczynam odczyt z pliku.";
-	
-	fstream plik("Pojazdy.txt",ios::in);
-	if( plik.good() ) {
-		while (getline(plik, wiersz) != 0) {
-			if (wiersz != "") {
-				if (i==0) {
-					cout << wiersz << endl;
-					wiersz.erase(0,10);
-					id = stoi(wiersz);
-					i++;
-				} else if (i==1) {
-					cout << wiersz << endl;
-					wiersz.erase(0,5);
-					typ = wiersz;
-					i++;
-				} else if (i==2) {
-					cout << wiersz << endl;
-					wiersz.erase(0,7);
-					marka = wiersz;
-					i++;
-				} else if (i==3) {
-					cout << wiersz << endl;
-					wiersz.erase(0,7);
-					model = wiersz;
-					i++;
-				} else if (i==4) {
-					cout << wiersz << endl;
-					wiersz.erase(0,13);
-					silnik = wiersz;
-					i++;
-				} else if (i==5) {
-					cout << wiersz << endl;
-					cout << endl;
-					wiersz.erase(0,8);
-					vin = stoi(wiersz);
-					tablicaPojazdow.insert (tablicaPojazdow.begin() + id,Pojazd(typ,marka,model,silnik,vin));
-					i=0;
+
+	cout << "Otwarcie pliku nadpisze wszelkie wprowadzone zmiany." << endl;
+	cout << "Przed rozpoczeciem nale¿y zapisaæ swoj¹ prace." << endl;
+	cout << "Czy chcesz kontynuowaæ ?" << endl;
+	cin >> exit;
+
+	if (exit=="tak") {
+		cout << "Rozpoczynam odczyt z pliku.";
+
+		fstream plik(nazwaPliku,ios::in);
+		if( plik.good() ) {
+			while (getline(plik, wiersz) != 0) {
+				if (wiersz != "") {
+					if (i==0) {
+						cout << wiersz << endl;
+						wiersz.erase(0,10);
+						id = stoi(wiersz);
+						i++;
+					} else if (i==1) {
+						cout << wiersz << endl;
+						wiersz.erase(0,5);
+						typ = wiersz;
+						i++;
+					} else if (i==2) {
+						cout << wiersz << endl;
+						wiersz.erase(0,7);
+						marka = wiersz;
+						i++;
+					} else if (i==3) {
+						cout << wiersz << endl;
+						wiersz.erase(0,7);
+						model = wiersz;
+						i++;
+					} else if (i==4) {
+						cout << wiersz << endl;
+						wiersz.erase(0,13);
+						silnik = wiersz;
+						i++;
+					} else if (i==5) {
+						cout << wiersz << endl;
+						cout << endl;
+						wiersz.erase(0,8);
+						vin = stoi(wiersz);
+						tablicaPojazdow.insert (tablicaPojazdow.begin() + id,Pojazd(typ,marka,model,silnik,vin));
+						i=0;
+					}
 				}
 			}
-		}	
-	}
-	plik.close();
-	
+			plik.close();
+		} else {
+			cout << "Wyst¹pi³ problem z plikiem.";
+			cout << "Upewnij siê, ¿e wprowadzi³eœ poprawn¹ nazwê i rozszerzenie pliku.";
+			return "x72";
+		}
+		cout << "Pomyœlnie zakoñczono odczyt z pliku.";
+		return "x70";
+	} else {
+		cout << "Operacja zosta³a anulowana.";
+		return "x71";
+	}	
 	cout << "Pomyœlnie zakoñczono odczyt z pliku.";
 	return "x70";
 }
