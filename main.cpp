@@ -12,12 +12,12 @@ class Pojazd {
 	// Dane pojazdu
 	/* Sprecyzowaæ dane jakie powinniœmy przechowywaæ */
 	string typ, marka, model, silnik;
-   	int vin;
+	unsigned int vin;
 	 
 	public:     
    	// Konstruktor parametrowy dla zmiennych obowi¹zkowych
 	/* Ustaliæ jakie zmienne s¹ obowi¹zkowe przy dodawaniu pojazdu */  
-	Pojazd(string typ, string marka, string model, string silnik, int vin) {
+	Pojazd(string typ, string marka, string model, string silnik,unsigned int vin) {
     	this->typ = typ;
         this->marka = marka;
 		this->model = model;
@@ -71,7 +71,7 @@ class Pojazd {
 		return vin;	
 	}
 	
-	void ustawVIN(int vin) {
+	void ustawVIN(unsigned int vin) {
 		this->vin = vin;	
 	}     
 };
@@ -84,7 +84,7 @@ vector <Pojazd> tablicaPojazdow;
 /* Dodaæ sprawdzanie podawanych warto¹ci i porównywanie ich do wzorów, sprecyzowanie obi¹zkowych i nieobowi¹zkowych danych */
 string dodajPojazd(unsigned int id) {
 	string typ, marka, model, silnik;
-	int vin;
+	unsigned int vin;
 
 	cout << "Podaj typ pojazdu: ";
 	cin >> typ;
@@ -126,10 +126,10 @@ string edytujPojazd(unsigned int id) {
 	}
 	
 	string typ, marka, model, silnik, atrybut, exit;
-	int vin;
+	unsigned int vin;
 	
 	do {
-		cout << "Podaj nazwe w³asnoœci pojazdu: " << endl;
+		cout << "Podaj nazwe w³asnoœci pojazdu: ";
 		cin >> atrybut;
 		cout << endl;
 		
@@ -228,8 +228,8 @@ string filtrujDanePojazdu() {
 		return "x51";	
 	}
 	
-	unsigned int znalezionoWyniki = 0;
 	string atrybut, wartosc;
+	unsigned int znalezionoWyniki = 0;
 	
 	cout << "Podaj nazwe w³asnoœci pojazdu: ";
 	cin >> atrybut;
@@ -323,8 +323,7 @@ string zapiszPlik(string nazwaPliku) {
 
 // Metoda odczytuj¹ca dane pojazdów z pliku i zapisuj¹ca je do wektora
 string otworzPlik(string nazwaPliku) {
-	string wiersz, typ, marka, model, silnik, exit;
-	int id, i, vin;
+	string exit;
 
 	cout << "Otwarcie pliku nadpisze wszelkie wprowadzone zmiany." << endl;
 	cout << "Przed rozpoczeciem nale¿y zapisaæ swoj¹ prace." << endl;
@@ -336,38 +335,34 @@ string otworzPlik(string nazwaPliku) {
 		cout << "Rozpoczynam odczyt z pliku." << endl;
 		cout << endl;
 
-		fstream plik(nazwaPliku,ios::in);
+		fstream plik("baza.txt",ios::in);
 		if( plik.good() ) {
-			while (getline(plik, wiersz) != 0) {
+			string wiersz, typ, marka, model, silnik;
+			unsigned int id, vin, i = 0;
+			while ( !plik.eof() ) {
+				getline(plik, wiersz);
 				if (wiersz != "") {
 					if (i==0) {
-						cout << wiersz << endl;
 						wiersz.erase(0,10);
 						id = stoi(wiersz);
 						i++;
 					} else if (i==1) {
-						cout << wiersz << endl;
 						wiersz.erase(0,5);
 						typ = wiersz;
 						i++;
 					} else if (i==2) {
-						cout << wiersz << endl;
 						wiersz.erase(0,7);
 						marka = wiersz;
 						i++;
 					} else if (i==3) {
-						cout << wiersz << endl;
 						wiersz.erase(0,7);
 						model = wiersz;
 						i++;
 					} else if (i==4) {
-						cout << wiersz << endl;
 						wiersz.erase(0,13);
 						silnik = wiersz;
 						i++;
 					} else if (i==5) {
-						cout << wiersz << endl;
-						cout << endl;
 						wiersz.erase(0,8);
 						vin = stoi(wiersz);
 						tablicaPojazdow.insert (tablicaPojazdow.begin() + id,Pojazd(typ,marka,model,silnik,vin));
@@ -396,8 +391,8 @@ string otworzPlik(string nazwaPliku) {
 }
 
 int wyswietlMenu() {
-	int opcja, ile, id;
-	string plik, odpowiedz;
+	unsigned int opcja, ile, id;
+	string plik, zapisz;
 	
 	cout << "#############################" << endl;
 	cout << "1. Plik" << endl;
@@ -410,6 +405,7 @@ int wyswietlMenu() {
 	cout << "#############################" << endl;
 	cout << endl;
 	
+	cout << "Podaj numer opcji: ";
 	cin >> opcja;
 	cout << endl;
 	
@@ -419,14 +415,13 @@ int wyswietlMenu() {
 			cout << "2. Zapisz" << endl;
 			cout << endl;
 			
+			cout << "Podaj numer opcji: ";
 			cin >> opcja;
 			cout << endl;
 			
 			switch(opcja) {
 				case 1:
 					cout << "Podaj nazwê pliku do otwarcia (np. Pojazdy.txt)." << endl;
-					cout << endl;
-					
 					cin >> plik;
 					cout << endl;
 					
@@ -434,8 +429,6 @@ int wyswietlMenu() {
 					break;
 				case 2:
 					cout << "Podaj nazwê pliku do którego chcesz zapisaæ (np. Pojazdy.txt)." << endl;
-					cout << endl;
-					
 					cin >> plik;
 					cout << endl;
 					
@@ -444,9 +437,7 @@ int wyswietlMenu() {
 			}
 			break;
 		case 2:
-			cout << "Ile pojazdów chcesz dodaæ ?" << endl;
-			cout << endl;
-								
+			cout << "Ile pojazdów chcesz dodaæ: ";		
 			cin >> ile;
 			cout << endl;
 			
@@ -455,18 +446,14 @@ int wyswietlMenu() {
 			}
 			break;
 		case 3:
-			cout << "Podaj ID pojazdu do edycji." << endl;
-			cout << endl;
-								
+			cout << "Podaj ID pojazdu do edycji: ";		
 			cin >> id;
 			cout << endl;
 			
 			edytujPojazd(id);
 			break;
 		case 4:
-			cout << "Podaj ID pojazdu do usuniêcia." << endl;
-			cout << endl;
-								
+			cout << "Podaj ID pojazdu do usuniêcia: ";			
 			cin >> id;
 			cout << endl;
 			
@@ -477,14 +464,13 @@ int wyswietlMenu() {
 			cout << "2. Wyœwietl wszystkie pojazdy." << endl;
 			cout << endl;
 			
+			cout << "Podaj numer opcji: ";
 			cin >> opcja;
 			cout << endl;
 			
 			switch(opcja) {
 				case 1:
-					cout << "Podaj ID pojazdu do wyœwietlnia." << endl;
-					cout << endl;
-					
+					cout << "Podaj ID pojazdu do wyœwietlnia: ";
 					cin >> id;
 					cout << endl;
 					
@@ -502,10 +488,10 @@ int wyswietlMenu() {
 			break;
 		case 7:
 			cout << "Czy chcesz zapisaæ pracê przed wyjœciem ?" << endl;
-			cin >> odpowiedz;
+			cin >> zapisz;
 			cout << endl;
 			
-			if (odpowiedz == "Tak" || odpowiedz == "tak" || odpowiedz == "TAK") {
+			if (zapisz == "Tak" || zapisz == "tak" || zapisz == "TAK") {
 				zapiszPlik("baza.txt");
 			}
 			return 1;
@@ -516,6 +502,8 @@ int wyswietlMenu() {
 
 int main(int argc, char *argv[]) {
 	SetConsoleCP( 852 );
+
+	/* Program zamyka siê dopiero po dwukrotnym wybraniu opcji "7" */
 	do {
 		wyswietlMenu();
 	} while (wyswietlMenu() != 1);
