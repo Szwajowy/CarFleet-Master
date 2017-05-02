@@ -335,7 +335,7 @@ string otworzPlik(string nazwaPliku) {
 		cout << "Rozpoczynam odczyt z pliku." << endl;
 		cout << endl;
 
-		fstream plik("baza.txt",ios::in);
+		fstream plik(nazwaPliku,ios::in);
 		if( plik.good() ) {
 			string wiersz, typ, marka, model, silnik;
 			unsigned int id, vin, i = 0;
