@@ -563,7 +563,6 @@ int wyswietlMenu() {
 }
 
 int main(int argc, char *argv[]) {
-	SetConsoleCP( 852 );
 	int exit;
 
 	do {
