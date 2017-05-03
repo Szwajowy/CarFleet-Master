@@ -430,8 +430,9 @@ string otworzPlik(string nazwaPliku) {
 }
 
 int wyswietlMenu() {
-	unsigned int opcja, ile, id;
+	unsigned int ile, id;
 	string plik, zapisz, format;
+	char opcja, pre_id;
 	
 	cout << "#############################" << endl;
 	cout << "1. Plik" << endl;
@@ -449,7 +450,7 @@ int wyswietlMenu() {
 	cout << endl;
 	
 	switch (opcja) {
-		case 1:
+		case '1':
 			cout << "1. Otwórz" << endl;
 			cout << "2. Zapisz" << endl;
 			cout << endl;
@@ -459,14 +460,14 @@ int wyswietlMenu() {
 			cout << endl;
 			
 			switch(opcja) {
-				case 1:
+				case '1':
 					cout << "Podaj nazwê pliku do otwarcia (np. Pojazdy.txt)." << endl;
 					cin >> plik;
 					cout << endl;
 					
 					otworzPlik(plik);
 					break;
-				case 2:
+				case '2':
 					cout << "Podaj nazwê pliku do którego chcesz zapisaæ (np. Pojazdy.txt)." << endl;
 					cin >> plik;
 					cout << endl;
@@ -475,7 +476,7 @@ int wyswietlMenu() {
 					break;
 			}
 			break;
-		case 2:
+		case '2':
 			cout << "Ile pojazdów chcesz dodaæ: ";		
 			cin >> ile;
 			cout << endl;
@@ -484,21 +485,26 @@ int wyswietlMenu() {
 				dodajPojazd();
 			}
 			break;
-		case 3:
+		case '3':
 			cout << "Podaj ID pojazdu do edycji: ";		
-			cin >> id;
+			cin >> pre_id;
 			cout << endl;
 			
-			edytujPojazd(id);
+			if((isdigit(pre_id))==1){		//isdigit zwraca 1 dla prawdy, 0 dla fa³szu
+				id = (unsigned int)pre_id - 48;		//Jeœli pre_id jest wartoœci¹ liczbow¹ to przypisuje j¹ do id, a -48 jest dlatego, ¿e po konwersji zwraca wartoœæ decymaln¹ ascii http://www.asciitable.com/index/asciifull.gif
+				cout << "zawartosc id " << id << endl;
+				edytujPojazd(id);
+				break;
+				} else cout << "ID musi byæ liczb¹." << endl;;
 			break;
-		case 4:
+		case '4':
 			cout << "Podaj ID pojazdu do usuniêcia: ";			
 			cin >> id;
 			cout << endl;
 			
 			usunPojazd(id);
 			break;	
-		case 5:
+		case '5':
 			cout << "1. Wyœwietl jeden pojazd o podanym ID." << endl;
 			cout << "2. Wyœwietl wszystkie pojazdy." << endl;
 			cout << endl;
@@ -508,14 +514,14 @@ int wyswietlMenu() {
 			cout << endl;
 			
 			switch(opcja) {
-				case 1:
+				case '1':
 					cout << "Podaj ID pojazdu do wyœwietlnia: ";
 					cin >> id;
 					cout << endl;
 					
 					wyswietlDanePojazdu(id, "lista");
 					break;
-				case 2:
+				case '2':
 					cout << "Chcesz wyœwietliæ wyniki jako \"tabela\", czy \"lista\" ?" << endl;
 					cin >> format;
 					cout << endl;
@@ -545,10 +551,10 @@ int wyswietlMenu() {
 					break;
 			}
 			break;
-		case 6:
+		case '6':
 			filtrujDanePojazdu();
 			break;
-		case 7:
+		case '7':
 			cout << "Czy chcesz zapisaæ pracê przed wyjœciem ?" << endl;
 			cin >> zapisz;
 			cout << endl;
