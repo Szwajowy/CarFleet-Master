@@ -79,10 +79,19 @@ class Pojazd {
 // Definicja wektora obiektow Pojazd
 vector <Pojazd> tablicaPojazdow;
 
+// Definicja wektora stringów z historia operacji
+//vector <Operacja> historiaOperacji;
+
+/*string dodajDoHistori(string operacja, string wynik) {
+	historiaOperacji.push_back(Operacja("Dodaj pojazd"));
+}*/
+
 // Metoda dodajaca dane pojazdu dla odpowiedniego indeksu wektora
 // (je¿eli dla danego indeksu istnieje ju¿ obiekt to nastêpuje inkrementacja indeksu tego obiektu i ka¿dego nastêpnego, czyli przesuniêcie w prawo i dopiero dodanie naszego obiektu)	
 /* Dodaæ sprawdzanie podawanych warto¹ci i porównywanie ich do wzorów, sprecyzowanie obi¹zkowych i nieobowi¹zkowych danych */
 string dodajPojazd(unsigned int id) {
+	//dodajDoHistori("dodajPojazd");
+	
 	string typ, marka, model, silnik;
 	unsigned int vin;
 
@@ -193,7 +202,7 @@ string usunPojazd(unsigned int id) {
 
 // Metoda wyswietlajaca dane pojazdu o danym ID	
 /* Dodanie mo¿liwoœci wyœwietlania danych w ró¿ny sposób (tabela, lista) */
-string wyswietlDanePojazdu(unsigned int id) {
+string wyswietlDanePojazdu(unsigned int id, string format) {
 	// Obs³uga b³êdu - wektor jest pusty
 	if (tablicaPojazdow.size()<=0){
 		cout << "Nie dodano jeszcze ¿adnego pojazdu." << endl;
@@ -208,12 +217,26 @@ string wyswietlDanePojazdu(unsigned int id) {
 		return "x42";
 	}
 	
-	cout << "Typ: " << tablicaPojazdow[id].oddajTyp() << endl;
-    cout << "Marka: " << tablicaPojazdow[id].oddajMarka() << endl;
-    cout << "Model: " << tablicaPojazdow[id].oddajModel() << endl;
-    cout << "Typ silnika: " << tablicaPojazdow[id].oddajSilnik() << endl;
-    cout << "Nr. VIN: " << tablicaPojazdow[id].oddajVin() << endl;
-    cout << endl;
+	if (format == "lista") {
+		cout << "Typ: " << tablicaPojazdow[id].oddajTyp() << endl;
+	    cout << "Marka: " << tablicaPojazdow[id].oddajMarka() << endl;
+	    cout << "Model: " << tablicaPojazdow[id].oddajModel() << endl;
+	    cout << "Typ silnika: " << tablicaPojazdow[id].oddajSilnik() << endl;
+	    cout << "Nr. VIN: " << tablicaPojazdow[id].oddajVin() << endl;
+	    cout << endl;
+    } else if (format == "tabela") {
+    cout.width( 15 );
+		cout << left << tablicaPojazdow[id].oddajTyp();
+		cout.width( 15 );
+	    cout << left << tablicaPojazdow[id].oddajMarka();
+	    cout.width( 15 );
+	    cout << left << tablicaPojazdow[id].oddajModel();
+	    cout.width( 15 );
+	    cout << left << tablicaPojazdow[id].oddajSilnik();
+	    cout.width( 15 );
+	    cout << left << tablicaPojazdow[id].oddajVin();
+	    cout << endl;	
+	}
     
     return "x40";	
 }
@@ -228,7 +251,7 @@ string filtrujDanePojazdu() {
 		return "x51";	
 	}
 	
-	string atrybut, wartosc;
+	string atrybut, wartosc, format;
 	unsigned int znalezionoWyniki = 0;
 	
 	cout << "Podaj nazwe w³asnoœci pojazdu: ";
@@ -237,36 +260,48 @@ string filtrujDanePojazdu() {
 	cin >> wartosc;
 	cout << endl;
 	
+	cout << "Chcesz wyœwietliæ wyniki jako \"tabela\", czy \"lista\" ?" << endl;
+	cin >> format;
+	cout << endl;
+	
+	if (format == "tabela") {
+		cout.width( 15 );
+		cout << left << "Typ"; 
+		cout.width( 15 );
+		cout << left << "Marka"; 
+		cout.width( 15 );
+		cout << left << "Model"; 
+		cout.width( 15 );
+		cout << left << "Typ silnika"; 
+		cout.width( 15 );
+		cout << left << "Nr. VIN";
+		cout << endl;
+	}
 	// Przeszukiwanie wszystkich obiektów wektora
 	for (int i=0; i<tablicaPojazdow.size();i++) {
 		if (atrybut == "Typ" || atrybut == "typ" || atrybut == "TYP") {
 			if (tablicaPojazdow[i].oddajTyp()==wartosc) {
-				wyswietlDanePojazdu(i);
-				cout << endl;
+				wyswietlDanePojazdu(i,format);
 				znalezionoWyniki += 1;	
 			}
 		} else if (atrybut == "Marka" || atrybut == "marka" || atrybut == "MARKA") {
 			if (tablicaPojazdow[i].oddajMarka()==wartosc) {
-				wyswietlDanePojazdu(i);
-				cout << endl;
+				wyswietlDanePojazdu(i,format);
 				znalezionoWyniki += 1;	
 			}
 		} else if (atrybut == "Model" || atrybut == "model" || atrybut == "MODEL") {
 			if (tablicaPojazdow[i].oddajModel()==wartosc) {
-				wyswietlDanePojazdu(i);
-				cout << endl;
+				wyswietlDanePojazdu(i,format);
 				znalezionoWyniki += 1;	
 			}
 		} else if (atrybut == "Typ silnika" || atrybut == "typ silnika" || atrybut == "TYP SILNIKA" || atrybut == "Silnik" || atrybut == "silnik" || atrybut == "SILNIK") {
 			if (tablicaPojazdow[i].oddajSilnik()==wartosc) {
-				wyswietlDanePojazdu(i);
-				cout << endl;
+				wyswietlDanePojazdu(i,format);
 				znalezionoWyniki += 1;	
 			}
 		} else if (atrybut == "Nr.Vin" || atrybut == "nr.vin" || atrybut == "NR.VIN" || atrybut == "Vin" || atrybut == "vin" || atrybut == "VIN" || atrybut == "NrVin" || atrybut == "nrvin" || atrybut == "NRVIN") {
 			if (tablicaPojazdow[i].oddajVin()==stoi(wartosc)) {
-				wyswietlDanePojazdu(i);
-				cout << endl;
+				wyswietlDanePojazdu(i,format);
 				znalezionoWyniki += 1;	
 			}
 		// Obs³uga b³êdu - nie istnieje taki atrybut
@@ -276,6 +311,10 @@ string filtrujDanePojazdu() {
 			cout << endl;
 			return "x52";
 		}
+	}
+	
+	if (format == "tabela") {
+		cout << endl;
 	}
 	
 	// Obs³uga b³êdu - nie istniej¹ obiekty o takich atrybutach
@@ -392,7 +431,7 @@ string otworzPlik(string nazwaPliku) {
 
 int wyswietlMenu() {
 	unsigned int opcja, ile, id;
-	string plik, zapisz;
+	string plik, zapisz, format;
 	
 	cout << "#############################" << endl;
 	cout << "1. Plik" << endl;
@@ -474,12 +513,35 @@ int wyswietlMenu() {
 					cin >> id;
 					cout << endl;
 					
-					wyswietlDanePojazdu(id);
+					wyswietlDanePojazdu(id, "lista");
 					break;
 				case 2:
-					for (int i=0; i<tablicaPojazdow.size();i++) {
-						wyswietlDanePojazdu(i);	
+					cout << "Chcesz wyœwietliæ wyniki jako \"tabela\", czy \"lista\" ?" << endl;
+					cin >> format;
+					cout << endl;
+					
+					if (format == "tabela") {
+						cout.width( 15 );
+						cout << left << "Typ"; 
+						cout.width( 15 );
+						cout << left << "Marka"; 
+						cout.width( 15 );
+						cout << left << "Model"; 
+						cout.width( 15 );
+						cout << left << "Typ silnika"; 
+						cout.width( 15 );
+						cout << left << "Nr. VIN";
+						cout << endl;
 					}
+					
+					for (int i=0; i<tablicaPojazdow.size();i++) {
+						wyswietlDanePojazdu(i,format);	
+					}
+					
+					if (format == "tabela") {
+						cout << endl;
+					}
+					
 					break;
 			}
 			break;
@@ -502,10 +564,11 @@ int wyswietlMenu() {
 
 int main(int argc, char *argv[]) {
 	SetConsoleCP( 852 );
+	int exit;
 
-	/* Program zamyka siê dopiero po dwukrotnym wybraniu opcji "7" */
 	do {
-		wyswietlMenu();
-	} while (wyswietlMenu() != 1);
+		exit = wyswietlMenu();
+	} while (exit != 1);
+	
     return EXIT_SUCCESS;
 }
