@@ -563,6 +563,7 @@ int wyswietlMenu() {
 }
 
 int main(int argc, char *argv[]) {
+	setlocale(LC_ALL,"");
 	int exit;
 
 	do {
