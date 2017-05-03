@@ -438,7 +438,7 @@ int wyswietlMenu() {
 	cout << "2. Dodaj pojazd" << endl;
 	cout << "3. Edytuj pojazd" << endl;
 	cout << "4. Usuñ pojazd" << endl;
-	cout << "5. Wyswietl pojazd/y" << endl;
+	cout << "5. Wyœwietl pojazd/y" << endl;
 	cout << "6. Filtruj pojazdy" << endl;
 	cout << "7. Wyjœcie" << endl;
 	cout << "#############################" << endl;
@@ -450,7 +450,7 @@ int wyswietlMenu() {
 	
 	switch (opcja) {
 		case 1:
-			cout << "1. Otworz" << endl;
+			cout << "1. Otwórz" << endl;
 			cout << "2. Zapisz" << endl;
 			cout << endl;
 			
