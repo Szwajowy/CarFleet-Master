@@ -1,0 +1,35 @@
+Pojazd nr.0
+Typ: Osobowy
+Marka: Opel
+Model: Astra
+Typ silnika: Benzynowy
+Nr.VIN: 325
+
+Pojazd nr.1
+Typ: Osobowy
+Marka: Opel
+Model: Vectra
+Typ silnika: Diesel
+Nr.VIN: 643
+
+Pojazd nr.2
+Typ: Osobowy
+Marka: Toyota
+Model: Yaris
+Typ silnika: Diesel
+Nr.VIN: 345
+
+Pojazd nr.3
+Typ: Osobowy
+Marka: Seat
+Model: Ibiza
+Typ silnika: Benzynowy
+Nr.VIN: 754
+
+Pojazd nr.4
+Typ: Osobowy
+Marka: Skoda
+Model: Octavia
+Typ silnika: Benzynowy
+Nr.VIN: 623
+
