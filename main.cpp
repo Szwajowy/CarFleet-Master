@@ -285,6 +285,7 @@ string wyswietlPojazd(unsigned int id, string format) {
 	}
 	
 	if (!stricmp(format.c_str(), "lista")) {
+		cout << "ID: " << id << endl;
 		cout << "Typ: " << tablicaPojazdow[id].oddajTyp() << endl;
 	    cout << "Marka: " << tablicaPojazdow[id].oddajMarka() << endl;
 	    cout << "Model: " << tablicaPojazdow[id].oddajModel() << endl;
@@ -292,7 +293,9 @@ string wyswietlPojazd(unsigned int id, string format) {
 	    cout << "Nr. VIN: " << tablicaPojazdow[id].oddajVin() << endl;
 	    cout << endl;
     } else if (!stricmp(format.c_str(), "tabela")) {
-    cout.width( 15 );
+		cout.width( 15 );
+		cout << left << id;
+		cout.width( 15 );
 		cout << left << tablicaPojazdow[id].oddajTyp();
 		cout.width( 15 );
 	    cout << left << tablicaPojazdow[id].oddajMarka();
@@ -329,7 +332,7 @@ string przeszukajPojazdy() {
 	
 	cout << "Podaj nazwe w³asnoœci pojazdu: ";
 	cin >> atrybut;
-	cout << "Podaj wartoœc tej w³asnoœci: ";
+	cout << "Podaj wartoœæ tej w³asnoœci: ";
 	cin >> wartosc;
 	cout << endl;
 	
@@ -338,6 +341,8 @@ string przeszukajPojazdy() {
 	cout << endl;
 	
 	if (!stricmp(format.c_str(), "tabela")) {
+		cout.width( 15 );
+		cout << left << "ID"; 
 		cout.width( 15 );
 		cout << left << "Typ"; 
 		cout.width( 15 );
@@ -683,6 +688,8 @@ int wyswietlMenu() {
 							blad = 1;
 						} else {
 							if (!stricmp(format.c_str(), "tabela")) {
+								cout.width( 15 );
+								cout << left << "ID"; 
 								cout.width( 15 );
 								cout << left << "Typ"; 
 								cout.width( 15 );
