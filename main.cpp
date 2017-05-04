@@ -142,27 +142,27 @@ string edytujPojazd(unsigned int id) {
 		cin >> atrybut;
 		cout << endl;
 		
-		if (atrybut == "Typ" || atrybut == "typ" || atrybut == "TYP") {
+		if (!stricmp(atrybut.c_str(), "typ")) {
 			cout << "Podaj typ pojazdu: ";
 			cin >> typ;
 			cout << endl;
 			tablicaPojazdow[id].ustawTyp(typ);
-		} else if (atrybut == "Marka" || atrybut == "marka" || atrybut == "MARKA") {
+		} else if (!stricmp(atrybut.c_str(), "marka")) {
 			cout << "Podaj marke pojazdu: ";
 			cin >> marka;
 			cout << endl;
 			tablicaPojazdow[id].ustawMarka(marka);
-		} else if (atrybut == "Model" || atrybut == "model" || atrybut == "MODEL") {
+		} else if (!stricmp(atrybut.c_str(), "model")) {
 			cout << "Podaj model pojazdu: ";
 			cin >> model;
 			cout << endl;
 			tablicaPojazdow[id].ustawModel(model);
-		} else if (atrybut == "Typ silnika" || atrybut == "typ silnika" || atrybut == "TYP SILNIKA" || atrybut == "Silnik" || atrybut == "silnik" || atrybut == "SILNIK") {
+		} else if (!stricmp(atrybut.c_str(), "typ silnika") || !stricmp(atrybut.c_str(), "silnik")) {
 			cout << "Podaj typ silnika: ";
 			cin >> silnik;
 			cout << endl;
 			tablicaPojazdow[id].ustawSilnik(silnik);
-		} else if (atrybut == "Nr.Vin" || atrybut == "nr.vin" || atrybut == "NR.VIN" || atrybut == "Vin" || atrybut == "vin" || atrybut == "VIN" || atrybut == "NrVin" || atrybut == "nrvin" || atrybut == "NRVIN") {
+		} else if (!stricmp(atrybut.c_str(), "nr.vin") || !stricmp(atrybut.c_str(), "nr vin") || !stricmp(atrybut.c_str(), "numer vin")) {
 			cout << "Podaj identyfikator VIN pojazdu: ";
 			cin >> vin;
 			cout << endl;
@@ -171,7 +171,7 @@ string edytujPojazd(unsigned int id) {
 		cout << "Czy chcesz kontynuowaæ edycjê ?" << endl;
 		cin >> exit;
 		cout << endl;
-	} while (exit == "Tak" || exit == "tak" || exit == "TAK");
+	} while (!stricmp(exit.c_str(), "tak"));
 	
 	return "x20";
 }
@@ -217,14 +217,14 @@ string wyswietlDanePojazdu(unsigned int id, string format) {
 		return "x42";
 	}
 	
-	if (format == "lista") {
+	if (!stricmp(format.c_str(), "lista")) {
 		cout << "Typ: " << tablicaPojazdow[id].oddajTyp() << endl;
 	    cout << "Marka: " << tablicaPojazdow[id].oddajMarka() << endl;
 	    cout << "Model: " << tablicaPojazdow[id].oddajModel() << endl;
 	    cout << "Typ silnika: " << tablicaPojazdow[id].oddajSilnik() << endl;
 	    cout << "Nr. VIN: " << tablicaPojazdow[id].oddajVin() << endl;
 	    cout << endl;
-    } else if (format == "tabela") {
+    } else if (!stricmp(format.c_str(), "tabela")) {
     cout.width( 15 );
 		cout << left << tablicaPojazdow[id].oddajTyp();
 		cout.width( 15 );
@@ -264,7 +264,7 @@ string filtrujDanePojazdu() {
 	cin >> format;
 	cout << endl;
 	
-	if (format == "tabela") {
+	if (!stricmp(format.c_str(), "tabela")) {
 		cout.width( 15 );
 		cout << left << "Typ"; 
 		cout.width( 15 );
@@ -279,22 +279,22 @@ string filtrujDanePojazdu() {
 	}
 	// Przeszukiwanie wszystkich obiektów wektora
 	for (int i=0; i<tablicaPojazdow.size();i++) {
-		if (atrybut == "Typ" || atrybut == "typ" || atrybut == "TYP") {
+		if (!stricmp(atrybut.c_str(), "typ")) {
 			if (tablicaPojazdow[i].oddajTyp()==wartosc) {
 				wyswietlDanePojazdu(i,format);
 				znalezionoWyniki += 1;	
 			}
-		} else if (atrybut == "Marka" || atrybut == "marka" || atrybut == "MARKA") {
+		} else if (!stricmp(atrybut.c_str(), "marka")) {
 			if (tablicaPojazdow[i].oddajMarka()==wartosc) {
 				wyswietlDanePojazdu(i,format);
 				znalezionoWyniki += 1;	
 			}
-		} else if (atrybut == "Model" || atrybut == "model" || atrybut == "MODEL") {
+		} else if (!stricmp(atrybut.c_str(), "model")) {
 			if (tablicaPojazdow[i].oddajModel()==wartosc) {
 				wyswietlDanePojazdu(i,format);
 				znalezionoWyniki += 1;	
 			}
-		} else if (atrybut == "Typ silnika" || atrybut == "typ silnika" || atrybut == "TYP SILNIKA" || atrybut == "Silnik" || atrybut == "silnik" || atrybut == "SILNIK") {
+		} else if (!stricmp(atrybut.c_str(), "typ silnika") || !stricmp(atrybut.c_str(), "silnik")) {
 			if (tablicaPojazdow[i].oddajSilnik()==wartosc) {
 				wyswietlDanePojazdu(i,format);
 				znalezionoWyniki += 1;	
@@ -313,7 +313,7 @@ string filtrujDanePojazdu() {
 		}
 	}
 	
-	if (format == "tabela") {
+	if (!stricmp(format.c_str(), "tabela")) {
 		cout << endl;
 	}
 	
@@ -370,7 +370,7 @@ string otworzPlik(string nazwaPliku) {
 	cin >> exit;
 	cout << endl;
 
-	if (exit == "Tak" || exit == "tak" || exit == "TAK") {
+	if (!stricmp(exit.c_str(), "tak")) {
 		cout << "Rozpoczynam odczyt z pliku." << endl;
 		cout << endl;
 
@@ -430,43 +430,59 @@ string otworzPlik(string nazwaPliku) {
 }
 
 int wyswietlMenu() {
-	unsigned int opcja, ile, id;
+	unsigned int ile, id, blad;
 	string plik, zapisz, format;
+	char opcja, pre_id;
+	blad = 0;
 	
 	cout << "#############################" << endl;
 	cout << "1. Plik" << endl;
 	cout << "2. Dodaj pojazd" << endl;
 	cout << "3. Edytuj pojazd" << endl;
 	cout << "4. Usuñ pojazd" << endl;
-	cout << "5. Wyswietl pojazd/y" << endl;
+	cout << "5. Wyœwietl pojazd/y" << endl;
 	cout << "6. Filtruj pojazdy" << endl;
 	cout << "7. Wyjœcie" << endl;
 	cout << "#############################" << endl;
 	cout << endl;
 	
-	cout << "Podaj numer opcji: ";
-	cin >> opcja;
-	cout << endl;
+	do {
+		cout << "Podaj numer opcji: ";
+		cin >> opcja;
+		cout << endl;
+		
+		if (opcja != '1' && opcja != '2' && opcja != '3' && opcja != '4' && opcja != '5' && opcja != '6' && opcja != '7') {
+			cout << "Proszê wybraæ opcjê z zakresu od 1 do 7!" << endl;
+			cout << endl;
+		}
+	} while (opcja != '1' && opcja != '2' && opcja != '3' && opcja != '4' && opcja != '5' && opcja != '6' && opcja != '7');
 	
 	switch (opcja) {
-		case 1:
-			cout << "1. Otworz" << endl;
+		case '1':
+			cout << "1. Otwórz" << endl;
 			cout << "2. Zapisz" << endl;
 			cout << endl;
 			
-			cout << "Podaj numer opcji: ";
-			cin >> opcja;
-			cout << endl;
+			do {
+				cout << "Podaj numer opcji: ";
+				cin >> opcja;
+				cout << endl;
+				
+				if (opcja != '1' && opcja != '2') {
+					cout << "Proszê wybraæ opcjê 1 lub 2!" << endl;
+					cout << endl;
+				}
+			} while (opcja != '1' && opcja != '2');
 			
 			switch(opcja) {
-				case 1:
+				case '1':
 					cout << "Podaj nazwê pliku do otwarcia (np. Pojazdy.txt)." << endl;
 					cin >> plik;
 					cout << endl;
 					
 					otworzPlik(plik);
 					break;
-				case 2:
+				case '2':
 					cout << "Podaj nazwê pliku do którego chcesz zapisaæ (np. Pojazdy.txt)." << endl;
 					cin >> plik;
 					cout << endl;
@@ -475,85 +491,142 @@ int wyswietlMenu() {
 					break;
 			}
 			break;
-		case 2:
-			cout << "Ile pojazdów chcesz dodaæ: ";		
-			cin >> ile;
-			cout << endl;
-			
+		case '2':		
+			do {
+				cout << "Ile pojazdów chcesz dodaæ: ";		
+				cin >> ile;
+				cout << endl;
+				
+				if (ile <= 0) {
+					cout << "Proszê podaæ wartoœæ wiêksz¹ od zera!" << endl;
+					cout << endl;
+				}
+			} while (opcja != '1' && opcja != '2');
+						
 			for (int i=0; i<ile;i++) {
 				dodajPojazd();
 			}
 			break;
-		case 3:
-			cout << "Podaj ID pojazdu do edycji: ";		
-			cin >> id;
-			cout << endl;
-			
-			edytujPojazd(id);
-			break;
-		case 4:
-			cout << "Podaj ID pojazdu do usuniêcia: ";			
-			cin >> id;
-			cout << endl;
-			
-			usunPojazd(id);
+		case '3':
+			do {
+				blad = 0;
+				cout << "Podaj ID pojazdu do edycji: ";		
+				cin >> pre_id;
+				cout << endl;
+				
+				if((isdigit(pre_id))==1){		//isdigit zwraca 1 dla prawdy, 0 dla fa³szu
+					id = (unsigned int)pre_id - 48;		//Jeœli pre_id jest wartoœci¹ liczbow¹ to przypisuje j¹ do id, a -48 jest dlatego, ¿e po konwersji zwraca wartoœæ decymaln¹ ascii http://www.asciitable.com/index/asciifull.gif
+					edytujPojazd(id);
+					break;
+				} else {
+					cout << "ID musi byæ liczb¹!" << endl;
+					blad = 1;
+				}
+			} while (blad = 1);
+		case '4':
+			do {
+				blad = 0;
+				cout << "Podaj ID pojazdu do edycji: ";		
+				cin >> pre_id;
+				cout << endl;
+				
+				if((isdigit(pre_id))==1){		//isdigit zwraca 1 dla prawdy, 0 dla fa³szu
+					id = (unsigned int)pre_id - 48;		//Jeœli pre_id jest wartoœci¹ liczbow¹ to przypisuje j¹ do id, a -48 jest dlatego, ¿e po konwersji zwraca wartoœæ decymaln¹ ascii http://www.asciitable.com/index/asciifull.gif
+					usunPojazd(id);
+					break;
+				} else {
+					cout << "ID musi byæ liczb¹!" << endl;
+					blad = 1;
+				}
+			} while (blad = 1);
 			break;	
-		case 5:
+		case '5':
 			cout << "1. Wyœwietl jeden pojazd o podanym ID." << endl;
 			cout << "2. Wyœwietl wszystkie pojazdy." << endl;
 			cout << endl;
-			
-			cout << "Podaj numer opcji: ";
-			cin >> opcja;
-			cout << endl;
+
+			do {
+				cout << "Podaj numer opcji: ";
+				cin >> opcja;
+				cout << endl;
+				
+				if (opcja != '1' && opcja != '2') {
+					cout << "Proszê wybraæ opcjê 1 lub 2 !" << endl;
+					cout << endl;
+				}
+			} while (opcja != '1' && opcja != '2');
 			
 			switch(opcja) {
-				case 1:
-					cout << "Podaj ID pojazdu do wyœwietlnia: ";
-					cin >> id;
-					cout << endl;
-					
-					wyswietlDanePojazdu(id, "lista");
-					break;
-				case 2:
-					cout << "Chcesz wyœwietliæ wyniki jako \"tabela\", czy \"lista\" ?" << endl;
-					cin >> format;
-					cout << endl;
-					
-					if (format == "tabela") {
-						cout.width( 15 );
-						cout << left << "Typ"; 
-						cout.width( 15 );
-						cout << left << "Marka"; 
-						cout.width( 15 );
-						cout << left << "Model"; 
-						cout.width( 15 );
-						cout << left << "Typ silnika"; 
-						cout.width( 15 );
-						cout << left << "Nr. VIN";
+				case '1':
+					do {
+						blad = 0;
+						cout << "Podaj ID pojazdu do edycji: ";		
+						cin >> pre_id;
 						cout << endl;
-					}
-					
-					for (int i=0; i<tablicaPojazdow.size();i++) {
-						wyswietlDanePojazdu(i,format);	
-					}
-					
-					if (format == "tabela") {
-						cout << endl;
-					}
-					
+						
+						if((isdigit(pre_id))==1){		//isdigit zwraca 1 dla prawdy, 0 dla fa³szu
+							id = (unsigned int)pre_id - 48;		//Jeœli pre_id jest wartoœci¹ liczbow¹ to przypisuje j¹ do id, a -48 jest dlatego, ¿e po konwersji zwraca wartoœæ decymaln¹ ascii http://www.asciitable.com/index/asciifull.gif
+							if (id < 0){
+								cout << "ID nie mo¿e byæ ujemne!" << endl;
+								blad = 1;	
+							} else {
+								wyswietlDanePojazdu(id, "lista");
+								break;
+							}
+						} else {
+							cout << "ID musi byæ liczb¹!" << endl;
+							blad = 1;
+						}
+					} while (blad = 1);
 					break;
+				case '2':
+					do {
+						blad = 0;
+						cout << "Chcesz wyœwietliæ wyniki jako \"lista\", czy \"tabela\" ?" << endl;
+						cin >> format;
+						cout << endl;
+						
+						if (stricmp(format.c_str(), "lista") && stricmp(format.c_str(), "tabela")) {
+							cout << "B³¹d! Proszê wybraæ format \"lista\" lub \"tabela\"" << endl;
+							cout << endl;
+							blad = 1;
+						} else {
+							if (!stricmp(format.c_str(), "tabela")) {
+								cout.width( 15 );
+								cout << left << "Typ"; 
+								cout.width( 15 );
+								cout << left << "Marka"; 
+								cout.width( 15 );
+								cout << left << "Model"; 
+								cout.width( 15 );
+								cout << left << "Typ silnika"; 
+								cout.width( 15 );
+								cout << left << "Nr. VIN";
+								cout << endl;
+							}
+							
+							for (int i=0; i<tablicaPojazdow.size();i++) {
+								wyswietlDanePojazdu(i,format);	
+							}
+							
+							if (!stricmp(format.c_str(), "tabela")) {
+								cout << endl;
+							}
+							
+							break;
+						}
+					} while (blad = 1);
 			}
 			break;
-		case 6:
+		case '6':
 			filtrujDanePojazdu();
 			break;
-		case 7:
+		case '7':
 			cout << "Czy chcesz zapisaæ pracê przed wyjœciem ?" << endl;
 			cin >> zapisz;
 			cout << endl;
 			
-			if (zapisz == "Tak" || zapisz == "tak" || zapisz == "TAK") {
+			if (!stricmp(zapisz.c_str(), "tak")) {
 				zapiszPlik("baza.txt");
 			}
 			return 1;
@@ -563,7 +636,7 @@ int wyswietlMenu() {
 }
 
 int main(int argc, char *argv[]) {
-	SetConsoleCP( 852 );
+	setlocale(LC_ALL,"");
 	int exit;
 
 	do {
