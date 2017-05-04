@@ -117,24 +117,25 @@ class Operacja {
 // Definicja wektora stringów z historia operacji
 vector <Operacja> historiaOperacji;
 
-string dodajOperacja(string operacja) {
-	historiaOperacji.push_back(Operacja(operacja,"wynik nieznany"));
-	return "udalo sie";
+void dodajOperacja(string operacja) {
+	if (historiaOperacji.size() > 198) {
+		for (int i=0; i < 20; i++) {
+			historiaOperacji.erase (historiaOperacji.begin());			
+		}
+	} else {
+		historiaOperacji.push_back(Operacja(operacja,"wynik nieznany"));
+	}
 }
 
-string wyswietlOperacja(int id) {
+void wyswietlOperacja(int id) {
 	cout << historiaOperacji[id].oddajOperacja() << " - " << historiaOperacji[id].oddajWynik() << endl;
 	cout << endl;
-	return "udalo sie";
 }
 
 // Metoda dodajaca dane pojazdu dla odpowiedniego indeksu wektora
 // (je¿eli dla danego indeksu istnieje ju¿ obiekt to nastêpuje inkrementacja indeksu tego obiektu i ka¿dego nastêpnego, czyli przesuniêcie w prawo i dopiero dodanie naszego obiektu)	
 /* Dodaæ sprawdzanie podawanych warto¹ci i porównywanie ich do wzorów, sprecyzowanie obi¹zkowych i nieobowi¹zkowych danych */
 string dodajPojazd(unsigned int id) {
-	dodajOperacja("Dodanie pojazdu");
-	int nrOperacji = historiaOperacji.size() - 1;
-	
 	string typ, marka, model, silnik;
 	unsigned int vin;
 
@@ -151,8 +152,7 @@ string dodajPojazd(unsigned int id) {
 	
 	tablicaPojazdow.insert (tablicaPojazdow.begin() + id,Pojazd(typ,marka,model,silnik,vin));
 	cout << endl;
-	
-	historiaOperacji[nrOperacji].ustawWynik("udane");
+
 	return "x10";
 }
 
@@ -164,15 +164,11 @@ string dodajPojazd() {
 // Metoda edytuj¹ca dane pojazdu o danym ID
 /* Dodaæ sprawdzanie podawanych wartoœci i porównywanie ich do wzorów, dodanie mo¿liwoœci edycji tylko zmiennych atrybutów pojazdów */
 string edytujPojazd(unsigned int id) {
-	dodajOperacja("Edycja pojazdu");
-	int nrOperacji = historiaOperacji.size() - 1;
-	
 	// Obs³uga b³êdu - wektor jest pusty
 	if (tablicaPojazdow.size()<=0){
 		cout << "Nie dodano jeszcze ¿adnego pojazdu." << endl;
 		cout << endl;
 		
-		historiaOperacji[nrOperacji].ustawWynik("nie udana");
 		return "x21";	
 	}
 	
@@ -181,7 +177,6 @@ string edytujPojazd(unsigned int id) {
 		cout << "Nie istnieje pojazd o podanym ID." << endl;
 		cout << endl;
 		
-		historiaOperacji[nrOperacji].ustawWynik("nie udana");
 		return "x22";
 	}
 	
@@ -224,22 +219,17 @@ string edytujPojazd(unsigned int id) {
 		cout << endl;
 	} while (!stricmp(exit.c_str(), "tak"));
 	
-	historiaOperacji[nrOperacji].ustawWynik("udana");
 	return "x20";
 }
 
 // Metoda usuwaj¹ca pojazd o danym ID	
 // (po usuniêciu obiektu nastêpuje dekrementacja indeksu ka¿dego nastêpnego, czyli przesuniêcie w lewo)	
 string usunPojazd(unsigned int id) {
-	dodajOperacja("Usuniêcie pojazdu");
-	int nrOperacji = historiaOperacji.size() - 1;
-	
 	// Obs³uga b³êdu - wektor jest pusty
 	if (tablicaPojazdow.size()<=0){
 		cout << "Nie dodano jeszcze ¿adnego pojazdu." << endl;
 		cout << endl;
-		
-		historiaOperacji[nrOperacji].ustawWynik("nie udane");
+
 		return "x31";	
 	}
 	
@@ -247,31 +237,25 @@ string usunPojazd(unsigned int id) {
 	if (id >=tablicaPojazdow.size()) {
 		cout << "Nie istnieje pojazd o podanym ID." << endl;
 		cout << endl;
-		
-		historiaOperacji[nrOperacji].ustawWynik("nie udane");
+
 		return "x32";
 	}
 	
 	tablicaPojazdow.erase (tablicaPojazdow.begin() + id);
 	cout << "Pomyœlnie usuniêto pojazd." << endl;
 	cout << endl;
-	
-	historiaOperacji[nrOperacji].ustawWynik("udane");
+
 	return "x30";
 }
 
 // Metoda wyswietlajaca dane pojazdu o danym ID	
 /* Dodanie mo¿liwoœci wyœwietlania danych w ró¿ny sposób (tabela, lista) */
 string wyswietlPojazd(unsigned int id, string format) {
-	dodajOperacja("Wyœwietlanie danych pojazdu");
-	int nrOperacji = historiaOperacji.size() - 1;
-	
 	// Obs³uga b³êdu - wektor jest pusty
 	if (tablicaPojazdow.size()<=0){
 		cout << "Nie dodano jeszcze ¿adnego pojazdu." << endl;
 		cout << endl;
 		
-		historiaOperacji[nrOperacji].ustawWynik("nie udane");
 		return "x41";	
 	}
 	
@@ -280,7 +264,6 @@ string wyswietlPojazd(unsigned int id, string format) {
 		cout << "Nie istnieje pojazd o podanym ID." << endl;
 		cout << endl;
 		
-		historiaOperacji[nrOperacji].ustawWynik("nie udane");
 		return "x42";
 	}
 	
@@ -307,23 +290,18 @@ string wyswietlPojazd(unsigned int id, string format) {
 	    cout << left << tablicaPojazdow[id].oddajVin();
 	    cout << endl;	
 	}
-    
-    historiaOperacji[nrOperacji].ustawWynik("udane");
+
     return "x40";	
 }
 
 // Metoda filtruj¹ca dane pojazdu
 /* Dodanie mo¿liwoœci filtrowania po kilku atrybutach i ich wartoœciach */
 string przeszukajPojazdy() {
-	dodajOperacja("Przeszukanie danych pojazdów");
-	int nrOperacji = historiaOperacji.size() - 1;
-	
 	// Obs³uga b³êdu - wektor jest pusty
 	if (tablicaPojazdow.size()<=0){
 		cout << "Nie dodano jeszcze ¿adnego pojazdu." << endl;
 		cout << endl;
 		
-		historiaOperacji[nrOperacji].ustawWynik("nie udane");
 		return "x51";	
 	}
 	
@@ -387,8 +365,7 @@ string przeszukajPojazdy() {
 			cout << "Taki atrybut zosta³ nie znaleziony." << endl;
 			cout << "SprawdŸ pisownie i spróbuj ponownie." << endl;
 			cout << endl;
-			
-			historiaOperacji[nrOperacji].ustawWynik("nie udane");
+
 			return "x52";
 		}
 	}
@@ -402,22 +379,17 @@ string przeszukajPojazdy() {
 		cout << "Nie znaleziono elementów odpowiadaj¹cych podanym kryteriom." << endl;
 		cout << endl;
 		
-		historiaOperacji[nrOperacji].ustawWynik("nie udane");
 		return "x53";	
 	} else {
 		cout << "Znaleziono " << znalezionoWyniki << " elementów odpowiadaj¹cych podanym kryteriom." << endl;
 		cout << endl;
-		
-		historiaOperacji[nrOperacji].ustawWynik("udane");
+
 		return "x50";
 	}
 }
 
 // Metoda zapisuj¹ca wektor do pliku
 string zapiszPlik(string nazwaPliku) {
-	dodajOperacja("Zapisanie danych do pliku");
-	int nrOperacji = historiaOperacji.size() - 1;
-	
 	cout << "Rozpoczynam zapis do pliku." << endl;
 	cout << endl;
 	
@@ -439,22 +411,17 @@ string zapiszPlik(string nazwaPliku) {
 		cout << "Upewnij siê, ¿e wprowadzi³eœ poprawn¹ nazwê i rozszerzenie pliku." << endl;
 		cout << endl;
 		
-		historiaOperacji[nrOperacji].ustawWynik("nie udane");
 		return "x61";
 	}
 	
 	cout << "Pomyœlnie zakoñczono zapis do pliku." << endl;
 	cout << endl;
 	
-	historiaOperacji[nrOperacji].ustawWynik("udana");
 	return "x60";
 }
 
 // Metoda odczytuj¹ca dane pojazdów z pliku i zapisuj¹ca je do wektora
 string otworzPlik(string nazwaPliku) {
-	dodajOperacja("Otwarcie pliku z danymi");
-	int nrOperacji = historiaOperacji.size() - 1;
-	
 	string exit;
 
 	cout << "Otwarcie pliku nadpisze wszelkie wprowadzone zmiany." << endl;
@@ -507,20 +474,17 @@ string otworzPlik(string nazwaPliku) {
 			cout << "Wyst¹pi³ problem z plikiem."<< endl;
 			cout << "Upewnij siê, ¿e wprowadzi³eœ poprawn¹ nazwê i rozszerzenie pliku."<< endl;
 			cout << endl;
-			
-			historiaOperacji[nrOperacji].ustawWynik("nie udane");
+
 			return "x72";
 		}
 		cout << "Pomyœlnie zakoñczono odczyt z pliku."<< endl;
 		cout << endl;
-		
-		historiaOperacji[nrOperacji].ustawWynik("udana");
+
 		return "x70";
 	} else {
 		cout << "Operacja zosta³a anulowana."<< endl;
 		cout << endl;
-		
-		historiaOperacji[nrOperacji].ustawWynik("nie udane");
+
 		return "x71";
 	}
 }
@@ -538,7 +502,8 @@ int wyswietlMenu() {
 	cout << "4. Usuñ pojazd" << endl;
 	cout << "5. Wyœwietl pojazd/y" << endl;
 	cout << "6. Filtruj pojazdy" << endl;
-	cout << "7. Wyjœcie" << endl;
+	cout << "7. Wyœwietl historiê operacji" << endl;
+	cout << "8. Wyjœcie" << endl;
 	cout << "#############################" << endl;
 	cout << endl;
 	
@@ -547,11 +512,11 @@ int wyswietlMenu() {
 		cin >> opcja;
 		cout << endl;
 		
-		if (opcja != '1' && opcja != '2' && opcja != '3' && opcja != '4' && opcja != '5' && opcja != '6' && opcja != '7') {
+		if (opcja != '1' && opcja != '2' && opcja != '3' && opcja != '4' && opcja != '5' && opcja != '6' && opcja != '7' && opcja != '8') {
 			cout << "Proszê wybraæ opcjê z zakresu od 1 do 7!" << endl;
 			cout << endl;
 		}
-	} while (opcja != '1' && opcja != '2' && opcja != '3' && opcja != '4' && opcja != '5' && opcja != '6' && opcja != '7');
+	} while (opcja != '1' && opcja != '2' && opcja != '3' && opcja != '4' && opcja != '5' && opcja != '6' && opcja != '7' && opcja != '8');
 	
 	switch (opcja) {
 		case '1':
@@ -572,6 +537,7 @@ int wyswietlMenu() {
 			
 			switch(opcja) {
 				case '1':
+					dodajOperacja("Otwarcie pliku");
 					cout << "Podaj nazwê pliku do otwarcia (np. Pojazdy.txt)." << endl;
 					cin >> plik;
 					cout << endl;
@@ -579,6 +545,7 @@ int wyswietlMenu() {
 					otworzPlik(plik);
 					break;
 				case '2':
+					dodajOperacja("Zapis do pliku");
 					cout << "Podaj nazwê pliku do którego chcesz zapisaæ (np. Pojazdy.txt)." << endl;
 					cin >> plik;
 					cout << endl;
@@ -588,6 +555,7 @@ int wyswietlMenu() {
 			}
 			break;
 		case '2':		
+			dodajOperacja("Dodanie pojazdu");
 			do {
 				cout << "Ile pojazdów chcesz dodaæ: ";		
 				cin >> ile;
@@ -604,6 +572,7 @@ int wyswietlMenu() {
 			}
 			break;
 		case '3':
+			dodajOperacja("Edycja pojazdu");
 			do {
 				blad = 0;
 				cout << "Podaj ID pojazdu do edycji: ";		
@@ -620,9 +589,10 @@ int wyswietlMenu() {
 				}
 			} while (blad = 1);
 		case '4':
+			dodajOperacja("Usuniêcie pojazdu");
 			do {
 				blad = 0;
-				cout << "Podaj ID pojazdu do edycji: ";		
+				cout << "Podaj ID pojazdu do usuniêcia: ";		
 				cin >> pre_id;
 				cout << endl;
 				
@@ -654,9 +624,10 @@ int wyswietlMenu() {
 			
 			switch(opcja) {
 				case '1':
+					dodajOperacja("Wyœwietlenie danych pojazdu");
 					do {
 						blad = 0;
-						cout << "Podaj ID pojazdu do edycji: ";		
+						cout << "Podaj ID pojazdu do wyœwietlenia: ";		
 						cin >> pre_id;
 						cout << endl;
 						
@@ -676,6 +647,7 @@ int wyswietlMenu() {
 					} while (blad = 1);
 					break;
 				case '2':
+					dodajOperacja("Wyœwietlenie danych wszystkich pojazdów");
 					do {
 						blad = 0;
 						cout << "Chcesz wyœwietliæ wyniki jako \"lista\", czy \"tabela\" ?" << endl;
@@ -717,9 +689,17 @@ int wyswietlMenu() {
 			}
 			break;
 		case '6':
+			dodajOperacja("Przeszukiwanie danych pojazdu");
 			przeszukajPojazdy();
 			break;
 		case '7':
+			dodajOperacja("Wyœwietlenie historii operacji");
+			for(int i = 0; i < historiaOperacji.size();i++) {
+				wyswietlOperacja(i);
+			}
+			break;
+		case '8':
+			dodajOperacja("Zakoñczenie pracy z programem");
 			cout << "Czy chcesz zapisaæ pracê przed wyjœciem ?" << endl;
 			cin >> zapisz;
 			cout << endl;
