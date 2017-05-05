@@ -492,7 +492,7 @@ string otworzPlik(string nazwaPliku, int procedura) {
 
 int wyswietlMenu() {
 	unsigned int ile, id, blad, nrOperacji;
-	string plik, zapisz, format, wynik;
+	string plik, zapisz, format, wynik, nazwa;
 	char opcja, pre_id;
 	blad = 0;
 	
@@ -752,7 +752,10 @@ int wyswietlMenu() {
 			cout << endl;
 			
 			if (!stricmp(zapisz.c_str(), "tak")) {
-				zapiszPlik("baza.txt");
+				cout << "Podaj nazwê pliku" << endl;	//Dodaæ filtrowanie nazwy ze znaków specjalnych "//\\/:?\"<>|"
+				cin >> nazwa;
+				nazwa = nazwa + ".txt";
+				zapiszPlik(nazwa);
 			}
 			return 1;
 			break;
