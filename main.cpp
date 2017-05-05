@@ -433,6 +433,11 @@ string otworzPlik(string nazwaPliku, int procedura) {
 	}	
 
 	if (!stricmp(exit.c_str(), "tak") || procedura == 1) {
+		cout << "Usuwanie poprzednich danych." << endl;	
+		for(int i=tablicaPojazdow.size(); i >= 0; i--) {
+			usunPojazd(i);
+		}
+	
 		cout << "Rozpoczynam odczyt z pliku." << endl;
 
 		fstream plik(nazwaPliku,ios::in);
@@ -492,7 +497,7 @@ string otworzPlik(string nazwaPliku, int procedura) {
 
 int wyswietlMenu() {
 	unsigned int ile, id, blad, nrOperacji;
-	string plik, zapisz, format, wynik, nazwa;
+	string plik, zapisz, format, wynik;
 	char opcja, pre_id;
 	blad = 0;
 	
@@ -752,10 +757,7 @@ int wyswietlMenu() {
 			cout << endl;
 			
 			if (!stricmp(zapisz.c_str(), "tak")) {
-				cout << "Podaj nazwê pliku" << endl;	//Dodaæ filtrowanie nazwy ze znaków specjalnych "//\\/:?\"<>|"
-				cin >> nazwa;
-				nazwa = nazwa + ".txt";
-				zapiszPlik(nazwa);
+				zapiszPlik("baza.txt");
 			}
 			return 1;
 			break;
