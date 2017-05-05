@@ -421,18 +421,19 @@ string zapiszPlik(string nazwaPliku) {
 }
 
 // Metoda odczytuj¹ca dane pojazdów z pliku i zapisuj¹ca je do wektora
-string otworzPlik(string nazwaPliku) {
+string otworzPlik(string nazwaPliku, int procedura) {
 	string exit;
 
+	if (procedura == 0) {
 	cout << "Otwarcie pliku nadpisze wszelkie wprowadzone zmiany." << endl;
 	cout << "Przed rozpoczeciem nale¿y zapisaæ swoj¹ prace." << endl;
 	cout << "Czy chcesz kontynuowaæ ?" << endl;
 	cin >> exit;
 	cout << endl;
+	}	
 
-	if (!stricmp(exit.c_str(), "tak")) {
+	if (!stricmp(exit.c_str(), "tak") || procedura == 1) {
 		cout << "Rozpoczynam odczyt z pliku." << endl;
-		cout << endl;
 
 		fstream plik(nazwaPliku,ios::in);
 		if( plik.good() ) {
@@ -544,7 +545,7 @@ int wyswietlMenu() {
 					cin >> plik;
 					cout << endl;
 					
-					wynik = otworzPlik(plik);
+					wynik = otworzPlik(plik,0);
 					historiaOperacji[nrOperacji].ustawWynik(wynik);
 					break;
 				case '2':
@@ -761,6 +762,11 @@ int wyswietlMenu() {
 
 int main(int argc, char *argv[]) {
 	setlocale(LC_ALL,"");
+	
+	cout << "Automatyczne otwieranie bazy Pojazdów." << endl;
+	cout << endl;
+	otworzPlik("baza.txt",1);
+	
 	int exit;
 
 	do {
