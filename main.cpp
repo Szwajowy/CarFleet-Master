@@ -29,8 +29,8 @@ class Pojazd {
 	// Konstruktor bezparametrowy  
 	Pojazd() {
     	Pojazd("Nieznany","Nieznana","Nieznany","Nieznany",0);
-    }    
-	
+    }      
+		
 	// Zwracanie i ustawianie wartoœci zmiennej "Typ"
 	string oddajTyp() {
 		return typ;	
@@ -295,7 +295,6 @@ string wyswietlPojazd(unsigned int id, string format) {
 }
 
 // Metoda filtruj¹ca dane pojazdu
-/* Dodanie mo¿liwoœci filtrowania po kilku atrybutach i ich wartoœciach */
 string przeszukajPojazdy() {
 	// Obs³uga b³êdu - wektor jest pusty
 	if (tablicaPojazdow.size()<=0){
@@ -437,7 +436,7 @@ string otworzPlik(string nazwaPliku, int procedura) {
 		for(int i=tablicaPojazdow.size(); i >= 0; i--) {
 			usunPojazd(i);
 		}
-	
+		
 		cout << "Rozpoczynam odczyt z pliku." << endl;
 
 		fstream plik(nazwaPliku,ios::in);
@@ -477,18 +476,18 @@ string otworzPlik(string nazwaPliku, int procedura) {
 			}
 			plik.close();
 		} else {
-			cout << "Wyst¹pi³ problem z plikiem."<< endl;
-			cout << "Upewnij siê, ¿e wprowadzi³eœ poprawn¹ nazwê i rozszerzenie pliku."<< endl;
+			cout << "Wyst¹pi³ problem z plikiem." << endl;
+			cout << "Upewnij siê, ¿e wprowadzi³eœ poprawn¹ nazwê i rozszerzenie pliku." << endl;
 			cout << endl;
 
 			return "x72";
 		}
-		cout << "Pomyœlnie zakoñczono odczyt z pliku."<< endl;
+		cout << "Pomyœlnie zakoñczono odczyt z pliku." << endl;
 		cout << endl;
 
 		return "x70";
 	} else {
-		cout << "Operacja zosta³a anulowana."<< endl;
+		cout << "Operacja zosta³a anulowana." << endl;
 		cout << endl;
 
 		return "x71";
@@ -759,6 +758,7 @@ int wyswietlMenu() {
 			if (!stricmp(zapisz.c_str(), "tak")) {
 				zapiszPlik("baza.txt");
 			}
+			
 			return 1;
 			break;
 	}
