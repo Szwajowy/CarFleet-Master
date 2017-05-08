@@ -420,10 +420,10 @@ string zapiszPlik(string nazwaPliku) {
 }
 
 // Metoda odczytuj¹ca dane pojazdów z pliku i zapisuj¹ca je do wektora
-string otworzPlik(string nazwaPliku, int procedura) {
+string otworzPlik(string nazwaPliku, string opcja) {
 	string exit;
 
-	if (procedura == 0) {
+	if (opcja == "otworz") {
 	cout << "Otwarcie pliku nadpisze wszelkie wprowadzone zmiany." << endl;
 	cout << "Przed rozpoczeciem nale¿y zapisaæ swoj¹ prace." << endl;
 	cout << "Czy chcesz kontynuowaæ ?" << endl;
@@ -431,10 +431,12 @@ string otworzPlik(string nazwaPliku, int procedura) {
 	cout << endl;
 	}	
 
-	if (!stricmp(exit.c_str(), "tak") || procedura == 1) {
-		cout << "Usuwanie poprzednich danych." << endl;	
-		for(int i=tablicaPojazdow.size(); i >= 0; i--) {
-			usunPojazd(i);
+	if (!stricmp(exit.c_str(), "tak") || opcja == "dolacz" || opcja == "wymus") {
+		if (opcja == "otworz") {
+			cout << "Usuwanie poprzednich danych." << endl;	
+			for(int i=tablicaPojazdow.size(); i >= 0; i--) {
+				usunPojazd(i);
+			}
 		}
 		
 		cout << "Rozpoczynam odczyt z pliku." << endl;
@@ -469,7 +471,11 @@ string otworzPlik(string nazwaPliku, int procedura) {
 					} else if (i==5) {
 						wiersz.erase(0,8);
 						vin = stoi(wiersz);
-						tablicaPojazdow.insert (tablicaPojazdow.begin() + id,Pojazd(typ,marka,model,silnik,vin));
+						if (opcja == "otworz" || opcja == "wymus") {
+							tablicaPojazdow.insert (tablicaPojazdow.begin() + id,Pojazd(typ,marka,model,silnik,vin));
+						} else if (opcja == "dolacz") {
+							tablicaPojazdow.push_back (Pojazd(typ,marka,model,silnik,vin));
+						}
 						i=0;
 					}
 				}
@@ -525,8 +531,9 @@ int wyswietlMenu() {
 	
 	switch (opcja) {
 		case '1':
-			cout << "1. Otwórz" << endl;
-			cout << "2. Zapisz" << endl;
+			cout << "1. Otwórz jako now¹ bazê" << endl;
+			cout << "2. Otwórz jako do³¹czenie do istniej¹cej bazy" << endl;
+			cout << "3. Zapisz" << endl;
 			cout << endl;
 			
 			do {
@@ -534,25 +541,36 @@ int wyswietlMenu() {
 				cin >> opcja;
 				cout << endl;
 				
-				if (opcja != '1' && opcja != '2') {
-					cout << "Proszê wybraæ opcjê 1 lub 2!" << endl;
+				if (opcja != '1' && opcja != '2' && opcja != '3') {
+					cout << "Proszê wybraæ opcjê od 1 do 3!" << endl;
 					cout << endl;
 				}
-			} while (opcja != '1' && opcja != '2');
+			} while (opcja != '1' && opcja != '2' && opcja != '3');
 			
 			switch(opcja) {
 				case '1':
-					dodajOperacja("Otwarcie pliku");
+					dodajOperacja("Otwarcie nowej bazy pojazdów");
 					nrOperacji = historiaOperacji.size() - 1;
 					
 					cout << "Podaj nazwê pliku do otwarcia (np. Pojazdy.txt)." << endl;
 					cin >> plik;
 					cout << endl;
 					
-					wynik = otworzPlik(plik,0);
+					wynik = otworzPlik(plik,"otworz");
 					historiaOperacji[nrOperacji].ustawWynik(wynik);
 					break;
 				case '2':
+					dodajOperacja("Dodanie pojazdów z pliku");
+					nrOperacji = historiaOperacji.size() - 1;
+					
+					cout << "Podaj nazwê pliku do otwarcia (np. Pojazdy.txt)." << endl;
+					cin >> plik;
+					cout << endl;
+					
+					wynik = otworzPlik(plik,"dolacz");
+					historiaOperacji[nrOperacji].ustawWynik(wynik);
+					break;
+				case '3':
 					dodajOperacja("Zapis do pliku");
 					nrOperacji = historiaOperacji.size() - 1;
 					
@@ -770,7 +788,7 @@ int main(int argc, char *argv[]) {
 	
 	cout << "Automatyczne otwieranie bazy Pojazdów." << endl;
 	cout << endl;
-	otworzPlik("baza.txt",1);
+	otworzPlik("baza.txt","wymus");
 	
 	int exit;
 
