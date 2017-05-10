@@ -4,6 +4,7 @@
 #include <fstream>
 #include <string>
 #include <cstring>
+#include <conio.h>
 
 #include "pojazd.hpp"
 #include "operacja.hpp"
@@ -36,15 +37,45 @@ string wyswietlOperacja(int id) {
 /* Dodaæ sprawdzanie podawanych warto¹ci i porównywanie ich do wzorów, sprecyzowanie obi¹zkowych i nieobowi¹zkowych danych */
 string dodajPojazd(unsigned int id) {
 	string typ, marka, model, paliwo, vin;
-
+	char opcja;
+	
 	cout << "Podaj typ pojazdu: ";
 	cin >> typ;
 	cout << "Podaj marke pojazdu: ";
 	cin >> marka;
 	cout << "Podaj model pojazdu: ";
 	cin >> model;
-	cout << "Podaj rodzaj paliwa: ";
-	cin >> paliwo;
+	cout << "Wybierz typ silnika: " << endl << "1. Benzyna" << endl << "2. Olej napêdowy" << endl << "3. LPG" << endl << "4. Benzyna + LPG" << endl << "5. Hybryda (Benzyna + Pr¹d)" << endl << "6. Elektryk (Pr¹d)" << endl;
+	do {
+		cout << endl;
+		opcja = getche();
+		cout << endl;
+		switch(opcja) {
+			case '1': 
+			    paliwo = "Benzyna";
+				break;
+			case '2': 
+				paliwo = "Diesel";
+				break;
+			case '3':
+				paliwo = "LPG";
+				break;
+			case '4': 
+				paliwo = "Benzyna + LPG";
+				break;
+			case '5': 
+				paliwo = "Hybryda" ;
+				break;
+			case '6': 
+				paliwo = "Elektryk";	
+				break;
+			case 'i': cout << "1. Benzyna" << endl << "2. Olej napêdowy" << endl << "3. LPG" << endl << "4. Benzyna + LPG" << endl << "5. Hybryda (Benzyna + Pr¹d)" << endl << "6. Elektryk (Pr¹d)" << endl;
+				break;
+			default: cout << "Wartoœæ z poza zakresu (1-6)! Naciœnij \"i\" aby wyœwietliæ dostêpne opcje." << endl;
+				 break;
+		}
+	} while (opcja != '1' && opcja != '2' && opcja != '3' && opcja != '4' && opcja != '5' && opcja != '6');	
+	
 	cout << "Podaj identyfikator VIN pojazdu: ";
 	cin >> vin;
 	
