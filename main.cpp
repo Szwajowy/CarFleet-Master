@@ -2,15 +2,117 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
-#include <string>
-
-#include "pojazd.hpp"
-#include "operacja.hpp"
+#include <cstring>
 
 using namespace std;
 
+// Wszelkie dane pojazdu i dostêp do operacji z nim zwi¹zanych przechowywane s¹ w klasie "Pojazd"
+/* Mo¿na jeszcze dodaæ podklasy odpowiadaj¹ce typom pojazdów (osobowe,ciê¿arowe,dostawcze) */
+class Pojazd {
+	private:
+	// Dane pojazdu
+	/* Sprecyzowaæ dane jakie powinniœmy przechowywaæ */
+	string typ, marka, model, silnik;
+	unsigned int vin;
+	 
+	public:     
+   	// Konstruktor parametrowy dla zmiennych obowi¹zkowych
+	/* Ustaliæ jakie zmienne s¹ obowi¹zkowe przy dodawaniu pojazdu */  
+	Pojazd(string typ, string marka, string model, string silnik,unsigned int vin) {
+    	this->typ = typ;
+        this->marka = marka;
+		this->model = model;
+    	this->silnik = silnik;
+    	this->vin = vin;
+   	}
+    
+	// Konstruktor bezparametrowy  
+	Pojazd() {
+    	Pojazd("Nieznany","Nieznana","Nieznany","Nieznany",0);
+    }      
+		
+	// Zwracanie i ustawianie wartoœci zmiennej "Typ"
+	string oddajTyp() {
+		return typ;	
+	}
+	
+	void ustawTyp(string typ) {
+		this->typ = typ;	
+	}
+	
+	// Zwracanie i ustawianie wartoœci zmiennej "Marka"
+	string oddajMarka() {
+		return marka;	
+	}
+	
+	void ustawMarka(string marka) {
+		this->marka = marka;	
+	}
+	
+	// Zwracanie i ustawianie wartoœci zmiennej "Model"
+	string oddajModel() {
+		return model;	
+	}
+	
+	void ustawModel(string model) {
+		this->model = model;	
+	}  
+	
+	// Zwracanie i ustawianie wartoœci zmiennej "Silnik"
+	string oddajSilnik() {
+		return silnik;	
+	}
+	
+	void ustawSilnik(string silnik) {
+		this->silnik = silnik;	
+	}
+	
+	// Zwracanie i ustawianie wartoœci zmiennej "VIN"
+	int oddajVin() {
+		return vin;	
+	}
+	
+	void ustawVIN(unsigned int vin) {
+		this->vin = vin;	
+	}     
+};
+
 // Definicja wektora obiektow Pojazd
 vector <Pojazd> tablicaPojazdow;
+
+class Operacja {
+	private:
+	// Dane operacji
+	string operacja, wynik;
+	 
+	public:
+	Operacja(string operacja, string wynik) {
+		this->operacja = operacja;
+		this->wynik = wynik;
+	}
+	
+	Operacja() {
+		Operacja("Operacja nieznana", "brak wyniku");
+	}
+	
+	// Zwracanie i ustawianie wartoœci zmiennej "operacja"
+	string oddajOperacja() {
+		return operacja;	
+	}
+	
+	void ustawOperacja(string operacja) {
+		this->operacja = operacja;	
+	} 
+	
+	// Zwracanie i ustawianie wartoœci zmiennej "wynik"
+	string oddajWynik() {
+		return wynik;	
+	}
+	
+	void ustawWynik(string wynik) {
+		this->wynik = wynik;	
+	} 	
+};
 
 // Definicja wektora stringów z historia operacji
 vector <Operacja> historiaOperacji;
@@ -34,7 +136,8 @@ string wyswietlOperacja(int id) {
 // (je¿eli dla danego indeksu istnieje ju¿ obiekt to nastêpuje inkrementacja indeksu tego obiektu i ka¿dego nastêpnego, czyli przesuniêcie w prawo i dopiero dodanie naszego obiektu)	
 /* Dodaæ sprawdzanie podawanych warto¹ci i porównywanie ich do wzorów, sprecyzowanie obi¹zkowych i nieobowi¹zkowych danych */
 string dodajPojazd(unsigned int id) {
-	string typ, marka, model, paliwo, vin;
+	string typ, marka, model, silnik;
+	unsigned int vin;
 
 	cout << "Podaj typ pojazdu: ";
 	cin >> typ;
@@ -42,12 +145,12 @@ string dodajPojazd(unsigned int id) {
 	cin >> marka;
 	cout << "Podaj model pojazdu: ";
 	cin >> model;
-	cout << "Podaj rodzaj paliwa: ";
-	cin >> paliwo;
+	cout << "Podaj typ silnika: ";
+	cin >> silnik;
 	cout << "Podaj identyfikator VIN pojazdu: ";
 	cin >> vin;
 	
-	tablicaPojazdow.insert (tablicaPojazdow.begin() + id,Pojazd(typ,marka,model,paliwo,vin));
+	tablicaPojazdow.insert (tablicaPojazdow.begin() + id,Pojazd(typ,marka,model,silnik,vin));
 	cout << endl;
 
 	return "x10";
@@ -77,7 +180,8 @@ string edytujPojazd(unsigned int id) {
 		return "x22";
 	}
 	
-	string typ, marka, model, paliwo, vin, atrybut, exit;
+	string typ, marka, model, silnik, atrybut, exit;
+	unsigned int vin;
 	
 	do {
 		cout << "Podaj nazwe w³asnoœci pojazdu: ";
@@ -99,11 +203,11 @@ string edytujPojazd(unsigned int id) {
 			cin >> model;
 			cout << endl;
 			tablicaPojazdow[id].ustawModel(model);
-		} else if (!stricmp(atrybut.c_str(), "rodzaj paliwa") || !stricmp(atrybut.c_str(), "paliwo")) {
-			cout << "Podaj rodzaj paliwa: ";
-			cin >> paliwo;
+		} else if (!stricmp(atrybut.c_str(), "typ silnika") || !stricmp(atrybut.c_str(), "silnik")) {
+			cout << "Podaj typ silnika: ";
+			cin >> silnik;
 			cout << endl;
-			tablicaPojazdow[id].ustawPaliwo(paliwo);
+			tablicaPojazdow[id].ustawSilnik(silnik);
 		} else if (!stricmp(atrybut.c_str(), "nr.vin") || !stricmp(atrybut.c_str(), "nr vin") || !stricmp(atrybut.c_str(), "numer vin")) {
 			cout << "Podaj identyfikator VIN pojazdu: ";
 			cin >> vin;
@@ -168,7 +272,7 @@ string wyswietlPojazd(unsigned int id, string format) {
 		cout << "Typ: " << tablicaPojazdow[id].oddajTyp() << endl;
 	    cout << "Marka: " << tablicaPojazdow[id].oddajMarka() << endl;
 	    cout << "Model: " << tablicaPojazdow[id].oddajModel() << endl;
-	    cout << "Rodzaj paliwa: " << tablicaPojazdow[id].oddajPaliwo() << endl;
+	    cout << "Typ silnika: " << tablicaPojazdow[id].oddajSilnik() << endl;
 	    cout << "Nr. VIN: " << tablicaPojazdow[id].oddajVin() << endl;
 	    cout << endl;
     } else if (!stricmp(format.c_str(), "tabela")) {
@@ -181,7 +285,7 @@ string wyswietlPojazd(unsigned int id, string format) {
 	    cout.width( 15 );
 	    cout << left << tablicaPojazdow[id].oddajModel();
 	    cout.width( 15 );
-	    cout << left << tablicaPojazdow[id].oddajPaliwo();
+	    cout << left << tablicaPojazdow[id].oddajSilnik();
 	    cout.width( 15 );
 	    cout << left << tablicaPojazdow[id].oddajVin();
 	    cout << endl;	
@@ -223,7 +327,7 @@ string przeszukajPojazdy() {
 		cout.width( 15 );
 		cout << left << "Model"; 
 		cout.width( 15 );
-		cout << left << "Rodzaj paliwa"; 
+		cout << left << "Typ silnika"; 
 		cout.width( 15 );
 		cout << left << "Nr. VIN";
 		cout << endl;
@@ -245,13 +349,13 @@ string przeszukajPojazdy() {
 				wyswietlPojazd(i,format);
 				znalezionoWyniki += 1;	
 			}
-		} else if (!stricmp(atrybut.c_str(), "rodzaj paliwa") || !stricmp(atrybut.c_str(), "paliwo")) {
-			if (tablicaPojazdow[i].oddajPaliwo()==wartosc) {
+		} else if (!stricmp(atrybut.c_str(), "typ silnika") || !stricmp(atrybut.c_str(), "silnik")) {
+			if (tablicaPojazdow[i].oddajSilnik()==wartosc) {
 				wyswietlPojazd(i,format);
 				znalezionoWyniki += 1;	
 			}
 		} else if (atrybut == "Nr.Vin" || atrybut == "nr.vin" || atrybut == "NR.VIN" || atrybut == "Vin" || atrybut == "vin" || atrybut == "VIN" || atrybut == "NrVin" || atrybut == "nrvin" || atrybut == "NRVIN") {
-			if (tablicaPojazdow[i].oddajVin()==wartosc) {
+			if (tablicaPojazdow[i].oddajVin()==stoi(wartosc)) {
 				wyswietlPojazd(i,format);
 				znalezionoWyniki += 1;	
 			}
@@ -295,7 +399,7 @@ string zapiszPlik(string nazwaPliku) {
 			plik << "Typ: " << tablicaPojazdow[i].oddajTyp() << endl;
 			plik << "Marka: " << tablicaPojazdow[i].oddajMarka() << endl;
 			plik << "Model: " << tablicaPojazdow[i].oddajModel() << endl;
-			plik << "Rodzaj paliwa: " << tablicaPojazdow[i].oddajPaliwo() << endl;
+			plik << "Typ silnika: " << tablicaPojazdow[i].oddajSilnik() << endl;
 			plik << "Nr.VIN: " << tablicaPojazdow[i].oddajVin() << endl;
 			plik << endl;
 			plik.flush();
@@ -339,8 +443,8 @@ string otworzPlik(string nazwaPliku, string opcja) {
 
 		fstream plik(nazwaPliku,ios::in);
 		if( plik.good() ) {
-			string wiersz, typ, marka, model, paliwo, vin;
-			unsigned int id, i = 0;
+			string wiersz, typ, marka, model, silnik;
+			unsigned int id, vin, i = 0;
 			while ( !plik.eof() ) {
 				getline(plik, wiersz);
 				if (wiersz != "") {
@@ -362,15 +466,15 @@ string otworzPlik(string nazwaPliku, string opcja) {
 						i++;
 					} else if (i==4) {
 						wiersz.erase(0,13);
-						paliwo = wiersz;
+						silnik = wiersz;
 						i++;
 					} else if (i==5) {
 						wiersz.erase(0,8);
 						vin = stoi(wiersz);
 						if (opcja == "otworz" || opcja == "wymus") {
-							tablicaPojazdow.insert (tablicaPojazdow.begin() + id,Pojazd(typ,marka,model,paliwo,vin));
+							tablicaPojazdow.insert (tablicaPojazdow.begin() + id,Pojazd(typ,marka,model,silnik,vin));
 						} else if (opcja == "dolacz") {
-							tablicaPojazdow.push_back (Pojazd(typ,marka,model,paliwo,vin));
+							tablicaPojazdow.push_back (Pojazd(typ,marka,model,silnik,vin));
 						}
 						i=0;
 					}
