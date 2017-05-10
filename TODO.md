@@ -1,4 +1,4 @@
-#Do zrobienia:
+# Do zrobienia:
 * sortowanie
 * filtrowanie po kilku własnościach i wartościach
 * "Project Utracki" - secret
