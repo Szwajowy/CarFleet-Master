@@ -435,30 +435,30 @@ int wyswietlMenu() {
 	blad = 0;
 	
 	cout << "#############################" << endl;
-	cout << "1. Plik" << endl;
-	cout << "2. Dodaj pojazd" << endl;
-	cout << "3. Edytuj pojazd" << endl;
-	cout << "4. Usuñ pojazd" << endl;
-	cout << "5. Wyœwietl pojazd/y" << endl;
-	cout << "6. Filtruj pojazdy" << endl;
-	cout << "7. Wyœwietl historiê operacji" << endl;
-	cout << "8. Wyjœcie" << endl;
+	cout << "1. [P]lik" << endl;
+	cout << "2. [D]odaj pojazd" << endl;
+	cout << "3. [E]dytuj pojazd" << endl;
+	cout << "4. [U]suñ pojazd" << endl;
+	cout << "5. [W]yœwietl pojazd/y" << endl;
+	cout << "6. [F]iltruj pojazdy" << endl;
+	cout << "7. Wyœwietl [h]istoriê operacji" << endl;
+	cout << "8. W[y]jœcie" << endl;
 	cout << "#############################" << endl;
 	cout << endl;
 	
 	do {
-		cout << "Podaj numer opcji: ";
-		cin >> opcja;
+		cout << "Podaj numer/symbol opcji: ";
+		opcja = getche();
 		cout << endl;
 		
-		if (opcja != '1' && opcja != '2' && opcja != '3' && opcja != '4' && opcja != '5' && opcja != '6' && opcja != '7' && opcja != '8') {
-			cout << "Proszê wybraæ opcjê z zakresu od 1 do 7!" << endl;
+		if (opcja != '1' && opcja != '2' && opcja != '3' && opcja != '4' && opcja != '5' && opcja != '6' && opcja != '7' && opcja != '8' && opcja != 'p' && opcja != 'd' && opcja != 'e' && opcja != 'u' && opcja != 'w' && opcja != 'p' && opcja != 'f' && opcja != 'h' && opcja != 'y' && opcja != 'i') {
+			cout << "Proszê wybraæ opcjê z zakresu. Wciœnij \"i\" aby wyœwietliæ dostêpne opcje."  << endl;
 			cout << endl;
 		}
-	} while (opcja != '1' && opcja != '2' && opcja != '3' && opcja != '4' && opcja != '5' && opcja != '6' && opcja != '7' && opcja != '8');
+	} while (opcja != '1' && opcja != '2' && opcja != '3' && opcja != '4' && opcja != '5' && opcja != '6' && opcja != '7' && opcja != '8' && opcja != 'p' && opcja != 'd' && opcja != 'e' && opcja != 'u' && opcja != 'w' && opcja != 'p' && opcja != 'f'  && opcja != 'h' && opcja != 'y' && opcja != 'i');
 	
 	switch (opcja) {
-		case '1':
+		case '1': case 'p':
 			cout << "1. Otwórz jako now¹ bazê" << endl;
 			cout << "2. Otwórz jako do³¹czenie do istniej¹cej bazy" << endl;
 			cout << "3. Zapisz" << endl;
@@ -476,7 +476,7 @@ int wyswietlMenu() {
 			} while (opcja != '1' && opcja != '2' && opcja != '3');
 			
 			switch(opcja) {
-				case '1':
+				case '1': 
 					dodajOperacja("Otwarcie nowej bazy pojazdów");
 					nrOperacji = historiaOperacji.size() - 1;
 					
@@ -511,7 +511,7 @@ int wyswietlMenu() {
 					break;
 			}
 			break;
-		case '2':		
+		case '2' : case 'd':		
 			dodajOperacja("Dodanie pojazdu");
 			nrOperacji = historiaOperacji.size() - 1;
 			
@@ -536,7 +536,7 @@ int wyswietlMenu() {
 				}
 			}
 			break;
-		case '3':
+		case '3': case 'e':
 			dodajOperacja("Edycja pojazdu");
 			nrOperacji = historiaOperacji.size() - 1;
 			
@@ -556,7 +556,7 @@ int wyswietlMenu() {
 					blad = 1;
 				}
 			} while (blad = 1);
-		case '4':
+		case '4': case 'u':
 			dodajOperacja("Usuniêcie pojazdu");
 			nrOperacji = historiaOperacji.size() - 1;
 			
@@ -577,7 +577,7 @@ int wyswietlMenu() {
 				}
 			} while (blad = 1);
 			break;	
-		case '5':
+		case '5': case 'w':
 			cout << "1. Wyœwietl jeden pojazd o podanym ID." << endl;
 			cout << "2. Wyœwietl wszystkie pojazdy." << endl;
 			cout << endl;
@@ -670,14 +670,14 @@ int wyswietlMenu() {
 					} while (blad = 1);
 			}
 			break;
-		case '6':
+		case '6': case 'f':
 			dodajOperacja("Przeszukiwanie danych pojazdu");
 			nrOperacji = historiaOperacji.size() - 1;
 			
 			wynik = przeszukajPojazdy();
 			historiaOperacji[nrOperacji].ustawWynik(wynik);
 			break;
-		case '7':
+		case '7': case 'h':
 			dodajOperacja("Wyœwietlenie historii operacji");
 			nrOperacji = historiaOperacji.size() - 1;
 
@@ -693,7 +693,7 @@ int wyswietlMenu() {
 			}
 			cout << endl;
 			break;
-		case '8':
+		case '8': case 'y':
 			dodajOperacja("Zakoñczenie pracy z programem");
 			nrOperacji = historiaOperacji.size() - 1;
 			
@@ -706,6 +706,25 @@ int wyswietlMenu() {
 			}
 			
 			return 1;
+			break;
+		case 'i': 
+				cout << "#############################" << endl;
+				cout << "1. [P]lik" << endl;
+				cout << "2. [D]odaj pojazd" << endl;
+				cout << "3. [E]dytuj pojazd" << endl;
+				cout << "4. [U]suñ pojazd" << endl;
+				cout << "5. [W]yœwietl pojazd/y" << endl;
+				cout << "6. [F]iltruj pojazdy" << endl;
+				cout << "7. Wyœwietl [h]istoriê operacji" << endl;
+				cout << "8. W[y]jœcie" << endl;
+				cout << "#############################" << endl;
+				cout << endl;
+			break;	
+		default: 
+			if (opcja != '1' && opcja != '2' && opcja != '3' && opcja != '4' && opcja != '5' && opcja != '6' && opcja != '7' && opcja != '8' && opcja != 'p' && opcja != 'd' && opcja != 'e' && opcja != 'u' && opcja != 'w' && opcja != 'p' && opcja != 'f' && opcja != 'h' && opcja != 'y' && opcja != 'i') {
+			cout << "Proszê wybraæ opcjê z zakresu. Wciœnij \"i\" aby wyœwietliæ dostêpne opcje."  << endl;
+			cout << endl;
+			}
 			break;
 	}
 	return 0;
