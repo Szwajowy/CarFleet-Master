@@ -12,3 +12,5 @@
 * dopasować wyświetlane informacje do okna konsoli (ostatni wiersz jako menu opcji, indeks strony, itd)
 * wybor opcji wcisnieciem klawisza, a nie wpisanym znakiem
 * wyświetlanie bazy pojazdów podzielić na strony
+* ustalić jakie zmienne są obowiązkowe
+* sprecyzować dane jakie powinniśmy przechowywać
