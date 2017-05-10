@@ -1,5 +1,5 @@
 # CarFleet-Master 
-## This program let you manage your fleet of cars LIKE A BOSS !
+__This program let you manage your fleet of cars LIKE A BOSS !__
 
 CarFleet-Master to projekt studencki w ramach zaliczenia przedmiotu "Języki programowania obiektowego i graficznego" realizowany przez: Krzysztof Czaja, Andrzej Karwat.
 
