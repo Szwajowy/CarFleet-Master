@@ -14,3 +14,4 @@
 * wyświetlanie bazy pojazdów podzielić na strony
 * ustalić jakie zmienne są obowiązkowe
 * sprecyzować dane jakie powinniśmy przechowywać
+* dodać podklasy odpowiadające typom pojazdów (osobowe,ciężarowe,dostawcze)
