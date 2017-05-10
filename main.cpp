@@ -3,6 +3,7 @@
 #include <vector>
 #include <fstream>
 #include <string>
+#include <cstring>
 
 #include "pojazd.hpp"
 #include "operacja.hpp"
