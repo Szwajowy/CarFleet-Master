@@ -5,6 +5,7 @@
 #include <vector>
 #include <conio.h>
 #include <cstdlib>
+#include <regex>
 
 #include "pojazd.hpp"
 #include "operacja.hpp"
@@ -37,7 +38,11 @@ vector <Pojazd> tablicaPojazdow;
 /* Dodaæ sprawdzanie podawanych warto¹ci i porównywanie ich do wzorów, sprecyzowanie obi¹zkowych i nieobowi¹zkowych danych */
 string dodajPojazd(unsigned int id) {
 	string typ, marka, model, paliwo, vin;
+	unsigned int blad;
 	char opcja;
+	
+	regex wzorzecVin("[0-9A-Z^IOQ]{13}[0-9]{4}");
+	smatch sprawdzonyVin;
 	
 	cout << "Podaj typ pojazdu: ";
 	cin >> typ;
@@ -45,26 +50,19 @@ string dodajPojazd(unsigned int id) {
 	cin >> marka;
 	cout << "Podaj model pojazdu: ";
 	cin >> model;
-	cout << "Wybierz typ silnika: ";
+	cout << "Podaj rodzaj paliwa: ";
 	cin >> paliwo;
-	cout << "Podaj identyfikator VIN pojazdu: " << endl;
-			char litera;
-			string vin_string;
-			cout << "Twój vin to: ";
-			do {
-				litera = getch();
-				
-				if(litera == 8 && (vin_string.length() > 1) ) {
-					vin_string.pop_back();
-				} else if(litera != 'i' && litera != 'I' && litera != 'o' && litera != 'O' && litera != 'q' && litera != 'Q' && litera != 127 && litera != 8 && litera != 0 && litera != 32 && litera != 13) { 
-					vin_string += litera;
-					if (vin_string.length() < 16 ) {
-						cout << litera;
-					}
-				}
-				
-			} while (vin_string.length() < 17 );
-			 vin = vin_string;
+	// VIN - 1-13 cyfry/litery, 14-17 cyfry np. HGGFHG456GFDB0675
+	do {
+		blad = 0;
+		cout << "Podaj identyfikator VIN pojazdu: " << endl;
+		cin >> vin;
+	
+		if( !regex_search(vin,sprawdzonyVin,wzorzecVin)) {
+			cout << "B³¹d! VIN mo¿e siê sk³adaæ tylko z cyfr i liter wy³¹czaj¹c I,O,Q, a tak¿e cztery ostanie znaki s¹ zawsze cyframi.";
+			blad = 1;
+		}
+	} while (blad != 0);
 	
 	tablicaPojazdow.insert (tablicaPojazdow.begin() + id,Pojazd(typ,marka,model,paliwo,vin));
 	cout << endl;
@@ -97,6 +95,10 @@ string edytujPojazd(unsigned int id) {
 	}
 	
 	string typ, marka, model, paliwo, vin, atrybut, exit;
+	unsigned int blad;
+	
+	regex wzorzecVin("[0-9A-Z^IOQ]{13}[0-9]{4}");
+	smatch sprawdzonyVin;
 	
 	do {
 		cout << "Podaj nazwe w³asnoœci pojazdu: ";
@@ -125,7 +127,17 @@ string edytujPojazd(unsigned int id) {
 			tablicaPojazdow[id].ustawPaliwo(paliwo);
 		} else if (!stricmp(atrybut.c_str(), "nr.vin") || !stricmp(atrybut.c_str(), "nr vin") || !stricmp(atrybut.c_str(), "numer vin")) {
 			cout << "Podaj identyfikator VIN pojazdu: ";
-			cin >> vin;
+			// VIN - 1-13 cyfry/litery, 14-17 cyfry np. HGGFHG456GFDB0675
+			do {
+				blad = 0;
+				cout << "Podaj identyfikator VIN pojazdu: " << endl;
+				cin >> vin;
+			
+				if( !regex_search(vin,sprawdzonyVin,wzorzecVin)) {
+					cout << "B³¹d! VIN mo¿e siê sk³adaæ tylko z cyfr i liter wy³¹czaj¹c I,O,Q, a tak¿e cztery ostanie znaki s¹ zawsze cyframi.";
+					blad = 1;
+				}
+			} while (blad != 0);
 			cout << endl;
 			tablicaPojazdow[id].ustawVIN(vin);
 		}
