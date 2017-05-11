@@ -2,117 +2,17 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <string>
 #include <cstring>
+#include <conio.h>
+
+#include "pojazd.hpp"
+#include "operacja.hpp"
 
 using namespace std;
 
-// Wszelkie dane pojazdu i dostêp do operacji z nim zwi¹zanych przechowywane s¹ w klasie "Pojazd"
-/* Mo¿na jeszcze dodaæ podklasy odpowiadaj¹ce typom pojazdów (osobowe,ciê¿arowe,dostawcze) */
-class Pojazd {
-	private:
-	// Dane pojazdu
-	/* Sprecyzowaæ dane jakie powinniœmy przechowywaæ */
-	string typ, marka, model, silnik;
-	unsigned int vin;
-	 
-	public:     
-   	// Konstruktor parametrowy dla zmiennych obowi¹zkowych
-	/* Ustaliæ jakie zmienne s¹ obowi¹zkowe przy dodawaniu pojazdu */  
-	Pojazd(string typ, string marka, string model, string silnik,unsigned int vin) {
-    	this->typ = typ;
-        this->marka = marka;
-		this->model = model;
-    	this->silnik = silnik;
-    	this->vin = vin;
-   	}
-    
-	// Konstruktor bezparametrowy  
-	Pojazd() {
-    	Pojazd("Nieznany","Nieznana","Nieznany","Nieznany",0);
-    }      
-		
-	// Zwracanie i ustawianie wartoœci zmiennej "Typ"
-	string oddajTyp() {
-		return typ;	
-	}
-	
-	void ustawTyp(string typ) {
-		this->typ = typ;	
-	}
-	
-	// Zwracanie i ustawianie wartoœci zmiennej "Marka"
-	string oddajMarka() {
-		return marka;	
-	}
-	
-	void ustawMarka(string marka) {
-		this->marka = marka;	
-	}
-	
-	// Zwracanie i ustawianie wartoœci zmiennej "Model"
-	string oddajModel() {
-		return model;	
-	}
-	
-	void ustawModel(string model) {
-		this->model = model;	
-	}  
-	
-	// Zwracanie i ustawianie wartoœci zmiennej "Silnik"
-	string oddajSilnik() {
-		return silnik;	
-	}
-	
-	void ustawSilnik(string silnik) {
-		this->silnik = silnik;	
-	}
-	
-	// Zwracanie i ustawianie wartoœci zmiennej "VIN"
-	int oddajVin() {
-		return vin;	
-	}
-	
-	void ustawVIN(unsigned int vin) {
-		this->vin = vin;	
-	}     
-};
-
 // Definicja wektora obiektow Pojazd
 vector <Pojazd> tablicaPojazdow;
-
-class Operacja {
-	private:
-	// Dane operacji
-	string operacja, wynik;
-	 
-	public:
-	Operacja(string operacja, string wynik) {
-		this->operacja = operacja;
-		this->wynik = wynik;
-	}
-	
-	Operacja() {
-		Operacja("Operacja nieznana", "brak wyniku");
-	}
-	
-	// Zwracanie i ustawianie wartoœci zmiennej "operacja"
-	string oddajOperacja() {
-		return operacja;	
-	}
-	
-	void ustawOperacja(string operacja) {
-		this->operacja = operacja;	
-	} 
-	
-	// Zwracanie i ustawianie wartoœci zmiennej "wynik"
-	string oddajWynik() {
-		return wynik;	
-	}
-	
-	void ustawWynik(string wynik) {
-		this->wynik = wynik;	
-	} 	
-};
 
 // Definicja wektora stringów z historia operacji
 vector <Operacja> historiaOperacji;
@@ -136,21 +36,50 @@ string wyswietlOperacja(int id) {
 // (je¿eli dla danego indeksu istnieje ju¿ obiekt to nastêpuje inkrementacja indeksu tego obiektu i ka¿dego nastêpnego, czyli przesuniêcie w prawo i dopiero dodanie naszego obiektu)	
 /* Dodaæ sprawdzanie podawanych warto¹ci i porównywanie ich do wzorów, sprecyzowanie obi¹zkowych i nieobowi¹zkowych danych */
 string dodajPojazd(unsigned int id) {
-	string typ, marka, model, silnik;
-	unsigned int vin;
-
+	string typ, marka, model, paliwo, vin;
+	char opcja;
+	
 	cout << "Podaj typ pojazdu: ";
 	cin >> typ;
 	cout << "Podaj marke pojazdu: ";
 	cin >> marka;
 	cout << "Podaj model pojazdu: ";
 	cin >> model;
-	cout << "Podaj typ silnika: ";
-	cin >> silnik;
+	cout << "Wybierz typ silnika: " << endl << "1. Benzyna" << endl << "2. Olej napêdowy" << endl << "3. LPG" << endl << "4. Benzyna + LPG" << endl << "5. Hybryda (Benzyna + Pr¹d)" << endl << "6. Elektryk (Pr¹d)" << endl;
+	do {
+		cout << endl;
+		opcja = getche();
+		cout << endl;
+		switch(opcja) {
+			case '1': 
+			    paliwo = "Benzyna";
+				break;
+			case '2': 
+				paliwo = "Diesel";
+				break;
+			case '3':
+				paliwo = "LPG";
+				break;
+			case '4': 
+				paliwo = "Benzyna + LPG";
+				break;
+			case '5': 
+				paliwo = "Hybryda" ;
+				break;
+			case '6': 
+				paliwo = "Elektryk";	
+				break;
+			case 'i': cout << "1. Benzyna" << endl << "2. Olej napêdowy" << endl << "3. LPG" << endl << "4. Benzyna + LPG" << endl << "5. Hybryda (Benzyna + Pr¹d)" << endl << "6. Elektryk (Pr¹d)" << endl;
+				break;
+			default: cout << "Wartoœæ z poza zakresu (1-6)! Naciœnij \"i\" aby wyœwietliæ dostêpne opcje." << endl;
+				 break;
+		}
+	} while (opcja != '1' && opcja != '2' && opcja != '3' && opcja != '4' && opcja != '5' && opcja != '6');	
+	
 	cout << "Podaj identyfikator VIN pojazdu: ";
 	cin >> vin;
 	
-	tablicaPojazdow.insert (tablicaPojazdow.begin() + id,Pojazd(typ,marka,model,silnik,vin));
+	tablicaPojazdow.insert (tablicaPojazdow.begin() + id,Pojazd(typ,marka,model,paliwo,vin));
 	cout << endl;
 
 	return "x10";
@@ -180,8 +109,7 @@ string edytujPojazd(unsigned int id) {
 		return "x22";
 	}
 	
-	string typ, marka, model, silnik, atrybut, exit;
-	unsigned int vin;
+	string typ, marka, model, paliwo, vin, atrybut, exit;
 	
 	do {
 		cout << "Podaj nazwe w³asnoœci pojazdu: ";
@@ -203,11 +131,11 @@ string edytujPojazd(unsigned int id) {
 			cin >> model;
 			cout << endl;
 			tablicaPojazdow[id].ustawModel(model);
-		} else if (!stricmp(atrybut.c_str(), "typ silnika") || !stricmp(atrybut.c_str(), "silnik")) {
-			cout << "Podaj typ silnika: ";
-			cin >> silnik;
+		} else if (!stricmp(atrybut.c_str(), "rodzaj paliwa") || !stricmp(atrybut.c_str(), "paliwo")) {
+			cout << "Podaj rodzaj paliwa: ";
+			cin >> paliwo;
 			cout << endl;
-			tablicaPojazdow[id].ustawSilnik(silnik);
+			tablicaPojazdow[id].ustawPaliwo(paliwo);
 		} else if (!stricmp(atrybut.c_str(), "nr.vin") || !stricmp(atrybut.c_str(), "nr vin") || !stricmp(atrybut.c_str(), "numer vin")) {
 			cout << "Podaj identyfikator VIN pojazdu: ";
 			cin >> vin;
@@ -272,7 +200,7 @@ string wyswietlPojazd(unsigned int id, string format) {
 		cout << "Typ: " << tablicaPojazdow[id].oddajTyp() << endl;
 	    cout << "Marka: " << tablicaPojazdow[id].oddajMarka() << endl;
 	    cout << "Model: " << tablicaPojazdow[id].oddajModel() << endl;
-	    cout << "Typ silnika: " << tablicaPojazdow[id].oddajSilnik() << endl;
+	    cout << "Rodzaj paliwa: " << tablicaPojazdow[id].oddajPaliwo() << endl;
 	    cout << "Nr. VIN: " << tablicaPojazdow[id].oddajVin() << endl;
 	    cout << endl;
     } else if (!stricmp(format.c_str(), "tabela")) {
@@ -285,7 +213,7 @@ string wyswietlPojazd(unsigned int id, string format) {
 	    cout.width( 15 );
 	    cout << left << tablicaPojazdow[id].oddajModel();
 	    cout.width( 15 );
-	    cout << left << tablicaPojazdow[id].oddajSilnik();
+	    cout << left << tablicaPojazdow[id].oddajPaliwo();
 	    cout.width( 15 );
 	    cout << left << tablicaPojazdow[id].oddajVin();
 	    cout << endl;	
@@ -327,7 +255,7 @@ string przeszukajPojazdy() {
 		cout.width( 15 );
 		cout << left << "Model"; 
 		cout.width( 15 );
-		cout << left << "Typ silnika"; 
+		cout << left << "Rodzaj paliwa"; 
 		cout.width( 15 );
 		cout << left << "Nr. VIN";
 		cout << endl;
@@ -349,13 +277,13 @@ string przeszukajPojazdy() {
 				wyswietlPojazd(i,format);
 				znalezionoWyniki += 1;	
 			}
-		} else if (!stricmp(atrybut.c_str(), "typ silnika") || !stricmp(atrybut.c_str(), "silnik")) {
-			if (tablicaPojazdow[i].oddajSilnik()==wartosc) {
+		} else if (!stricmp(atrybut.c_str(), "rodzaj paliwa") || !stricmp(atrybut.c_str(), "paliwo")) {
+			if (tablicaPojazdow[i].oddajPaliwo()==wartosc) {
 				wyswietlPojazd(i,format);
 				znalezionoWyniki += 1;	
 			}
 		} else if (atrybut == "Nr.Vin" || atrybut == "nr.vin" || atrybut == "NR.VIN" || atrybut == "Vin" || atrybut == "vin" || atrybut == "VIN" || atrybut == "NrVin" || atrybut == "nrvin" || atrybut == "NRVIN") {
-			if (tablicaPojazdow[i].oddajVin()==stoi(wartosc)) {
+			if (tablicaPojazdow[i].oddajVin()==wartosc) {
 				wyswietlPojazd(i,format);
 				znalezionoWyniki += 1;	
 			}
@@ -399,7 +327,7 @@ string zapiszPlik(string nazwaPliku) {
 			plik << "Typ: " << tablicaPojazdow[i].oddajTyp() << endl;
 			plik << "Marka: " << tablicaPojazdow[i].oddajMarka() << endl;
 			plik << "Model: " << tablicaPojazdow[i].oddajModel() << endl;
-			plik << "Typ silnika: " << tablicaPojazdow[i].oddajSilnik() << endl;
+			plik << "Rodzaj paliwa: " << tablicaPojazdow[i].oddajPaliwo() << endl;
 			plik << "Nr.VIN: " << tablicaPojazdow[i].oddajVin() << endl;
 			plik << endl;
 			plik.flush();
@@ -443,8 +371,8 @@ string otworzPlik(string nazwaPliku, string opcja) {
 
 		fstream plik(nazwaPliku,ios::in);
 		if( plik.good() ) {
-			string wiersz, typ, marka, model, silnik;
-			unsigned int id, vin, i = 0;
+			string wiersz, typ, marka, model, paliwo, vin;
+			unsigned int id, i = 0;
 			while ( !plik.eof() ) {
 				getline(plik, wiersz);
 				if (wiersz != "") {
@@ -466,15 +394,15 @@ string otworzPlik(string nazwaPliku, string opcja) {
 						i++;
 					} else if (i==4) {
 						wiersz.erase(0,13);
-						silnik = wiersz;
+						paliwo = wiersz;
 						i++;
 					} else if (i==5) {
 						wiersz.erase(0,8);
 						vin = stoi(wiersz);
 						if (opcja == "otworz" || opcja == "wymus") {
-							tablicaPojazdow.insert (tablicaPojazdow.begin() + id,Pojazd(typ,marka,model,silnik,vin));
+							tablicaPojazdow.insert (tablicaPojazdow.begin() + id,Pojazd(typ,marka,model,paliwo,vin));
 						} else if (opcja == "dolacz") {
-							tablicaPojazdow.push_back (Pojazd(typ,marka,model,silnik,vin));
+							tablicaPojazdow.push_back (Pojazd(typ,marka,model,paliwo,vin));
 						}
 						i=0;
 					}
@@ -507,30 +435,30 @@ int wyswietlMenu() {
 	blad = 0;
 	
 	cout << "#############################" << endl;
-	cout << "1. Plik" << endl;
-	cout << "2. Dodaj pojazd" << endl;
-	cout << "3. Edytuj pojazd" << endl;
-	cout << "4. Usuñ pojazd" << endl;
-	cout << "5. Wyœwietl pojazd/y" << endl;
-	cout << "6. Filtruj pojazdy" << endl;
-	cout << "7. Wyœwietl historiê operacji" << endl;
-	cout << "8. Wyjœcie" << endl;
+	cout << "1. [P]lik" << endl;
+	cout << "2. [D]odaj pojazd" << endl;
+	cout << "3. [E]dytuj pojazd" << endl;
+	cout << "4. [U]suñ pojazd" << endl;
+	cout << "5. [W]yœwietl pojazd/y" << endl;
+	cout << "6. [F]iltruj pojazdy" << endl;
+	cout << "7. Wyœwietl [h]istoriê operacji" << endl;
+	cout << "8. W[y]jœcie" << endl;
 	cout << "#############################" << endl;
 	cout << endl;
 	
 	do {
-		cout << "Podaj numer opcji: ";
-		cin >> opcja;
+		cout << "Podaj numer/symbol opcji: ";
+		opcja = getche();
 		cout << endl;
 		
-		if (opcja != '1' && opcja != '2' && opcja != '3' && opcja != '4' && opcja != '5' && opcja != '6' && opcja != '7' && opcja != '8') {
-			cout << "Proszê wybraæ opcjê z zakresu od 1 do 7!" << endl;
+		if (opcja != '1' && opcja != '2' && opcja != '3' && opcja != '4' && opcja != '5' && opcja != '6' && opcja != '7' && opcja != '8' && opcja != 'p' && opcja != 'd' && opcja != 'e' && opcja != 'u' && opcja != 'w' && opcja != 'p' && opcja != 'f' && opcja != 'h' && opcja != 'y' && opcja != 'i') {
+			cout << "Proszê wybraæ opcjê z zakresu. Wciœnij \"i\" aby wyœwietliæ dostêpne opcje."  << endl;
 			cout << endl;
 		}
-	} while (opcja != '1' && opcja != '2' && opcja != '3' && opcja != '4' && opcja != '5' && opcja != '6' && opcja != '7' && opcja != '8');
+	} while (opcja != '1' && opcja != '2' && opcja != '3' && opcja != '4' && opcja != '5' && opcja != '6' && opcja != '7' && opcja != '8' && opcja != 'p' && opcja != 'd' && opcja != 'e' && opcja != 'u' && opcja != 'w' && opcja != 'p' && opcja != 'f'  && opcja != 'h' && opcja != 'y' && opcja != 'i');
 	
 	switch (opcja) {
-		case '1':
+		case '1': case 'p':
 			cout << "1. Otwórz jako now¹ bazê" << endl;
 			cout << "2. Otwórz jako do³¹czenie do istniej¹cej bazy" << endl;
 			cout << "3. Zapisz" << endl;
@@ -548,7 +476,7 @@ int wyswietlMenu() {
 			} while (opcja != '1' && opcja != '2' && opcja != '3');
 			
 			switch(opcja) {
-				case '1':
+				case '1': 
 					dodajOperacja("Otwarcie nowej bazy pojazdów");
 					nrOperacji = historiaOperacji.size() - 1;
 					
@@ -583,7 +511,7 @@ int wyswietlMenu() {
 					break;
 			}
 			break;
-		case '2':		
+		case '2' : case 'd':		
 			dodajOperacja("Dodanie pojazdu");
 			nrOperacji = historiaOperacji.size() - 1;
 			
@@ -608,7 +536,7 @@ int wyswietlMenu() {
 				}
 			}
 			break;
-		case '3':
+		case '3': case 'e':
 			dodajOperacja("Edycja pojazdu");
 			nrOperacji = historiaOperacji.size() - 1;
 			
@@ -628,7 +556,7 @@ int wyswietlMenu() {
 					blad = 1;
 				}
 			} while (blad = 1);
-		case '4':
+		case '4': case 'u':
 			dodajOperacja("Usuniêcie pojazdu");
 			nrOperacji = historiaOperacji.size() - 1;
 			
@@ -649,7 +577,7 @@ int wyswietlMenu() {
 				}
 			} while (blad = 1);
 			break;	
-		case '5':
+		case '5': case 'w':
 			cout << "1. Wyœwietl jeden pojazd o podanym ID." << endl;
 			cout << "2. Wyœwietl wszystkie pojazdy." << endl;
 			cout << endl;
@@ -742,14 +670,14 @@ int wyswietlMenu() {
 					} while (blad = 1);
 			}
 			break;
-		case '6':
+		case '6': case 'f':
 			dodajOperacja("Przeszukiwanie danych pojazdu");
 			nrOperacji = historiaOperacji.size() - 1;
 			
 			wynik = przeszukajPojazdy();
 			historiaOperacji[nrOperacji].ustawWynik(wynik);
 			break;
-		case '7':
+		case '7': case 'h':
 			dodajOperacja("Wyœwietlenie historii operacji");
 			nrOperacji = historiaOperacji.size() - 1;
 
@@ -765,7 +693,7 @@ int wyswietlMenu() {
 			}
 			cout << endl;
 			break;
-		case '8':
+		case '8': case 'y':
 			dodajOperacja("Zakoñczenie pracy z programem");
 			nrOperacji = historiaOperacji.size() - 1;
 			
@@ -778,6 +706,25 @@ int wyswietlMenu() {
 			}
 			
 			return 1;
+			break;
+		case 'i': 
+				cout << "#############################" << endl;
+				cout << "1. [P]lik" << endl;
+				cout << "2. [D]odaj pojazd" << endl;
+				cout << "3. [E]dytuj pojazd" << endl;
+				cout << "4. [U]suñ pojazd" << endl;
+				cout << "5. [W]yœwietl pojazd/y" << endl;
+				cout << "6. [F]iltruj pojazdy" << endl;
+				cout << "7. Wyœwietl [h]istoriê operacji" << endl;
+				cout << "8. W[y]jœcie" << endl;
+				cout << "#############################" << endl;
+				cout << endl;
+			break;	
+		default: 
+			if (opcja != '1' && opcja != '2' && opcja != '3' && opcja != '4' && opcja != '5' && opcja != '6' && opcja != '7' && opcja != '8' && opcja != 'p' && opcja != 'd' && opcja != 'e' && opcja != 'u' && opcja != 'w' && opcja != 'p' && opcja != 'f' && opcja != 'h' && opcja != 'y' && opcja != 'i') {
+			cout << "Proszê wybraæ opcjê z zakresu. Wciœnij \"i\" aby wyœwietliæ dostêpne opcje."  << endl;
+			cout << endl;
+			}
 			break;
 	}
 	return 0;
