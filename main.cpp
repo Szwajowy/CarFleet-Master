@@ -50,19 +50,18 @@ string dodajPojazd(unsigned int id) {
 	cout << "Podaj identyfikator VIN pojazdu: " << endl;
 			char litera;
 			string vin_string;
+			cout << "Twój vin to: ";
 			do {
-				//cout << "D³ugoœæ vinu:" << vin_string.size() << endl;
 				litera = getch();
 				
 				if(litera == 8 && (vin_string.length() > 1) ) {
 					vin_string.pop_back();
-				    cout << "Twój vin to: "<< vin_string << "_" << endl;
 				} else if(litera != 'i' && litera != 'I' && litera != 'o' && litera != 'O' && litera != 'q' && litera != 'Q' && litera != 127 && litera != 8 && litera != 0 && litera != 32 && litera != 13) { 
-				vin_string += litera;
-				if (vin_string.length() < 16 ) {
-				cout << "Twój vin to: "<< vin_string << "_" << endl;
-				} else cout << "Twój vin to: "<< vin_string << endl; //bez _ przy ostatnim znaku
-				} else cout << "Vin nie mo¿e zawieraæ takich liter jak: I, O, Q oraz znaków specjalnych" << endl;
+					vin_string += litera;
+					if (vin_string.length() < 16 ) {
+						cout << litera;
+					}
+				}
 				
 			} while (vin_string.length() < 17 );
 			 vin = vin_string;
@@ -417,7 +416,7 @@ string otworzPlik(string nazwaPliku, string opcja) {
 }
 
 char pasekNarzedzi() {
-	unsigned int id, nrOperacji;
+	unsigned int id, nrOperacji, blad;
 	string wynik;
 	char opcja;
 	
@@ -430,11 +429,14 @@ char pasekNarzedzi() {
 	
 	cout << "Wybierz opcje: ";
 	do {
+		blad = 0;
 		opcja = getch();
 		if (opcja == 'm' || opcja == 'M' || opcja == 'd' || opcja == 'D' || opcja == 'e' || opcja == 'E' || opcja == 'u' || opcja == 'U' || opcja == 'f' || opcja == 'F') {
 			cout << opcja << endl;
+		} else {
+			blad = 1;
 		}
-	} while (opcja != 'm' && opcja != 'M' && opcja != 'd' && opcja != 'D' && opcja != 'e' && opcja != 'E' && opcja != 'u' && opcja != 'U' && opcja != 'f' && opcja != 'F');
+	} while (blad != 0);
 	cout << endl;
 	
 	switch(opcja) {
