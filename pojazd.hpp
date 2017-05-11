@@ -39,4 +39,5 @@ class Pojazd {
 		string oddajVin();
 		void ustawVIN(string vin);
 };
+
 #endif

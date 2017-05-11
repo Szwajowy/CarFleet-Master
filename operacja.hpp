@@ -26,4 +26,5 @@ class Operacja {
 		string oddajWynik();
 		void ustawWynik(string wynik);
 };
+
 #endif

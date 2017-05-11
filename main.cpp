@@ -1,18 +1,15 @@
-#include <cstdlib>
-#include <iostream>
-#include <vector>
-#include <fstream>
 #include <string>
 #include <cstring>
+#include <iostream>
+#include <fstream>
+#include <vector>
 #include <conio.h>
+#include <cstdlib>
 
 #include "pojazd.hpp"
 #include "operacja.hpp"
 
 using namespace std;
-
-// Definicja wektora obiektow Pojazd
-vector <Pojazd> tablicaPojazdow;
 
 // Definicja wektora stringów z historia operacji
 vector <Operacja> historiaOperacji;
@@ -32,6 +29,9 @@ string wyswietlOperacja(int id) {
 	return "x90";
 }
 
+// Definicja wektora obiektow Pojazd
+vector <Pojazd> tablicaPojazdow;
+
 // Metoda dodajaca dane pojazdu dla odpowiedniego indeksu wektora
 // (je¿eli dla danego indeksu istnieje ju¿ obiekt to nastêpuje inkrementacja indeksu tego obiektu i ka¿dego nastêpnego, czyli przesuniêcie w prawo i dopiero dodanie naszego obiektu)	
 /* Dodaæ sprawdzanie podawanych warto¹ci i porównywanie ich do wzorów, sprecyzowanie obi¹zkowych i nieobowi¹zkowych danych */
@@ -45,37 +45,8 @@ string dodajPojazd(unsigned int id) {
 	cin >> marka;
 	cout << "Podaj model pojazdu: ";
 	cin >> model;
-	cout << "Wybierz typ silnika: " << endl << "1. Benzyna" << endl << "2. Olej napêdowy" << endl << "3. LPG" << endl << "4. Benzyna + LPG" << endl << "5. Hybryda (Benzyna + Pr¹d)" << endl << "6. Elektryk (Pr¹d)" << endl;
-	do {
-		cout << endl;
-		opcja = getche();
-		cout << endl;
-		switch(opcja) {
-			case '1': 
-			    paliwo = "Benzyna";
-				break;
-			case '2': 
-				paliwo = "Diesel";
-				break;
-			case '3':
-				paliwo = "LPG";
-				break;
-			case '4': 
-				paliwo = "Benzyna + LPG";
-				break;
-			case '5': 
-				paliwo = "Hybryda" ;
-				break;
-			case '6': 
-				paliwo = "Elektryk";	
-				break;
-			case 'i': cout << "1. Benzyna" << endl << "2. Olej napêdowy" << endl << "3. LPG" << endl << "4. Benzyna + LPG" << endl << "5. Hybryda (Benzyna + Pr¹d)" << endl << "6. Elektryk (Pr¹d)" << endl;
-				break;
-			default: cout << "Wartoœæ z poza zakresu (1-6)! Naciœnij \"i\" aby wyœwietliæ dostêpne opcje." << endl;
-				 break;
-		}
-	} while (opcja != '1' && opcja != '2' && opcja != '3' && opcja != '4' && opcja != '5' && opcja != '6');	
-	
+	cout << "Wybierz typ silnika: ";
+	cin >> paliwo;
 	cout << "Podaj identyfikator VIN pojazdu: ";
 	cin >> vin;
 	
@@ -428,52 +399,132 @@ string otworzPlik(string nazwaPliku, string opcja) {
 	}
 }
 
+char pasekNarzedzi() {
+	unsigned int id, nrOperacji;
+	string wynik;
+	char opcja;
+	
+	cout << "[M]enu  ";
+	cout << "[D]odaj  ";
+	cout << "[E]dytuj  ";
+	cout << "[U]suñ  ";
+	cout << "[F]iltruj" << endl;
+	cout << endl;
+	
+	cout << "Wybierz opcje: ";
+	do {
+		opcja = getch();
+		if (opcja == 'm' || opcja == 'M' || opcja == 'd' || opcja == 'D' || opcja == 'e' || opcja == 'E' || opcja == 'u' || opcja == 'U' || opcja == 'f' || opcja == 'F') {
+			cout << opcja << endl;
+		}
+	} while (opcja != 'm' && opcja != 'M' && opcja != 'd' && opcja != 'D' && opcja != 'e' && opcja != 'E' && opcja != 'u' && opcja != 'U' && opcja != 'f' && opcja != 'F');
+	cout << endl;
+	
+	switch(opcja) {
+		case 'm': case 'M':
+			return 'm';
+			break;
+		
+		case 'd' : case 'D':		
+			dodajOperacja("Dodanie pojazdu");
+			nrOperacji = historiaOperacji.size() - 1;
+			
+			wynik = dodajPojazd();
+			historiaOperacji[nrOperacji].ustawWynik(wynik);
+			break;
+			
+		case 'e': case 'E':
+			dodajOperacja("Edycja pojazdu");
+			nrOperacji = historiaOperacji.size() - 1;
+
+			cout << "Podaj ID pojazdu do edycji: ";		
+			while(!(cin>>id)) {
+				cout << "ID pojazdu powinno byæ liczb¹!" << endl;
+				cin.clear(); //kasowanie flagi b³êdu strumienia
+				cin.sync(); //kasowanie zbêdnych znaków z bufora
+				cout << "Podaj ID pojazdu do edycji: ";
+			}
+			cout << endl;
+				
+			wynik = edytujPojazd(id);
+			historiaOperacji[nrOperacji].ustawWynik(wynik);
+			break;
+			
+		case 'u': case 'U':
+			dodajOperacja("Usuniêcie pojazdu");
+			nrOperacji = historiaOperacji.size() - 1;
+			
+			cout << "Podaj ID pojazdu do usuniêcia: ";		
+			while(!(cin>>id)) {
+				cout << "ID pojazdu powinno byæ liczb¹!" << endl;
+				cin.clear(); //kasowanie flagi b³êdu strumienia
+				cin.sync(); //kasowanie zbêdnych znaków z bufora
+				cout << "Podaj ID pojazdu do usuniêcia: ";
+			}
+			cout << endl;
+				
+			wynik = usunPojazd(id);
+			historiaOperacji[nrOperacji].ustawWynik(wynik);
+			break;
+			
+		case 'f': case 'F':
+			dodajOperacja("Filtrowanie danych pojazdu");
+			nrOperacji = historiaOperacji.size() - 1;
+			
+			wynik = przeszukajPojazdy();
+			historiaOperacji[nrOperacji].ustawWynik(wynik);
+			break;
+			
+		default: 
+			cout << "Wybrano niew³aœciw¹ opcjê."  << endl;
+			cout << endl;
+			break;
+	}
+}
+
 int wyswietlMenu() {
-	unsigned int ile, id, blad, nrOperacji;
+	unsigned int blad, nrOperacji;
 	string plik, zapisz, format, wynik;
-	char opcja, pre_id;
-	blad = 0;
+	char opcja;
 	
 	cout << "#############################" << endl;
-	cout << "1. [P]lik" << endl;
-	cout << "2. [D]odaj pojazd" << endl;
-	cout << "3. [E]dytuj pojazd" << endl;
-	cout << "4. [U]suñ pojazd" << endl;
-	cout << "5. [W]yœwietl pojazd/y" << endl;
-	cout << "6. [F]iltruj pojazdy" << endl;
-	cout << "7. Wyœwietl [h]istoriê operacji" << endl;
-	cout << "8. W[y]jœcie" << endl;
+	cout << "1. Plik" << endl;
+	cout << "2. Wyœwietl pojazdy" << endl;
+	cout << "3. Historia operacji" << endl;
+	cout << "4. Wyjœcie" << endl;
 	cout << "#############################" << endl;
 	cout << endl;
 	
+	cout << "Podaj numer opcji: ";
 	do {
-		cout << "Podaj numer/symbol opcji: ";
-		opcja = getche();
-		cout << endl;
-		
-		if (opcja != '1' && opcja != '2' && opcja != '3' && opcja != '4' && opcja != '5' && opcja != '6' && opcja != '7' && opcja != '8' && opcja != 'p' && opcja != 'd' && opcja != 'e' && opcja != 'u' && opcja != 'w' && opcja != 'p' && opcja != 'f' && opcja != 'h' && opcja != 'y' && opcja != 'i') {
-			cout << "Proszê wybraæ opcjê z zakresu. Wciœnij \"i\" aby wyœwietliæ dostêpne opcje."  << endl;
-			cout << endl;
+		blad = 0;
+		opcja = getch();
+		if (opcja == '1' || opcja == '2' || opcja == '3' || opcja == '4') {
+			cout << opcja << endl;
+		} else {
+			blad = 1;
 		}
-	} while (opcja != '1' && opcja != '2' && opcja != '3' && opcja != '4' && opcja != '5' && opcja != '6' && opcja != '7' && opcja != '8' && opcja != 'p' && opcja != 'd' && opcja != 'e' && opcja != 'u' && opcja != 'w' && opcja != 'p' && opcja != 'f'  && opcja != 'h' && opcja != 'y' && opcja != 'i');
-	
+	} while (blad == 1);
+	cout << endl;
+
 	switch (opcja) {
-		case '1': case 'p':
+		case '1':
 			cout << "1. Otwórz jako now¹ bazê" << endl;
 			cout << "2. Otwórz jako do³¹czenie do istniej¹cej bazy" << endl;
 			cout << "3. Zapisz" << endl;
 			cout << endl;
 			
+			cout << "Podaj numer opcji: ";
 			do {
-				cout << "Podaj numer opcji: ";
-				cin >> opcja;
-				cout << endl;
-				
-				if (opcja != '1' && opcja != '2' && opcja != '3') {
-					cout << "Proszê wybraæ opcjê od 1 do 3!" << endl;
-					cout << endl;
+				blad = 0;
+				opcja = getch();
+				if (opcja == '1' || opcja == '2' || opcja == '3') {
+					cout << opcja << endl;
+				} else {
+					blad = 1;
 				}
-			} while (opcja != '1' && opcja != '2' && opcja != '3');
+			} while (blad == 1);
+			cout << endl;
 			
 			switch(opcja) {
 				case '1': 
@@ -511,173 +562,43 @@ int wyswietlMenu() {
 					break;
 			}
 			break;
-		case '2' : case 'd':		
-			dodajOperacja("Dodanie pojazdu");
-			nrOperacji = historiaOperacji.size() - 1;
-			
+		
+		case '2':
+			char wyjscie;
 			do {
-				cout << "Ile pojazdów chcesz dodaæ: ";		
-				cin >> ile;
+				dodajOperacja("Wyœwietlenie bazy pojazdów");
+				nrOperacji = historiaOperacji.size() - 1;
+	
+				cout.width( 5 );
+				cout << left << "ID"; 
+				cout.width( 15 );
+				cout << left << "Typ"; 
+				cout.width( 15 );
+				cout << left << "Marka"; 
+				cout.width( 15 );
+				cout << left << "Model"; 
+				cout.width( 15 );
+				cout << left << "Typ silnika"; 
+				cout.width( 15 );
+				cout << left << "Nr. VIN";
 				cout << endl;
+								
+				for (int i=0; i<tablicaPojazdow.size();i++) {
+					wynik = wyswietlPojazd(i,"tabela");
+					historiaOperacji[nrOperacji].ustawWynik(wynik);
+					if (wynik != "x40") {
+						cout << "Podczas wyœwietlania danych jednego z pojazdów wyst¹pi³ b³¹d!" << endl;
+						cout << endl;
+						break;	
+					}	
+				}
 				
-				if (ile <= 0) {
-					cout << "Proszê podaæ wartoœæ wiêksz¹ od zera!" << endl;
-					cout << endl;
-				}
-			} while (opcja != '1' && opcja != '2');
-						
-			for (int i=0; i<ile;i++) {
-				wynik = dodajPojazd();
-				historiaOperacji[nrOperacji].ustawWynik(wynik);
-				if (wynik != "x10") {
-					cout << "Podczas dodawanie jednego z pojazdów wyst¹pi³ b³¹d!" << endl;
-					cout << endl;
-					break;	
-				}
-			}
+				cout << endl;
+				wyjscie = pasekNarzedzi();
+			} while (wyjscie != 'm' && wyjscie != 'M');
 			break;
-		case '3': case 'e':
-			dodajOperacja("Edycja pojazdu");
-			nrOperacji = historiaOperacji.size() - 1;
-			
-			do {
-				blad = 0;
-				cout << "Podaj ID pojazdu do edycji: ";		
-				cin >> pre_id;
-				cout << endl;
-				
-				if((isdigit(pre_id))==1){		//isdigit zwraca 1 dla prawdy, 0 dla fa³szu
-					id = (unsigned int)pre_id - 48;		//Jeœli pre_id jest wartoœci¹ liczbow¹ to przypisuje j¹ do id, a -48 jest dlatego, ¿e po konwersji zwraca wartoœæ decymaln¹ ascii http://www.asciitable.com/index/asciifull.gif
-					wynik = edytujPojazd(id);
-					historiaOperacji[nrOperacji].ustawWynik(wynik);
-					break;
-				} else {
-					cout << "ID musi byæ liczb¹!" << endl;
-					blad = 1;
-				}
-			} while (blad = 1);
-		case '4': case 'u':
-			dodajOperacja("Usuniêcie pojazdu");
-			nrOperacji = historiaOperacji.size() - 1;
-			
-			do {
-				blad = 0;
-				cout << "Podaj ID pojazdu do usuniêcia: ";		
-				cin >> pre_id;
-				cout << endl;
-				
-				if((isdigit(pre_id))==1){		//isdigit zwraca 1 dla prawdy, 0 dla fa³szu
-					id = (unsigned int)pre_id - 48;		//Jeœli pre_id jest wartoœci¹ liczbow¹ to przypisuje j¹ do id, a -48 jest dlatego, ¿e po konwersji zwraca wartoœæ decymaln¹ ascii http://www.asciitable.com/index/asciifull.gif
-					wynik = usunPojazd(id);
-					historiaOperacji[nrOperacji].ustawWynik(wynik);
-					break;
-				} else {
-					cout << "ID musi byæ liczb¹!" << endl;
-					blad = 1;
-				}
-			} while (blad = 1);
-			break;	
-		case '5': case 'w':
-			cout << "1. Wyœwietl jeden pojazd o podanym ID." << endl;
-			cout << "2. Wyœwietl wszystkie pojazdy." << endl;
-			cout << endl;
 
-			do {
-				cout << "Podaj numer opcji: ";
-				cin >> opcja;
-				cout << endl;
-				
-				if (opcja != '1' && opcja != '2') {
-					cout << "Proszê wybraæ opcjê 1 lub 2 !" << endl;
-					cout << endl;
-				}
-			} while (opcja != '1' && opcja != '2');
-			
-			switch(opcja) {
-				case '1':
-					dodajOperacja("Wyœwietlenie danych pojazdu");
-					nrOperacji = historiaOperacji.size() - 1;
-					
-					do {
-						blad = 0;
-						cout << "Podaj ID pojazdu do wyœwietlenia: ";		
-						cin >> pre_id;
-						cout << endl;
-						
-						if((isdigit(pre_id))==1){		//isdigit zwraca 1 dla prawdy, 0 dla fa³szu
-							id = (unsigned int)pre_id - 48;		//Jeœli pre_id jest wartoœci¹ liczbow¹ to przypisuje j¹ do id, a -48 jest dlatego, ¿e po konwersji zwraca wartoœæ decymaln¹ ascii http://www.asciitable.com/index/asciifull.gif
-							if (id < 0){
-								cout << "ID nie mo¿e byæ ujemne!" << endl;
-								blad = 1;	
-							} else {
-								wynik = wyswietlPojazd(id, "lista");
-								historiaOperacji[nrOperacji].ustawWynik(wynik);
-								break;
-							}
-						} else {
-							cout << "ID musi byæ liczb¹!" << endl;
-							blad = 1;
-						}
-					} while (blad = 1);
-					break;
-				case '2':
-					dodajOperacja("Wyœwietlenie danych wszystkich pojazdów");
-					nrOperacji = historiaOperacji.size() - 1;
-					
-					do {
-						blad = 0;
-						cout << "Chcesz wyœwietliæ wyniki jako \"lista\", czy \"tabela\" ?" << endl;
-						cin >> format;
-						cout << endl;
-						
-						if (stricmp(format.c_str(), "lista") && stricmp(format.c_str(), "tabela")) {
-							cout << "B³¹d! Proszê wybraæ format \"lista\" lub \"tabela\"" << endl;
-							cout << endl;
-							blad = 1;
-						} else {
-							if (!stricmp(format.c_str(), "tabela")) {
-								cout.width( 5 );
-								cout << left << "ID"; 
-								cout.width( 15 );
-								cout << left << "Typ"; 
-								cout.width( 15 );
-								cout << left << "Marka"; 
-								cout.width( 15 );
-								cout << left << "Model"; 
-								cout.width( 15 );
-								cout << left << "Typ silnika"; 
-								cout.width( 15 );
-								cout << left << "Nr. VIN";
-								cout << endl;
-							}
-							
-							for (int i=0; i<tablicaPojazdow.size();i++) {
-								wynik = wyswietlPojazd(i,format);
-								historiaOperacji[nrOperacji].ustawWynik(wynik);
-								if (wynik != "x40") {
-									cout << "Podczas wyœwietlania danych jednego z pojazdów wyst¹pi³ b³¹d!" << endl;
-									cout << endl;
-									break;	
-								}	
-							}
-							
-							if (!stricmp(format.c_str(), "tabela")) {
-								cout << endl;
-							}
-							
-							break;
-						}
-					} while (blad = 1);
-			}
-			break;
-		case '6': case 'f':
-			dodajOperacja("Przeszukiwanie danych pojazdu");
-			nrOperacji = historiaOperacji.size() - 1;
-			
-			wynik = przeszukajPojazdy();
-			historiaOperacji[nrOperacji].ustawWynik(wynik);
-			break;
-		case '7': case 'h':
+		case '3':
 			dodajOperacja("Wyœwietlenie historii operacji");
 			nrOperacji = historiaOperacji.size() - 1;
 
@@ -693,48 +614,41 @@ int wyswietlMenu() {
 			}
 			cout << endl;
 			break;
-		case '8': case 'y':
+			
+		case '4':
 			dodajOperacja("Zakoñczenie pracy z programem");
 			nrOperacji = historiaOperacji.size() - 1;
 			
 			cout << "Czy chcesz zapisaæ pracê przed wyjœciem ?" << endl;
-			cin >> zapisz;
-			cout << endl;
+			cout << "[T]ak  [N]ie" << endl;
 			
-			if (!stricmp(zapisz.c_str(), "tak")) {
-				zapiszPlik("baza.txt");
-			}
+			do {
+				blad = 0;
+				opcja = getch();
+				if (opcja == 't' || opcja == 'T' || opcja == 'n' || opcja == 'N') {
+					cout << opcja << endl;
+					zapiszPlik("baza.txt");
+				} else {
+					blad = 1;
+				}
+			} while (blad != 0);
+			
+			cout << endl;
 			
 			return 1;
 			break;
-		case 'i': 
-				cout << "#############################" << endl;
-				cout << "1. [P]lik" << endl;
-				cout << "2. [D]odaj pojazd" << endl;
-				cout << "3. [E]dytuj pojazd" << endl;
-				cout << "4. [U]suñ pojazd" << endl;
-				cout << "5. [W]yœwietl pojazd/y" << endl;
-				cout << "6. [F]iltruj pojazdy" << endl;
-				cout << "7. Wyœwietl [h]istoriê operacji" << endl;
-				cout << "8. W[y]jœcie" << endl;
-				cout << "#############################" << endl;
-				cout << endl;
-			break;	
+			
 		default: 
-			if (opcja != '1' && opcja != '2' && opcja != '3' && opcja != '4' && opcja != '5' && opcja != '6' && opcja != '7' && opcja != '8' && opcja != 'p' && opcja != 'd' && opcja != 'e' && opcja != 'u' && opcja != 'w' && opcja != 'p' && opcja != 'f' && opcja != 'h' && opcja != 'y' && opcja != 'i') {
-			cout << "Proszê wybraæ opcjê z zakresu. Wciœnij \"i\" aby wyœwietliæ dostêpne opcje."  << endl;
+			cout << "Wybrano niew³aœciw¹ opcjê."  << endl;
 			cout << endl;
-			}
 			break;
 	}
 	return 0;
 }
-
+	
 int main(int argc, char *argv[]) {
 	setlocale(LC_ALL,"");
-	
-	cout << "Automatyczne otwieranie bazy Pojazdów." << endl;
-	cout << endl;
+
 	otworzPlik("baza.txt","wymus");
 	
 	int exit;

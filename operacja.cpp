@@ -27,4 +27,4 @@ string Operacja::oddajWynik() {
 	
 void Operacja::ustawWynik(string wynik) {
 	this->wynik = wynik;	
-} 
+}
