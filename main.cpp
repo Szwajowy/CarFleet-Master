@@ -121,6 +121,7 @@ string dodajPojazd(unsigned int id) {
 		cout << "Podaj numer rejestracji: ";
 		cin.sync();
 		getline( cin, rejestracja );
+		transform(rejestracja.begin(), rejestracja.end(),rejestracja.begin(), ::toupper);
 		blad = sprawdzRejestracja(rejestracja);
 	} while (blad != 0);
 	
