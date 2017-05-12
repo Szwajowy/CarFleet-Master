@@ -6,6 +6,7 @@
 #include <conio.h>
 #include <cstdlib>
 #include <regex>
+#include <algorithm>
 
 #include "pojazd.hpp"
 #include "operacja.hpp"
@@ -57,7 +58,7 @@ string dodajPojazd(unsigned int id) {
 		blad = 0;
 		cout << "Podaj identyfikator VIN pojazdu: " << endl;
 		cin >> vin;
-	
+		transform(vin.begin(), vin.end(),vin.begin(), ::toupper);
 		if( !regex_search(vin,sprawdzonyVin,wzorzecVin)) {
 			cout << "B³¹d! VIN mo¿e siê sk³adaæ tylko z cyfr i liter wy³¹czaj¹c I,O,Q, a tak¿e cztery ostanie znaki s¹ zawsze cyframi.";
 			blad = 1;
