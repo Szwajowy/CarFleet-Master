@@ -44,8 +44,8 @@ int sprawdzRokProd(unsigned int rokProd) {
 }
 
 int sprawdzVin(string vin) {
-	// VIN - 1-13 cyfry/litery, 14-17 cyfry np. HGGFHG456GFDB0675
-	regex wzorzecVin("[0-9A-HK-NPR-Z]{13}[0-9]{4}");
+	// VIN - 1-13 cyfry/litery, 14-17 cyfry np. W0L0SDL68B4352330
+	regex wzorzecVin("([0-9]|[A-H]|[K-N]|P|[R-Z]){13}[0-9]{4}");
 	smatch sprawdzonyVin;
 	
 	if( !regex_search(vin,sprawdzonyVin,wzorzecVin)) {
@@ -77,53 +77,55 @@ vector <Pojazd> tablicaPojazdow;
 // (je¿eli dla danego indeksu istnieje ju¿ obiekt to nastêpuje inkrementacja indeksu tego obiektu i ka¿dego nastêpnego, czyli przesuniêcie w prawo i dopiero dodanie naszego obiektu)	
 /* Dodaæ sprawdzanie podawanych warto¹ci i porównywanie ich do wzorów, sprecyzowanie obi¹zkowych i nieobowi¹zkowych danych */
 string dodajPojazd(unsigned int id) {
-	string typ, marka, model, wersja, nadwozie, paliwo, vin, rejestracja, opis, uwagi;
+	string typ, marka, model, wersja, nadwozie, paliwo, vin, rejestracja, opis, uwagi, smoc, spojSilnika, smiejscaSiedz, smiejscaOgl, smasa, sdopMasaCalk, smasaPrzyczHam, smasaPrzyczBezHam, sosie, srozstawOsi, srozstawKol, sdopNaciskNaOs;
 	unsigned int moc, pojSilnika, miejscaSiedz, miejscaOgl, masa, dopMasaCalk, masaPrzyczHam, masaPrzyczBezHam, osie, rozstawOsi, rozstawKol, dopNaciskNaOs, rokProd;
 	unsigned int blad;
 	char opcja;
 	
-	cout << "Podaj typ pojazdu: ";
+	cout << "Dane wymagane do dodania pojazdu s¹ oznaczone gwiazdk¹, wszelkie inne dane mo¿na pomin¹æ wciskaj¹c ENTER." << endl;
+	
+	cout << "* Podaj typ pojazdu: ";
 	cin >> typ;
 	
-	cout << "Podaj marke pojazdu: ";
+	cout << "* Podaj marke pojazdu: ";
 	cin >> marka;
 	
-	cout << "Podaj model pojazdu: ";
+	cout << "* Podaj model pojazdu: ";
 	cin >> model;
 	
-	cout << "Podaj wersjê pojazdu: ";
+	cout << "* Podaj wersjê pojazdu: ";
 	cin >> wersja;
 	
-	cout << "Podaj typ nadwozia pojazdu: ";
+	cout << "* Podaj typ nadwozia pojazdu: ";
 	cin >> nadwozie;
 	
-	cout << "Podaj rodzaj paliwa: ";
+	cout << "* Podaj rodzaj paliwa: ";
 	cin >> paliwo;
 	
 	// Pojemnoœc powinno siê móc dodaæ zarówno jako "1.2" "1200"
-	cout << "Podaj pojemnoœæ silnika: ";
+	cout << "* Podaj pojemnoœæ silnika: ";
 	while(!(cin>>pojSilnika)) {
 		cout << "Pojemnoœæ silnika powinna byæ liczb¹!" << endl;
 		cin.clear(); //kasowanie flagi b³êdu strumienia
 		cin.sync(); //kasowanie zbêdnych znaków z bufora
-		cout << "Podaj pojemnoœæ silnika: ";
+		cout << "* Podaj pojemnoœæ silnika: ";
 	}
 	
 	do {
-		cout << "Podaj rok produkcji: ";
+		cout << "* Podaj rok produkcji: ";
 		cin >> rokProd;
 		blad = sprawdzRokProd(rokProd);
 	} while (blad != 0);
 	
 	do {
-		cout << "Podaj identyfikator VIN pojazdu: ";
+		cout << "* Podaj identyfikator VIN pojazdu: ";
 		cin >> vin;
 		transform(vin.begin(), vin.end(),vin.begin(), ::toupper);
 		blad = sprawdzVin(vin);
 	} while (blad != 0);
 	
 	do {
-		cout << "Podaj numer rejestracji: ";
+		cout << "* Podaj numer rejestracji: ";
 		cin.sync();
 		getline( cin, rejestracja );
 		transform(rejestracja.begin(), rejestracja.end(),rejestracja.begin(), ::toupper);
@@ -131,8 +133,64 @@ string dodajPojazd(unsigned int id) {
 	} while (blad != 0);
 	
 	tablicaPojazdow.insert (tablicaPojazdow.begin() + id,Pojazd(typ,marka,model,wersja,nadwozie,paliwo,pojSilnika,rokProd,vin,rejestracja));
-	cout << endl;
+	
+	// Potrzebna konwersja stringa na liczbe tylko gdy u¿ytkownik wpisze liczbe
+	/* cout << "Podaj moc silnika: ";
+	cin.sync();
+	getline( cin, smoc );
+	moc = stoi(smoc);
+	
+	cout << "Podaj liczbê miejsc siedz¹cych: ";
+	cin.sync();
+	getline( cin, smiejscaSiedz );
+	miejscaSiedz = stoi(smiejscaSiedz);
+	
+	cout << "Podaj liczbê miejsc ogó³em: ";
+	cin.sync();
+	getline( cin, smiejscaOgl );
+	miejscaOgl = stoi(smiejscaOgl);
+	
+	cout << "Podaj masê pojazdu: ";
+	cin.sync();
+	getline( cin, smasa );
+	masa = stoi(smasa);
+	
+	cout << "Podaj dopuszczaln¹ masê ca³kowit¹ pojazdu: ";
+	cin.sync();
+	getline( cin, sdopMasaCalk );
+	dopMasaCalk = stoi(sdopMasaCalk);
+	
+	cout << "Podaj maksymaln¹ dopuszczaln¹ masê przyczepy z hamulcem: ";
+	cin.sync();
+	getline( cin, smasaPrzyczHam );
+	masaPrzyczHam = stoi(smasaPrzyczHam);
 
+	cout << "Podaj maksymaln¹ dopuszczaln¹ masê przyczepy bez hamulca: ";
+	cin.sync();
+	getline( cin, smasaPrzyczBezHam );
+	masaPrzyczBezHam = stoi(smasaPrzyczBezHam);		
+
+	cout << "Podaj liczbê osi pojazdu: ";
+	cin.sync();
+	getline( cin, sosie );
+	osie = stoi(sosie);
+	
+	cout << "Podaj rozstaw osi pojazdu: ";
+	cin.sync();
+	getline( cin, srozstawOsi );
+	rozstawOsi = stoi(srozstawOsi);
+	
+	cout << "Podaj rozstaw kó³ pojazdu: ";
+	cin.sync();
+	getline( cin, srozstawKol );
+	rozstawKol = stoi(srozstawKol);
+	
+	cout << "Podaj maksymalny dopuszczalny nacisk na oœ pojazdu: ";
+	cin.sync();
+	getline( cin, sdopNaciskNaOs );
+	dopNaciskNaOs = stoi(sdopNaciskNaOs); */
+	
+	cout << endl;	
 	return "x10";
 }
 
