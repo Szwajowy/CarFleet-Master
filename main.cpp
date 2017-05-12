@@ -102,7 +102,12 @@ string dodajPojazd(unsigned int id) {
 	
 	// Pojemnoœc powinno siê móc dodaæ zarówno jako "1.2" "1200"
 	cout << "Podaj pojemnoœæ silnika: ";
-	cin >> pojSilnika;
+	while(!(cin>>pojSilnika)) {
+		cout << "Pojemnoœæ silnika powinna byæ liczb¹!" << endl;
+		cin.clear(); //kasowanie flagi b³êdu strumienia
+		cin.sync(); //kasowanie zbêdnych znaków z bufora
+		cout << "Podaj pojemnoœæ silnika: ";
+	}
 	
 	do {
 		cout << "Podaj rok produkcji: ";
