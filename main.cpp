@@ -448,7 +448,7 @@ string otworzPlik(string nazwaPliku, string opcja) {
 						i++;
 					} else if (i==5) {
 						wiersz.erase(0,8);
-						vin = stoi(wiersz);
+						vin = wiersz;
 						if (opcja == "otworz" || opcja == "wymus") {
 							tablicaPojazdow.insert (tablicaPojazdow.begin() + id,Pojazd(typ,marka,model,"Nieznana","Nieznane",paliwo,0,1981,vin,"Nieznana"));
 						} else if (opcja == "dolacz") {
