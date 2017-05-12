@@ -6,12 +6,15 @@
 #include <conio.h>
 #include <cstdlib>
 #include <regex>
+#include <time.h>
 #include <algorithm>
 
 #include "pojazd.hpp"
 #include "operacja.hpp"
 
 using namespace std;
+
+struct tm * aktualnyCzas;
 
 // Definicja wektora stringów z historia operacji
 vector <Operacja> historiaOperacji;
@@ -31,6 +34,42 @@ string wyswietlOperacja(int id) {
 	return "x90";
 }
 
+int sprawdzRokProd(unsigned int rokProd) {
+	if( rokProd < 1981 || rokProd > aktualnyCzas->tm_year) {
+		cout << "B³¹d! Rocznij mo¿e byæ tylko z przedzia³u od 1981 do " << aktualnyCzas->tm_year << "." << endl;
+		return 1;
+	}	else {
+		return 0;
+	}
+}
+
+int sprawdzVin(string vin) {
+	// VIN - 1-13 cyfry/litery, 14-17 cyfry np. HGGFHG456GFDB0675
+	regex wzorzecVin("[0-9A-HK-NPR-Z]{13}[0-9]{4}");
+	smatch sprawdzonyVin;
+	
+	if( !regex_search(vin,sprawdzonyVin,wzorzecVin)) {
+		cout << "B³¹d! Wprowadzono niepoprawny VIN." << endl;
+		return 1;
+	}	else {
+		return 0;
+	}
+}
+
+int sprawdzRejestracja(string rejestracja) {
+	// Rejestracja - 2-3 litery, 4-5 cyfry/liter np. SBE G083
+	regex wzorzecRejestracja("([A-Z]{2,3})[\x20]?[0-9A-Z]{4,5}");
+	smatch sprawdzonyRejestracja;
+	
+	if( !regex_search(rejestracja,sprawdzonyRejestracja,wzorzecRejestracja)) {
+		cout << rejestracja << endl;
+		cout << "B³¹d! Wprowadzono niepoprawn¹ rejestracjê." << endl;
+		return 1;
+	}	else {
+		return 0;
+	}
+}
+
 // Definicja wektora obiektow Pojazd
 vector <Pojazd> tablicaPojazdow;
 
@@ -38,34 +77,54 @@ vector <Pojazd> tablicaPojazdow;
 // (je¿eli dla danego indeksu istnieje ju¿ obiekt to nastêpuje inkrementacja indeksu tego obiektu i ka¿dego nastêpnego, czyli przesuniêcie w prawo i dopiero dodanie naszego obiektu)	
 /* Dodaæ sprawdzanie podawanych warto¹ci i porównywanie ich do wzorów, sprecyzowanie obi¹zkowych i nieobowi¹zkowych danych */
 string dodajPojazd(unsigned int id) {
-	string typ, marka, model, paliwo, vin;
+	string typ, marka, model, wersja, nadwozie, paliwo, vin, rejestracja, opis, uwagi;
+	unsigned int moc, pojSilnika, miejscaSiedz, miejscaOgl, masa, dopMasaCalk, masaPrzyczHam, masaPrzyczBezHam, osie, rozstawOsi, rozstawKol, dopNaciskNaOs, rokProd;
 	unsigned int blad;
 	char opcja;
 	
-	regex wzorzecVin("[0-9A-Z^IOQ]{13}[0-9]{4}");
-	smatch sprawdzonyVin;
-	
 	cout << "Podaj typ pojazdu: ";
 	cin >> typ;
+	
 	cout << "Podaj marke pojazdu: ";
 	cin >> marka;
+	
 	cout << "Podaj model pojazdu: ";
 	cin >> model;
+	
+	cout << "Podaj wersjê pojazdu: ";
+	cin >> wersja;
+	
+	cout << "Podaj typ nadwozia pojazdu: ";
+	cin >> nadwozie;
+	
 	cout << "Podaj rodzaj paliwa: ";
 	cin >> paliwo;
-	// VIN - 1-13 cyfry/litery, 14-17 cyfry np. HGGFHG456GFDB0675
+	
+	// Pojemnoœc powinno siê móc dodaæ zarówno jako "1.2" "1200"
+	cout << "Podaj pojemnoœæ silnika: ";
+	cin >> pojSilnika;
+	
 	do {
-		blad = 0;
-		cout << "Podaj identyfikator VIN pojazdu: " << endl;
-		cin >> vin;
-		transform(vin.begin(), vin.end(),vin.begin(), ::toupper);
-		if( !regex_search(vin,sprawdzonyVin,wzorzecVin)) {
-			cout << "B³¹d! VIN mo¿e siê sk³adaæ tylko z cyfr i liter wy³¹czaj¹c I,O,Q, a tak¿e cztery ostanie znaki s¹ zawsze cyframi.";
-			blad = 1;
-		}
+		cout << "Podaj rok produkcji: ";
+		cin >> rokProd;
+		blad = sprawdzRokProd(rokProd);
 	} while (blad != 0);
 	
-	tablicaPojazdow.insert (tablicaPojazdow.begin() + id,Pojazd(typ,marka,model,paliwo,vin));
+	do {
+		cout << "Podaj identyfikator VIN pojazdu: ";
+		cin >> vin;
+		transform(vin.begin(), vin.end(),vin.begin(), ::toupper);
+		blad = sprawdzVin(vin);
+	} while (blad != 0);
+	
+	do {
+		cout << "Podaj numer rejestracji: ";
+		cin.sync();
+		getline( cin, rejestracja );
+		blad = sprawdzRejestracja(rejestracja);
+	} while (blad != 0);
+	
+	tablicaPojazdow.insert (tablicaPojazdow.begin() + id,Pojazd(typ,marka,model,wersja,nadwozie,paliwo,pojSilnika,rokProd,vin,rejestracja));
 	cout << endl;
 
 	return "x10";
@@ -98,9 +157,6 @@ string edytujPojazd(unsigned int id) {
 	string typ, marka, model, paliwo, vin, atrybut, exit;
 	unsigned int blad;
 	
-	regex wzorzecVin("[0-9A-Z^IOQ]{13}[0-9]{4}");
-	smatch sprawdzonyVin;
-	
 	do {
 		cout << "Podaj nazwe w³asnoœci pojazdu: ";
 		cin >> atrybut;
@@ -127,17 +183,10 @@ string edytujPojazd(unsigned int id) {
 			cout << endl;
 			tablicaPojazdow[id].ustawPaliwo(paliwo);
 		} else if (!stricmp(atrybut.c_str(), "nr.vin") || !stricmp(atrybut.c_str(), "nr vin") || !stricmp(atrybut.c_str(), "numer vin")) {
-			cout << "Podaj identyfikator VIN pojazdu: ";
-			// VIN - 1-13 cyfry/litery, 14-17 cyfry np. HGGFHG456GFDB0675
 			do {
-				blad = 0;
-				cout << "Podaj identyfikator VIN pojazdu: " << endl;
+				cout << "Podaj identyfikator VIN pojazdu: ";
 				cin >> vin;
-			
-				if( !regex_search(vin,sprawdzonyVin,wzorzecVin)) {
-					cout << "B³¹d! VIN mo¿e siê sk³adaæ tylko z cyfr i liter wy³¹czaj¹c I,O,Q, a tak¿e cztery ostanie znaki s¹ zawsze cyframi.";
-					blad = 1;
-				}
+				blad = sprawdzVin(vin);
 			} while (blad != 0);
 			cout << endl;
 			tablicaPojazdow[id].ustawVIN(vin);
@@ -400,9 +449,9 @@ string otworzPlik(string nazwaPliku, string opcja) {
 						wiersz.erase(0,8);
 						vin = stoi(wiersz);
 						if (opcja == "otworz" || opcja == "wymus") {
-							tablicaPojazdow.insert (tablicaPojazdow.begin() + id,Pojazd(typ,marka,model,paliwo,vin));
+							tablicaPojazdow.insert (tablicaPojazdow.begin() + id,Pojazd(typ,marka,model,"Nieznana","Nieznane",paliwo,0,1981,vin,"Nieznana"));
 						} else if (opcja == "dolacz") {
-							tablicaPojazdow.push_back (Pojazd(typ,marka,model,paliwo,vin));
+							tablicaPojazdow.push_back (Pojazd(typ,marka,model,"Nieznana","Nieznane",paliwo,0,1981,vin,"Nieznana"));
 						}
 						i=0;
 					}
@@ -680,6 +729,12 @@ int wyswietlMenu() {
 	
 int main(int argc, char *argv[]) {
 	setlocale(LC_ALL,"");
+	
+	time_t czas;
+	time( & czas );
+	aktualnyCzas = localtime( & czas );
+	aktualnyCzas->tm_year += 1900;
+	aktualnyCzas->tm_mon += 1;
 
 	otworzPlik("baza.txt","wymus");
 	
@@ -688,6 +743,6 @@ int main(int argc, char *argv[]) {
 	do {
 		exit = wyswietlMenu();
 	} while (exit != 1);
-	
+
     return EXIT_SUCCESS;
 }
