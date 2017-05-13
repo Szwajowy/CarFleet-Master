@@ -1,35 +1,36 @@
 Pojazd nr.0
-Typ: Osobowy
+Typ: Osobowe
 Marka: Opel
-Model: Astra
-Typ silnika: Benzynowy
-Nr.VIN: 325
+Model: Corsa
+Wersja: D
+Nadwozie: Hatchback
+Rodzaj paliwa: Benzyna
+Pojemnoœæ silnika: 1229
+Rok produkcji: 2007
+Nr.VIN: W0L0SDL6874247208
+Rejestracja: SBE 1234
 
 Pojazd nr.1
 Typ: Osobowy
 Marka: Opel
-Model: Vectra
-Typ silnika: Diesel
-Nr.VIN: 643
+Model: Astra
+Wersja: J
+Nadwozie: Kombi
+Rodzaj paliwa: Diesel
+Pojemnoœæ silnika: 1686
+Rok produkcji: 2013
+Nr.VIN: W0LPD8EK0D8053251
+Rejestracja: SO 1234
 
 Pojazd nr.2
-Typ: Osobowy
-Marka: Toyota
-Model: Yaris
-Typ silnika: Diesel
-Nr.VIN: 345
-
-Pojazd nr.3
-Typ: Osobowy
-Marka: Seat
-Model: Ibiza
-Typ silnika: Benzynowy
-Nr.VIN: 754
-
-Pojazd nr.4
-Typ: Osobowy
+Typ: Osobowe
 Marka: Skoda
-Model: Octavia
-Typ silnika: Benzynowy
-Nr.VIN: 623
+Model: Superb
+Wersja: III
+Nadwozie: Sedan
+Rodzaj paliwa: Benzyna
+Pojemnoœæ silnika: 1400
+Rok produkcji: 2017
+Nr.VIN: TMBAA7NP7H7553036
+Rejestracja: KRK 1234
 

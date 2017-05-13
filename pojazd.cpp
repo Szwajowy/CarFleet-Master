@@ -182,7 +182,7 @@ string Pojazd::oddajVin() {
 	return vin;	
 }
 	
-void Pojazd::ustawVIN(string vin) {
+void Pojazd::ustawVin(string vin) {
 	this->vin = vin;	
 }    
 

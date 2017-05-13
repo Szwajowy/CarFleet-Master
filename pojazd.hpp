@@ -98,7 +98,7 @@ class Pojazd {
 
 		// Zwracanie i ustawianie wartoœci zmiennej "vin"
 		string oddajVin();
-		void ustawVIN(string vin);
+		void ustawVin(string vin);
 		
 		// Zwracanie i ustawianie wartoœci zmiennej "rejestracja"
 		string oddajRejestracja();
