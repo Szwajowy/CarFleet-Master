@@ -1044,12 +1044,16 @@ int wyswietlMenu() {
 			SetConsoleTextAttribute(h, kolor::DEFAULT);
 			cout << "Zapisz" << endl;
 			cout << endl;
+			SetConsoleTextAttribute(h, kolor::GREEN);
+			cout << "[M]";
+			SetConsoleTextAttribute(h, kolor::DEFAULT);
+			cout << "enu  " << endl << endl; 
 			
 			cout << "Podaj numer opcji: ";
 			do {
 				blad = 0;
 				opcja = getch();
-				if (opcja == '1' || opcja == '2' || opcja == '3') {
+				if (opcja == '1' || opcja == '2' || opcja == '3' || opcja == 'm' || opcja == 'M') {
 					cout << opcja << endl;
 				} else {
 					blad = 1;
@@ -1094,6 +1098,7 @@ int wyswietlMenu() {
 					wynik = zapiszPlik(plik);
 					historiaOperacji[nrOperacji].ustawWynik(wynik);
 					break;
+				case 'm': break;
 			}
 			break;
 		
