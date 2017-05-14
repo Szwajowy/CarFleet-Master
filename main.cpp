@@ -40,7 +40,7 @@ bool sprawdzVin(string vin) {
 
 bool sprawdzRejestracja(string rejestracja) {
 	// Rejestracja - 2-3 litery, 4-5 cyfry/liter np. SBE G083
-	regex wzorzecRejestracja("([A-Z]{2,3})[\x20]?[0-9A-Z]{4,5}");
+	regex wzorzecRejestracja("([A-Z]{2,3}[\x20]?[0-9A-Z]{4,5})|([A-Z]{1}[0-9]{1}[\x20]?[0-9A-Z]{3,5})");
 	smatch sprawdzonyRejestracja;
 	
 	if( !regex_search(rejestracja,sprawdzonyRejestracja,wzorzecRejestracja)) {
@@ -92,22 +92,28 @@ string dodajPojazd(unsigned int id) {
 	cout << "Dane wymagane do dodania pojazdu s¹ oznaczone gwiazdk¹, wszelkie inne dane mo¿na pomin¹æ wciskaj¹c ENTER." << endl;
 	
 	cout << "* Podaj typ pojazdu: ";
-	cin >> typ;
+	cin.sync();
+	getline( cin, typ );
 	
 	cout << "* Podaj marke pojazdu: ";
-	cin >> marka;
+	cin.sync();
+	getline( cin, marka );
 	
 	cout << "* Podaj model pojazdu: ";
-	cin >> model;
+	cin.sync();
+	getline( cin, model );
 	
 	cout << "* Podaj wersjê pojazdu: ";
-	cin >> wersja;
+	cin.sync();
+	getline( cin, wersja );
 	
 	cout << "* Podaj typ nadwozia pojazdu: ";
-	cin >> nadwozie;
+	cin.sync();
+	getline( cin, nadwozie );
 	
 	cout << "* Podaj rodzaj paliwa: ";
-	cin >> paliwo;
+	cin.sync();
+	getline( cin, paliwo );
 	
 	// Pojemnoœc powinno siê móc dodaæ zarówno jako "1.2" "1200"
 	cout << "* Podaj pojemnoœæ silnika: ";
@@ -296,28 +302,34 @@ string edytujPojazd(unsigned int id) {
 
 	do {
 		cout << "Podaj nazwe w³asnoœci pojazdu: ";
-		cin >> atrybut;
+		cin.sync();
+		getline(cin, atrybut);
 		cout << endl;
 		
 		if (!stricmp(atrybut.c_str(), "typ")) {
 			cout << "* Podaj typ pojazdu: ";
-			cin >> typ;
+			cin.sync();
+			getline( cin, typ );
 			tablicaPojazdow[id].ustawTyp(typ);
 		} else if (!stricmp(atrybut.c_str(), "marka")) {
 			cout << "* Podaj marke pojazdu: ";
-			cin >> marka;
+			cin.sync();
+			getline( cin, marka );
 			tablicaPojazdow[id].ustawMarka(marka);
 		} else if (!stricmp(atrybut.c_str(), "model")) {
 			cout << "* Podaj model pojazdu: ";
-			cin >> model;
+			cin.sync();
+			getline( cin, model );
 			tablicaPojazdow[id].ustawModel(model);
 		} else if (!stricmp(atrybut.c_str(), "wersja")) {
 			cout << "* Podaj wersjê pojazdu: ";
-			cin >> wersja;
+			cin.sync();
+			getline( cin, wersja );
 			tablicaPojazdow[id].ustawWersja(wersja);
 		} else if (!stricmp(atrybut.c_str(), "typ nadwozia") || !stricmp(atrybut.c_str(), "nadwozie")) {
 			cout << "* Podaj typ nadwozia pojazdu: ";
-			cin >> nadwozie;
+			cin.sync();
+			getline( cin, nadwozie );
 			tablicaPojazdow[id].ustawNadwozie(nadwozie);
 		} else if (!stricmp(atrybut.c_str(), "pojemnosc silnika") || !stricmp(atrybut.c_str(), "pojemnosc")) {
 			cout << "* Podaj pojemnoœæ silnika: ";
@@ -332,7 +344,8 @@ string edytujPojazd(unsigned int id) {
 			cout << "B³¹d! Nie mo¿na dokonaæ edycji atrybutu \"rok produkcji\", poniewa¿ jest on sta³y." << endl;
 		} else if (!stricmp(atrybut.c_str(), "rodzaj paliwa") || !stricmp(atrybut.c_str(), "paliwo")) {
 			cout << "* Podaj rodzaj paliwa: ";
-			cin >> paliwo;
+			cin.sync();
+			getline( cin, paliwo );
 			tablicaPojazdow[id].ustawPaliwo(paliwo);
 		} else if (!stricmp(atrybut.c_str(), "nr.vin") || !stricmp(atrybut.c_str(), "nr vin") || !stricmp(atrybut.c_str(), "numer vin")) {
 			cout << "B³¹d! Nie mo¿na dokonaæ edycji atrybutu \"VIN\", poniewa¿ jest on sta³y." << endl;
@@ -476,7 +489,13 @@ string edytujPojazd(unsigned int id) {
 				}
 			} while (blad != false);
 			tablicaPojazdow[id].ustawDopNaciskNaOs(dopNaciskNaOs);
-		}		
+		} else {
+			cout << "Taki atrybut zosta³ nie znaleziony." << endl;
+			cout << "SprawdŸ pisownie i spróbuj ponownie." << endl;
+			cout << endl;
+
+			return "x23";
+		}
 		
 		cout << endl;
 		cout << "Czy chcesz kontynuowaæ edycjê ?" << endl;
@@ -590,9 +609,11 @@ string przeszukajPojazdy() {
 	unsigned int znalezionoWyniki = 0;
 	
 	cout << "Podaj nazwe w³asnoœci pojazdu: ";
-	cin >> atrybut;
+	cin.sync();
+	getline(cin, atrybut);
 	cout << "Podaj wartoœæ tej w³asnoœci: ";
-	cin >> wartosc;
+	cin.sync();
+	getline(cin, wartosc);
 	cout << endl;
 	
 	cout << "Chcesz wyœwietliæ wyniki jako \"tabela\", czy \"lista\" ?" << endl;
@@ -749,11 +770,13 @@ string otworzPlik(string nazwaPliku, string opcja) {
 	cout << "Otwarcie pliku nadpisze wszelkie wprowadzone zmiany." << endl;
 	cout << "Przed rozpoczeciem nale¿y zapisaæ swoj¹ prace." << endl;
 	cout << "Czy chcesz kontynuowaæ ?" << endl;
-	cin >> exit;
+	cout << "[T]ak  [N]ie" << endl;
+		
+	exit = getche();
 	cout << endl;
 	}	
 
-	if (!stricmp(exit.c_str(), "tak") || opcja == "dolacz" || opcja == "wymus") {
+	if (!stricmp(exit.c_str(), "t") || !stricmp(exit.c_str(), "T") || opcja == "dolacz" || opcja == "wymus") {
 		if (opcja == "otworz") {
 			cout << "Usuwanie poprzednich danych." << endl;	
 			for(int i=tablicaPojazdow.size(); i >= 0; i--) {
@@ -979,7 +1002,8 @@ int wyswietlMenu() {
 					nrOperacji = historiaOperacji.size() - 1;
 					
 					cout << "Podaj nazwê pliku do otwarcia (np. Pojazdy.txt)." << endl;
-					cin >> plik;
+					cin.sync();
+					getline( cin, plik );
 					cout << endl;
 					
 					wynik = otworzPlik(plik,"otworz");
@@ -990,7 +1014,8 @@ int wyswietlMenu() {
 					nrOperacji = historiaOperacji.size() - 1;
 					
 					cout << "Podaj nazwê pliku do otwarcia (np. Pojazdy.txt)." << endl;
-					cin >> plik;
+					cin.sync();
+					getline( cin, plik );
 					cout << endl;
 					
 					wynik = otworzPlik(plik,"dolacz");
@@ -1001,7 +1026,8 @@ int wyswietlMenu() {
 					nrOperacji = historiaOperacji.size() - 1;
 					
 					cout << "Podaj nazwê pliku do którego chcesz zapisaæ (np. Pojazdy.txt)." << endl;
-					cin >> plik;
+					cin.sync();
+					getline( cin, plik );
 					cout << endl;
 					
 					wynik = zapiszPlik(plik);
@@ -1079,17 +1105,12 @@ int wyswietlMenu() {
 			cout << "Czy chcesz zapisaæ pracê przed wyjœciem ?" << endl;
 			cout << "[T]ak  [N]ie" << endl;
 			
-			do {
-				blad = 0;
-				opcja = getch();
-				if (opcja == 't' || opcja == 'T') {
-					cout << opcja << endl;
-					zapiszPlik("baza.txt");
-				} else {
-					blad = 1;
-				}
-			} while (blad != 0);
-			
+			opcja = getch();
+			if (opcja == 't' || opcja == 'T') {
+				cout << opcja << endl;
+				zapiszPlik("baza.txt");
+			}
+
 			cout << endl;
 			
 			return 1;
