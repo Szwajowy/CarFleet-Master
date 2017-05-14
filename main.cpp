@@ -8,11 +8,34 @@
 #include <regex>
 #include <time.h>
 #include <algorithm>
+#include <windows.h>
 
 #include "pojazd.hpp"
 #include "operacja.hpp"
 
 using namespace std;
+namespace kolor {
+  enum {
+	DEFAULT           = 7,
+    BLACK             = 0,
+    DARKBLUE          = FOREGROUND_BLUE,
+    DARKGREEN         = FOREGROUND_GREEN,
+    DARKCYAN          = FOREGROUND_GREEN | FOREGROUND_BLUE,
+    DARKRED           = FOREGROUND_RED,
+    DARKMAGENTA       = FOREGROUND_RED | FOREGROUND_BLUE,
+    DARKYELLOW        = FOREGROUND_RED | FOREGROUND_GREEN,
+    DARKGRAY          = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE,
+    GRAY              = FOREGROUND_INTENSITY,
+    BLUE              = FOREGROUND_INTENSITY | FOREGROUND_BLUE,
+    GREEN             = FOREGROUND_INTENSITY | FOREGROUND_GREEN,
+    CYAN              = FOREGROUND_INTENSITY | FOREGROUND_GREEN | FOREGROUND_BLUE,
+    RED               = FOREGROUND_INTENSITY | FOREGROUND_RED,
+    MAGENTA           = FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_BLUE,
+    YELLOW            = FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN,
+    WHITE             = FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE,
+  };
+}
+static HANDLE h = GetStdHandle ( STD_OUTPUT_HANDLE );
 
 struct tm * aktualnyCzas;
 
@@ -871,11 +894,26 @@ char pasekNarzedzi() {
 	string wynik;
 	char opcja;
 	
-	cout << "[M]enu  ";
-	cout << "[D]odaj  ";
-	cout << "[E]dytuj  ";
-	cout << "[U]suñ  ";
-	cout << "[F]iltruj" << endl;
+	SetConsoleTextAttribute(h, kolor::GREEN);
+	cout << "[M]";
+	SetConsoleTextAttribute(h, kolor::DEFAULT);
+	cout << "enu  "; 
+	SetConsoleTextAttribute(h, kolor::GREEN);
+	cout << "[D]";
+	SetConsoleTextAttribute(h, kolor::DEFAULT);
+	cout << "odaj  ";
+	SetConsoleTextAttribute(h, kolor::GREEN);
+	cout << "[E]";
+	SetConsoleTextAttribute(h, kolor::DEFAULT);
+	cout << "dytuj  ";
+	SetConsoleTextAttribute(h, kolor::GREEN);
+	cout << "[U]";
+	SetConsoleTextAttribute(h, kolor::DEFAULT);
+	cout <<"suñ  ";
+	SetConsoleTextAttribute(h, kolor::GREEN);
+	cout << "[F]";
+	SetConsoleTextAttribute(h, kolor::DEFAULT);
+	cout << "iltruj" << endl;
 	cout << endl;
 	
 	cout << "Wybierz opcje: ";
@@ -956,13 +994,27 @@ int wyswietlMenu() {
 	unsigned int blad, nrOperacji;
 	string plik, zapisz, format, wynik;
 	char opcja;
-	
+	SetConsoleTextAttribute(h, kolor::WHITE);
 	cout << "#############################" << endl;
-	cout << "1. Plik" << endl;
-	cout << "2. Wyœwietl pojazdy" << endl;
-	cout << "3. Historia operacji" << endl;
-	cout << "4. Wyjœcie" << endl;
+	SetConsoleTextAttribute(h, kolor::GREEN);
+	cout << "1. "; 
+	SetConsoleTextAttribute(h, kolor::DEFAULT);
+	cout << "Plik" << endl;
+	SetConsoleTextAttribute(h, kolor::GREEN);
+	cout << "2. ";
+	SetConsoleTextAttribute(h, kolor::DEFAULT);
+	cout << "Wyœwietl pojazdy" << endl;
+	SetConsoleTextAttribute(h, kolor::GREEN);
+	cout << "3. ";
+	SetConsoleTextAttribute(h, kolor::DEFAULT);
+	cout <<"Historia operacji" << endl;
+	SetConsoleTextAttribute(h, kolor::GREEN);
+	cout << "4. ";
+	SetConsoleTextAttribute(h, kolor::DEFAULT);
+	cout << "Wyjœcie" << endl;
+	SetConsoleTextAttribute(h, kolor::WHITE);
 	cout << "#############################" << endl;
+	SetConsoleTextAttribute(h, kolor::DEFAULT);
 	cout << endl;
 	
 	cout << "Podaj numer opcji: ";
@@ -979,9 +1031,18 @@ int wyswietlMenu() {
 
 	switch (opcja) {
 		case '1':
-			cout << "1. Otwórz jako now¹ bazê" << endl;
-			cout << "2. Otwórz jako do³¹czenie do istniej¹cej bazy" << endl;
-			cout << "3. Zapisz" << endl;
+			SetConsoleTextAttribute(h, kolor::GREEN);
+			cout << "1. ";
+			SetConsoleTextAttribute(h, kolor::DEFAULT);
+			cout << "Otwórz jako now¹ bazê" << endl;
+			SetConsoleTextAttribute(h, kolor::GREEN);
+			cout << "2. ";
+			SetConsoleTextAttribute(h, kolor::DEFAULT);
+			cout << "Otwórz jako do³¹czenie do istniej¹cej bazy" << endl;
+			SetConsoleTextAttribute(h, kolor::GREEN);
+			cout << "3. ";
+			SetConsoleTextAttribute(h, kolor::DEFAULT);
+			cout << "Zapisz" << endl;
 			cout << endl;
 			
 			cout << "Podaj numer opcji: ";
@@ -1041,7 +1102,8 @@ int wyswietlMenu() {
 			do {
 				dodajOperacja("Wyœwietlenie bazy pojazdów");
 				nrOperacji = historiaOperacji.size() - 1;
-	
+				SetConsoleTextAttribute(h, kolor::RED | BACKGROUND_INTENSITY | BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_BLUE);
+				
 				cout.width( 4 );
 				cout << left << "ID"; 
 				cout.width( 15 );
@@ -1065,7 +1127,8 @@ int wyswietlMenu() {
 				cout.width( 15 );
 				cout << left << "Rejestracja"; 
 				cout << endl;
-								
+				SetConsoleTextAttribute(h, kolor::DEFAULT);	
+							
 				for (int i=0; i<tablicaPojazdow.size();i++) {
 					wynik = wyswietlPojazd(i,"tabela");
 					historiaOperacji[nrOperacji].ustawWynik(wynik);
@@ -1103,7 +1166,14 @@ int wyswietlMenu() {
 			nrOperacji = historiaOperacji.size() - 1;
 			
 			cout << "Czy chcesz zapisaæ pracê przed wyjœciem ?" << endl;
-			cout << "[T]ak  [N]ie" << endl;
+			SetConsoleTextAttribute(h, kolor::GREEN);
+			cout << "[T]";
+			SetConsoleTextAttribute(h, kolor::DEFAULT);
+			cout <<"ak  ";
+			SetConsoleTextAttribute(h, kolor::GREEN);
+			cout <<"[N]";
+			SetConsoleTextAttribute(h, kolor::DEFAULT);
+			cout << "ie" << endl;
 			
 			opcja = getch();
 			if (opcja == 't' || opcja == 'T') {
