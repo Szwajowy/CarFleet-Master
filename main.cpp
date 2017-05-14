@@ -1049,7 +1049,7 @@ int wyswietlMenu() {
 			SetConsoleTextAttribute(h, kolor::DEFAULT);
 			cout << "enu  " << endl << endl; 
 			
-			cout << "Podaj numer opcji: ";
+			cout << "Wybierz opcje: ";
 			do {
 				blad = 0;
 				opcja = getch();
