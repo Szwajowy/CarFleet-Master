@@ -891,7 +891,7 @@ string otworzPlik(string nazwaPliku, string opcja) {
 
 char pasekNarzedzi() {
 	unsigned int id, nrOperacji, blad;
-	string wynik;
+	string wynik, opcjaS;
 	char opcja;
 	
 	SetConsoleTextAttribute(h, kolor::GREEN);
@@ -920,7 +920,7 @@ char pasekNarzedzi() {
 	do {
 		blad = 0;
 		opcja = getch();
-		if (opcja == 'm' || opcja == 'M' || opcja == 'd' || opcja == 'D' || opcja == 'e' || opcja == 'E' || opcja == 'u' || opcja == 'U' || opcja == 'f' || opcja == 'F') {
+		if (opcja == 'm' || opcja == 'M' || opcja == 'd' || opcja == 'D' || opcja == 'e' || opcja == 'E' || opcja == 'u' || opcja == 'U' || opcja == 'f' || opcja == 'F' || opcja == 'c' || opcja == 'C') {
 			cout << opcja << endl;
 		} else {
 			blad = 1;
@@ -982,7 +982,23 @@ char pasekNarzedzi() {
 			wynik = przeszukajPojazdy();
 			historiaOperacji[nrOperacji].ustawWynik(wynik);
 			break;
+		case 'c': case 'C':
+			cout  << "Czy napewno chcesz cofn¹æ operacjê dodania pojazdu? \n Napisz \"tak\" aby potwierdziæ operacjê." << endl;
+			cin >> opcjaS;
+			transform(opcjaS.begin(), opcjaS.end(), opcjaS.begin(), ::tolower);
 			
+			if(opcjaS == "tak") {
+ 				for(int i = 0; i < historiaOperacji.size();i++) {
+						if(historiaOperacji[i].oddajWynik() == "x10") {
+							tablicaPojazdow.pop_back(); 
+							cout << "Usuniêcie ostatnio dodanego pojazdu zakoñczono sukcesem." << endl;	
+							break;
+							}
+						}
+			}
+			cout << "Nie dodano ostatnio ¿adnego pojazdu" << endl;
+			break;
+		
 		default: 
 			cout << "Wybrano niew³aœciw¹ opcjê."  << endl;
 			cout << endl;
