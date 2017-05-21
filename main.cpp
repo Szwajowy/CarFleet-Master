@@ -318,11 +318,13 @@ string edytujPojazd(unsigned int id) {
 		return "x22";
 	}
 	
+	
 	string atrybut, typ, marka, model, wersja, nadwozie, paliwo, vin, rejestracja, opis, uwagi, smoc, spojSilnika, smiejscaSiedz, smiejscaOgl, smasa, sdopMasaCalk, smasaPrzyczHam, smasaPrzyczBezHam, sosie, srozstawOsi, srozstawKol, sdopNaciskNaOs;
 	unsigned int moc, pojSilnika, miejscaSiedz, miejscaOgl, masa, dopMasaCalk, masaPrzyczHam, masaPrzyczBezHam, osie, rozstawOsi, rozstawKol, dopNaciskNaOs, rokProd;
 	unsigned int blad;
 	char opcja;
-
+	int x = 0;
+	
 	do {
 		cout << "Podaj nazwe w³asnoœci pojazdu: ";
 		cin.sync();
@@ -793,7 +795,14 @@ string otworzPlik(string nazwaPliku, string opcja) {
 	cout << "Otwarcie pliku nadpisze wszelkie wprowadzone zmiany." << endl;
 	cout << "Przed rozpoczeciem nale¿y zapisaæ swoj¹ prace." << endl;
 	cout << "Czy chcesz kontynuowaæ ?" << endl;
-	cout << "[T]ak  [N]ie" << endl;
+	SetConsoleTextAttribute(h, kolor::GREEN);
+	cout << "[T]";
+	SetConsoleTextAttribute(h, kolor::DEFAULT);
+	cout <<"ak  ";
+	SetConsoleTextAttribute(h, kolor::GREEN);
+	cout <<"[N]";
+	SetConsoleTextAttribute(h, kolor::DEFAULT);
+	cout << "ie" << endl;
 		
 	exit = getche();
 	cout << endl;
@@ -991,9 +1000,10 @@ char pasekNarzedzi() {
  				for(int i = 0; i < historiaOperacji.size();i++) {
 						if(historiaOperacji[i].oddajWynik() == "x10") {
 							tablicaPojazdow.pop_back(); 
+							historiaOperacji.erase(historiaOperacji.begin()+i); 
 							cout << "Usuniêcie ostatnio dodanego pojazdu zakoñczono sukcesem." << endl;	
 							break;
-							}
+							} /*Do³o¿yæ obs³ugê edycji x10*/
 						}
 			}
 			cout << "Nie dodano ostatnio ¿adnego pojazdu" << endl;
