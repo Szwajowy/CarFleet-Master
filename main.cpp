@@ -323,7 +323,6 @@ string edytujPojazd(unsigned int id) {
 	unsigned int moc, pojSilnika, miejscaSiedz, miejscaOgl, masa, dopMasaCalk, masaPrzyczHam, masaPrzyczBezHam, osie, rozstawOsi, rozstawKol, dopNaciskNaOs, rokProd;
 	unsigned int blad;
 	char opcja;
-	int x = 0;
 	
 	do {
 		cout << "Podaj nazwe w³asnoœci pojazdu: ";
@@ -922,7 +921,11 @@ char pasekNarzedzi() {
 	SetConsoleTextAttribute(h, kolor::GREEN);
 	cout << "[F]";
 	SetConsoleTextAttribute(h, kolor::DEFAULT);
-	cout << "iltruj" << endl;
+	cout << "iltruj ";
+	SetConsoleTextAttribute(h, kolor::GREEN);
+	cout << "[C]";
+	SetConsoleTextAttribute(h, kolor::DEFAULT);
+	cout << "ofnij*" << endl;
 	cout << endl;
 	
 	cout << "Wybierz opcje: ";
