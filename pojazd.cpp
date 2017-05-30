@@ -1,7 +1,7 @@
 #include "pojazd.hpp"
 
 // Konstruktor parametrowy dla zmiennych obowi¹zkowych
-Pojazd::Pojazd(string typ,string marka,string model,string wersja,string nadwozie,string paliwo,unsigned int pojSilnika,unsigned int rokProd,string vin,string rejestracja) {
+Pojazd::Pojazd(char typ,string marka,string model,string wersja,string nadwozie,string paliwo,unsigned int pojSilnika,unsigned int rokProd,string vin,string rejestracja) {
 	this->typ = typ;
     this->marka = marka;
 	this->model = model;
@@ -16,15 +16,15 @@ Pojazd::Pojazd(string typ,string marka,string model,string wersja,string nadwozi
     
 // Konstruktor bezparametrowy    
 Pojazd::Pojazd() {
-    Pojazd("Nieznany","Nieznana","Nieznany","Nieznana","Nieznane","Nieznane",0,1981,"AAAAAAAAAAAAA0000","Nieznana");
+    Pojazd('N',"Nieznana","Nieznany","Nieznana","Nieznane","Nieznane",0,1981,"AAAAAAAAAAAAA0000","Nieznana");
 }      
 	
 // Zwracanie i ustawianie wartoœci zmiennej "typ"		
-string Pojazd::oddajTyp() {
+char Pojazd::oddajTyp() {
 	return typ;	
 }
 	
-void Pojazd::ustawTyp(string typ) {
+void Pojazd::ustawTyp(char typ) {
 	this->typ = typ;	
 }
 

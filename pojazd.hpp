@@ -9,19 +9,20 @@ using namespace std;
 class Pojazd {
 	private:
 		// Dane pojazdu
-		string typ, marka, model, wersja, nadwozie, paliwo, vin, rejestracja, opis, uwagi;
+		char typ;
+		string marka, model, wersja, nadwozie, paliwo, vin, rejestracja, opis, uwagi;
 		unsigned int pojSilnika, moc, miejscaSiedz, miejscaOgl, masa, dopMasaCalk, masaPrzyczHam, masaPrzyczBezHam, osie, rozstawOsi, rozstawKol, dopNaciskNaOs, rokProd;
 	 
 	public:
 		// Konstruktor parametrowy dla zmiennych obowi¹zkowych 
-		Pojazd(string typ,string marka,string model,string wersja,string nadwozie,string paliwo,unsigned int silnik,unsigned int rokProd,string vin,string rejestracja);
+		Pojazd(char typ,string marka,string model,string wersja,string nadwozie,string paliwo,unsigned int silnik,unsigned int rokProd,string vin,string rejestracja);
 		
 		// Konstruktor bezparametrowy
 		Pojazd();
 		
 		// Zwracanie i ustawianie wartoœci zmiennej "typ"
-		string oddajTyp();
-		void ustawTyp(string typ);
+		char oddajTyp();
+		void ustawTyp(char typ);
 		
 		// Zwracanie i ustawianie wartoœci zmiennej "marka"
 		string oddajMarka();
@@ -112,5 +113,35 @@ class Pojazd {
 		string oddajUwagi();
 		void ustawUwagi(string uwagi);
 };
+
+// Odpowiadaj¹ce klasy dla pojazdów ró¿nego typu: Jednoœlad, Osobowy, Autobus, Ciê¿arowy, Specjalny, Przyczepa, Naczepa
+
+/* class Jednoslad : private Pojazd {
+	
+};
+
+class Osobowy : private Pojazd {
+	
+};
+
+class Autobus : private Pojazd {
+	
+};
+
+class Ciezarowy : private Pojazd {
+	
+};
+
+class Specjalny : private Pojazd {
+	
+};
+
+class Przyczepa : private Pojazd {
+	
+};
+
+class Naczepa : private Pojazd {
+	
+}; */
 
 #endif

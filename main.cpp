@@ -108,15 +108,17 @@ vector <Pojazd> tablicaPojazdow;
 // Metoda dodajaca dane pojazdu dla odpowiedniego indeksu wektora
 // (je¿eli dla danego indeksu istnieje ju¿ obiekt to nastêpuje inkrementacja indeksu tego obiektu i ka¿dego nastêpnego, czyli przesuniêcie w prawo i dopiero dodanie naszego obiektu)	
 string dodajPojazd(unsigned int id) {
-	string typ, marka, model, wersja, nadwozie, paliwo, vin, rejestracja, opis, uwagi, smoc, spojSilnika, smiejscaSiedz, smiejscaOgl, smasa, sdopMasaCalk, smasaPrzyczHam, smasaPrzyczBezHam, sosie, srozstawOsi, srozstawKol, sdopNaciskNaOs;
+	char typ;
+	string marka, model, wersja, nadwozie, paliwo, vin, rejestracja, opis, uwagi, smoc, spojSilnika, smiejscaSiedz, smiejscaOgl, smasa, sdopMasaCalk, smasaPrzyczHam, smasaPrzyczBezHam, sosie, srozstawOsi, srozstawKol, sdopNaciskNaOs;
 	unsigned int moc, pojSilnika, miejscaSiedz, miejscaOgl, masa, dopMasaCalk, masaPrzyczHam, masaPrzyczBezHam, osie, rozstawOsi, rozstawKol, dopNaciskNaOs, rokProd;
 	unsigned int blad;
 	
 	cout << "Dane wymagane do dodania pojazdu s¹ oznaczone gwiazdk¹, wszelkie inne dane mo¿na pomin¹æ wciskaj¹c ENTER." << endl;
 	
-	cout << "* Podaj typ pojazdu: ";
-	cin.sync();
-	getline( cin, typ );
+	// Mo¿liwe typy pojazdów: 1.Jednoœlad, 2.Osobowy, 3.Autobus, 4.Ciezarowy, 5.Specjalny, 6.Przyczepa, 7.Naczepa
+	cout << "* Wybierz typ pojazdu: ";
+	cout << "[J]ednoœlad  [O]sobowy [A]utobus  [C]iê¿arowy [S]pecjalny [P]rzyczepa [N]aczepa" << endl;
+	typ = getch();
 	
 	cout << "* Podaj marke pojazdu: ";
 	cin.sync();
@@ -318,11 +320,10 @@ string edytujPojazd(unsigned int id) {
 		return "x22";
 	}
 	
-	
-	string atrybut, typ, marka, model, wersja, nadwozie, paliwo, vin, rejestracja, opis, uwagi, smoc, spojSilnika, smiejscaSiedz, smiejscaOgl, smasa, sdopMasaCalk, smasaPrzyczHam, smasaPrzyczBezHam, sosie, srozstawOsi, srozstawKol, sdopNaciskNaOs;
+	char typ, opcja;
+	string atrybut, marka, model, wersja, nadwozie, paliwo, vin, rejestracja, opis, uwagi, smoc, spojSilnika, smiejscaSiedz, smiejscaOgl, smasa, sdopMasaCalk, smasaPrzyczHam, smasaPrzyczBezHam, sosie, srozstawOsi, srozstawKol, sdopNaciskNaOs;
 	unsigned int moc, pojSilnika, miejscaSiedz, miejscaOgl, masa, dopMasaCalk, masaPrzyczHam, masaPrzyczBezHam, osie, rozstawOsi, rozstawKol, dopNaciskNaOs, rokProd;
 	unsigned int blad;
-	char opcja;
 	
 	do {
 		cout << "Podaj nazwe w³asnoœci pojazdu: ";
@@ -331,9 +332,10 @@ string edytujPojazd(unsigned int id) {
 		cout << endl;
 		
 		if (!stricmp(atrybut.c_str(), "typ")) {
-			cout << "* Podaj typ pojazdu: ";
-			cin.sync();
-			getline( cin, typ );
+			// Mo¿liwe typy pojazdów: 1.Jednoœlad, 2.Osobowy, 3.Autobus, 4.Ciezarowy, 5.Specjalny, 6.Przyczepa, 7.Naczepa
+			cout << "* Wybierz typ pojazdu: ";
+			cout << "[J]ednoœlad  [O]sobowy [A]utobus  [C]iê¿arowy [S]pecjalny [P]rzyczepa [N]aczepa" << endl;
+			typ = getch();
 			tablicaPojazdow[id].ustawTyp(typ);
 		} else if (!stricmp(atrybut.c_str(), "marka")) {
 			cout << "* Podaj marke pojazdu: ";
@@ -594,7 +596,22 @@ string wyswietlPojazd(unsigned int id, string format) {
 		cout.width( 4 );
 		cout << left << id;
 		cout.width( 15 );
-		cout << left << tablicaPojazdow[id].oddajTyp();
+		// Zamiana litery typu na pe³n¹ nazwê: Jednoœlad, Osobowy, Autobus, Ciê¿arowy, Specjalny, Przyczepa, Naczepa
+		if (tablicaPojazdow[id].oddajTyp()== 'J' || tablicaPojazdow[id].oddajTyp()== 'j') {
+			cout << left << "Jednoœlad";
+		} else if (tablicaPojazdow[id].oddajTyp()== 'O' || tablicaPojazdow[id].oddajTyp()== 'o') {
+			cout << left << "Osobowy";
+		} else if (tablicaPojazdow[id].oddajTyp()== 'A' || tablicaPojazdow[id].oddajTyp()== 'a') {
+			cout << left << "Autobus";
+		} else if (tablicaPojazdow[id].oddajTyp()== 'C' || tablicaPojazdow[id].oddajTyp()== 'c') {
+			cout << left << "Ciê¿arowy";
+		} else if (tablicaPojazdow[id].oddajTyp()== 'S' || tablicaPojazdow[id].oddajTyp()== 's') {
+			cout << left << "Specjalny";
+		} else if (tablicaPojazdow[id].oddajTyp()== 'P' || tablicaPojazdow[id].oddajTyp()== 'p') {
+			cout << left << "Przyczepa";
+		} else if (tablicaPojazdow[id].oddajTyp()== 'N' || tablicaPojazdow[id].oddajTyp()== 'n') {
+			cout << left << "Naczepa";
+		}
 		cout.width( 15 );
 	    cout << left << tablicaPojazdow[id].oddajMarka();
 	    cout.width( 15 );
@@ -635,10 +652,17 @@ string przeszukajPojazdy() {
 	cout << "Podaj nazwe w³asnoœci pojazdu: ";
 	cin.sync();
 	getline(cin, atrybut);
-	cout << "Podaj wartoœæ tej w³asnoœci: ";
-	cin.sync();
-	getline(cin, wartosc);
-	cout << endl;
+	if (stricmp(atrybut.c_str(), "typ")) {
+		cout << "Podaj wartoœæ tej w³asnoœci: ";
+		cin.sync();
+		getline(cin, wartosc);
+		cout << endl;
+	} else {
+		// Mo¿liwe typy pojazdów: 1.Jednoœlad, 2.Osobowy, 3.Autobus, 4.Ciezarowy, 5.Specjalny, 6.Przyczepa, 7.Naczepa
+		cout << "* Wybierz typ pojazdu: ";
+		cout << "[J]ednoœlad  [O]sobowy [A]utobus  [C]iê¿arowy [S]pecjalny [P]rzyczepa [N]aczepa" << endl;
+		wartosc = getch();
+	}
 	
 	cout << "Chcesz wyœwietliæ wyniki jako \"tabela\", czy \"lista\" ?" << endl;
 	cin >> format;
@@ -672,7 +696,7 @@ string przeszukajPojazdy() {
 	// Przeszukiwanie wszystkich obiektów wektora
 	for (int i=0; i<tablicaPojazdow.size();i++) {
 		if (!stricmp(atrybut.c_str(), "typ")) {
-			if (tablicaPojazdow[i].oddajTyp()==wartosc) {
+			if (tablicaPojazdow[i].oddajTyp()==wartosc[0]) {
 				wyswietlPojazd(i,format);
 				znalezionoWyniki += 1;	
 			}
@@ -819,7 +843,8 @@ string otworzPlik(string nazwaPliku, string opcja) {
 
 		fstream plik(nazwaPliku,ios::in);
 		if( plik.good() ) {
-			string wiersz, typ, marka, model, wersja, nadwozie, paliwo, vin, rejestracja;
+			char typ;
+			string wiersz, marka, model, wersja, nadwozie, paliwo, vin, rejestracja;
 			unsigned int id, i = 0, pojSilnika, rokProd;
 			
 			while ( !plik.eof() ) {
@@ -831,7 +856,7 @@ string otworzPlik(string nazwaPliku, string opcja) {
 						i++;
 					} else if (i==1) {
 						wiersz.erase(0,5);
-						typ = wiersz;
+						typ = wiersz[0];
 						i++;
 					} else if (i==2) {
 						wiersz.erase(0,7);
