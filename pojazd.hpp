@@ -2,6 +2,7 @@
 #define pojazd_hpp
 
 #include <string>
+#include <time.h>
 
 using namespace std;
 
@@ -12,10 +13,12 @@ class Pojazd {
 		char typ;
 		string marka, model, wersja, nadwozie, paliwo, vin, rejestracja, opis, uwagi;
 		unsigned int pojSilnika, moc, miejscaSiedz, miejscaOgl, masa, dopMasaCalk, masaPrzyczHam, masaPrzyczBezHam, osie, rozstawOsi, rozstawKol, dopNaciskNaOs, rokProd;
-	 
+		
+		struct tm * ocOd, * ocDo, * przegladOd, * przegladDo;
+		
 	public:
 		// Konstruktor parametrowy dla zmiennych obowi¹zkowych 
-		Pojazd(char typ,string marka,string model,string wersja,string nadwozie,string paliwo,unsigned int silnik,unsigned int rokProd,string vin,string rejestracja);
+		Pojazd(char typ,string marka,string model,string wersja,string nadwozie,string paliwo,unsigned int silnik,unsigned int rokProd,string vin,string rejestracja, tm * przegladOd, tm * przegladDo);
 		
 		// Konstruktor bezparametrowy
 		Pojazd();
@@ -112,6 +115,22 @@ class Pojazd {
 		// Zwracanie i ustawianie wartoœci zmiennej "uwagi"
 		string oddajUwagi();
 		void ustawUwagi(string uwagi);
+		
+		// Zwracanie i ustawianie wartoœci zmiennej "ocOd"
+		tm oddajOcOd();
+		void ustawOcOd(tm * ocOd);
+		
+		// Zwracanie i ustawianie wartoœci zmiennej "ocDo"
+		tm oddajOcDo();
+		void ustawOcDo(tm * ocDo);
+		
+		// Zwracanie i ustawianie wartoœci zmiennej "przegladOd"
+		tm oddajPrzegladOd();
+		void ustawPrzegladOd(tm * przegladOd);
+		
+		// Zwracanie i ustawianie wartoœci zmiennej "przegladDo"
+		tm oddajPrzegladDo();
+		void ustawPrzegladDo(tm * przegladDo);
 };
 
 // Odpowiadaj¹ce klasy dla pojazdów ró¿nego typu: Jednoœlad, Osobowy, Autobus, Ciê¿arowy, Specjalny, Przyczepa, Naczepa

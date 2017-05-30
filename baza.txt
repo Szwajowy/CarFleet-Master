@@ -8,6 +8,8 @@ Rodzaj paliwa: Benzyna
 Pojemno쒏 silnika: 1229
 Rok produkcji: 2007
 Nr.VIN: W0L0SDL6874247208
+Przegl퉐 od: 30/07/1234
+Przegl퉐 do: 01/03/2000
 Rejestracja: SBE 1234
 
 Pojazd nr.1
@@ -20,6 +22,8 @@ Rodzaj paliwa: Diesel
 Pojemno쒏 silnika: 1686
 Rok produkcji: 2013
 Nr.VIN: W0LPD8EK0D8053251
+Przegl퉐 od: 15/01/1543
+Przegl퉐 do: 18/09/2000
 Rejestracja: SO 1234
 
 Pojazd nr.2
@@ -32,5 +36,21 @@ Rodzaj paliwa: Benzyna
 Pojemno쒏 silnika: 1400
 Rok produkcji: 2017
 Nr.VIN: TMBAA7NP7H7553036
+Przegl퉐 od: 16/05/1654
+Przegl퉐 do: 11/04/2000
 Rejestracja: KRK 1234
+
+Pojazd nr.3
+Typ: Osobowe
+Marka: Toyota
+Model: Yaris
+Wersja: IV
+Nadwozie: Hatchback
+Rodzaj paliwa: Diesel
+Pojemno쒏 silnika: 1400
+Rok produkcji: 2010
+Nr.VIN: W0L0SDL68B4352330
+Przegl퉐 od: 24/06/1346
+Przegl퉐 do: 12/08/2000
+Rejestracja: PKR 12274
 

@@ -37,11 +37,11 @@ namespace kolor {
 }
 static HANDLE h = GetStdHandle ( STD_OUTPUT_HANDLE );
 
-struct tm * aktualnyCzas;
+struct tm aktualnyCzas;
 
 bool sprawdzRokProd(unsigned int rokProd) {
-	if( rokProd < 1981 || rokProd > aktualnyCzas->tm_year) {
-		cout << "B³¹d! Rocznij mo¿e byæ tylko z przedzia³u od 1981 do " << aktualnyCzas->tm_year << "." << endl;
+	if( rokProd < 1981 || rokProd > aktualnyCzas.tm_year) {
+		cout << "B³¹d! Rocznij mo¿e byæ tylko z przedzia³u od 1981 do " << aktualnyCzas.tm_year << "." << endl;
 		return true;
 	}	else {
 		return false;
@@ -50,7 +50,7 @@ bool sprawdzRokProd(unsigned int rokProd) {
 
 bool sprawdzVin(string vin) {
 	// VIN - 1-13 cyfry/litery, 14-17 cyfry np. W0L0SDL68B4352330
-	regex wzorzecVin("([0-9]|[A-H]|[K-N]|P|[R-Z]){13}[0-9]{4}");
+	regex wzorzecVin("(([0-9]|[A-H]|[K-N]|P|[R-Z]){13}[0-9]{4})");
 	smatch sprawdzonyVin;
 	
 	if( !regex_search(vin,sprawdzonyVin,wzorzecVin)) {
@@ -111,7 +111,16 @@ string dodajPojazd(unsigned int id) {
 	char typ;
 	string marka, model, wersja, nadwozie, paliwo, vin, rejestracja, opis, uwagi, smoc, spojSilnika, smiejscaSiedz, smiejscaOgl, smasa, sdopMasaCalk, smasaPrzyczHam, smasaPrzyczBezHam, sosie, srozstawOsi, srozstawKol, sdopNaciskNaOs;
 	unsigned int moc, pojSilnika, miejscaSiedz, miejscaOgl, masa, dopMasaCalk, masaPrzyczHam, masaPrzyczBezHam, osie, rozstawOsi, rozstawKol, dopNaciskNaOs, rokProd;
-	unsigned int blad;
+	int dzien, miesiac, rok;
+	struct tm * ocOd, * ocDo, * przegladOd, * przegladDo;
+	bool blad;
+	
+	time_t rawtime;
+	time( &rawtime );
+	ocOd = localtime( &rawtime );
+	ocDo = localtime( &rawtime );
+    przegladOd = localtime( &rawtime );
+    przegladDo = localtime( &rawtime );
 	
 	cout << "Dane wymagane do dodania pojazdu s¹ oznaczone gwiazdk¹, wszelkie inne dane mo¿na pomin¹æ wciskaj¹c ENTER." << endl;
 	
@@ -120,25 +129,35 @@ string dodajPojazd(unsigned int id) {
 	cout << "[J]ednoœlad  [O]sobowy [A]utobus  [C]iê¿arowy [S]pecjalny [P]rzyczepa [N]aczepa" << endl;
 	typ = getch();
 	
-	cout << "* Podaj marke pojazdu: ";
-	cin.sync();
-	getline( cin, marka );
+	do {
+		cout << "* Podaj marke pojazdu: ";
+		cin.sync();
+		getline( cin, marka );
+	} while (marka == "");
 	
-	cout << "* Podaj model pojazdu: ";
-	cin.sync();
-	getline( cin, model );
+	do {
+		cout << "* Podaj model pojazdu: ";
+		cin.sync();
+		getline( cin, model );
+	} while (model == "");
 	
-	cout << "* Podaj wersjê pojazdu: ";
-	cin.sync();
-	getline( cin, wersja );
+	do {
+		cout << "* Podaj wersjê pojazdu: ";
+		cin.sync();
+		getline( cin, wersja );
+	} while (wersja == "");
 	
-	cout << "* Podaj typ nadwozia pojazdu: ";
-	cin.sync();
-	getline( cin, nadwozie );
+	do {
+		cout << "* Podaj typ nadwozia pojazdu: ";
+		cin.sync();
+		getline( cin, nadwozie );
+	} while (nadwozie == "");
 	
-	cout << "* Podaj rodzaj paliwa: ";
-	cin.sync();
-	getline( cin, paliwo );
+	do {
+		cout << "* Podaj rodzaj paliwa: ";
+		cin.sync();
+		getline( cin, paliwo );
+	} while (paliwo == "");
 	
 	// Pojemnoœc powinno siê móc dodaæ zarówno jako "1.2" "1200"
 	cout << "* Podaj pojemnoœæ silnika: ";
@@ -160,7 +179,95 @@ string dodajPojazd(unsigned int id) {
 		cin >> vin;
 		transform(vin.begin(), vin.end(),vin.begin(), ::toupper);
 		blad = sprawdzVin(vin);
+	} while (blad != false || vin == "");
+
+	cout << "* Podaj datê ostatniego przegl¹du." << endl;
+	do {
+		cout << "Dzieñ: ";
+		while (!(cin >> dzien)) {
+			cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
+			cin.sync();
+			cout << "Dzieñ: ";
+		}
+		cout << endl;
+		if (blad != false && dzien < 1 && dzien > 31) {
+			cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
+		}
 	} while (blad != false);
+	
+	do {
+		cout << "Miesi¹c: ";
+		while (!(cin >> miesiac)) {
+			cout << "B³¹d! Podana wartoœæ nie jest prawid³owym miesi¹cem!" << endl;
+			cin.sync();
+			cout << "Miesi¹c: ";
+		}
+		cout << endl;
+		if (blad != false && miesiac < 1 && miesiac > 12) {
+			cout << "B³¹d! Podana wartoœæ nie jest prawid³owym miesi¹cem!" << endl;
+		}
+	} while (blad != false);
+	
+	do {
+		cout << "Rok: ";
+		while (!(cin >> rok)) {
+			cout << "B³¹d! Podana wartoœæ nie jest prawid³owym rokiem!" << endl;
+			cin.sync();
+			cout << "Rok: ";
+		}
+		cout << endl;
+		if (blad != false && rok < 1981 && rok > aktualnyCzas.tm_year) {
+			cout << "B³¹d! Podana wartoœæ nie jest prawid³owym rokiem!" << endl;
+		}
+	} while (blad != false);
+	
+	przegladOd->tm_mday = dzien;
+	przegladOd->tm_mon = miesiac - 1;
+	przegladOd->tm_year = rok - 1900;	
+	
+	cout << "* Podaj datê wa¿noœci przegl¹du." << endl;
+	do {
+		cout << "Dzieñ: ";
+		while (!(cin >> dzien)) {
+			cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
+			cin.sync();
+			cout << "Dzieñ: ";
+		}
+		cout << endl;
+		if (blad != false && dzien < 1 && dzien > 31) {
+			cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
+		}
+	} while (blad != false);
+	
+	do {
+		cout << "Miesi¹c: ";
+		while (!(cin >> miesiac)) {
+			cout << "B³¹d! Podana wartoœæ nie jest prawid³owym miesi¹cem!" << endl;
+			cin.sync();
+			cout << "Miesi¹c: ";
+		}
+		cout << endl;
+		if (blad != false && miesiac < 1 && miesiac > 12) {
+			cout << "B³¹d! Podana wartoœæ nie jest prawid³owym miesi¹cem!" << endl;
+		}
+	} while (blad != false);
+	
+	do {
+		cout << "Rok: ";
+		while (!(cin >> rok)) {
+			cout << "B³¹d! Podana wartoœæ nie jest prawid³owym rokiem!" << endl;
+			cin.sync();
+			cout << "Rok: ";
+		}
+		cout << endl;
+		if (blad != false && rok < 1981 && rok > aktualnyCzas.tm_year) {
+			cout << "B³¹d! Podana wartoœæ nie jest prawid³owym rokiem!" << endl;
+		}
+	} while (blad != false);
+	
+	przegladOd->tm_mday = dzien;
+	przegladOd->tm_mon = miesiac - 1;
+	przegladOd->tm_year = rok - 1900;	
 	
 	do {
 		cout << "* Podaj numer rejestracji: ";
@@ -168,9 +275,9 @@ string dodajPojazd(unsigned int id) {
 		getline( cin, rejestracja );
 		transform(rejestracja.begin(), rejestracja.end(),rejestracja.begin(), ::toupper);
 		blad = sprawdzRejestracja(rejestracja);
-	} while (blad != false);
+	} while (blad != false);	
 	
-	tablicaPojazdow.insert (tablicaPojazdow.begin() + id,Pojazd(typ,marka,model,wersja,nadwozie,paliwo,pojSilnika,rokProd,vin,rejestracja));
+	tablicaPojazdow.insert (tablicaPojazdow.begin() + id,Pojazd(typ,marka,model,wersja,nadwozie,paliwo,pojSilnika,rokProd,vin,rejestracja, przegladOd,przegladDo));
 	
 	do {
 		blad = false;
@@ -179,7 +286,7 @@ string dodajPojazd(unsigned int id) {
 		getline( cin, smoc );
 		if (smoc != "") {
 			blad = sprawdzCzyLiczba(smoc);
-			if (blad == false) moc = stoi(smoc);;
+			if (blad == false) moc = stoi(smoc);
 		}
 	} while (blad != false);
 	
@@ -389,7 +496,7 @@ string edytujPojazd(unsigned int id, unsigned int nrOperacji) {
 			cin.sync();
 			getline( cin, paliwo );
 			tablicaPojazdow[id].ustawPaliwo(paliwo);
-		} else if (!stricmp(atrybut.c_str(), "nr.vin") || !stricmp(atrybut.c_str(), "nr vin") || !stricmp(atrybut.c_str(), "numer vin")) {
+		} else if (!stricmp(atrybut.c_str(), "nr.vin") || !stricmp(atrybut.c_str(), "nr vin") || !stricmp(atrybut.c_str(), "numer vin") || !stricmp(atrybut.c_str(), "vin")) {
 			historiaOperacji[nrOperacji].ustawAtrybut(atrybut);
 			historiaOperacji[nrOperacji].ustawPoprzedniaWartosc(tablicaPojazdow[id].oddajVin());
 			cout << "B³¹d! Nie mo¿na dokonaæ edycji atrybutu \"VIN\", poniewa¿ jest on sta³y." << endl;
@@ -632,6 +739,8 @@ string wyswietlPojazd(unsigned int id, string format) {
 	    cout << "Pojemnoœæ silnika: " << tablicaPojazdow[id].oddajPojSilnika() << endl;
 	    cout << "Rok produkcji: " << tablicaPojazdow[id].oddajRokProd() << endl;
 	    cout << "Nr. VIN: " << tablicaPojazdow[id].oddajVin() << endl;
+		cout << "Przegl¹d od: " << tablicaPojazdow[id].oddajPrzegladOd().tm_mday << "/" << tablicaPojazdow[id].oddajPrzegladOd().tm_mon + 1 << "/" << tablicaPojazdow[id].oddajPrzegladOd().tm_year + 1900 << endl;
+		cout << "Przegl¹d do: " << tablicaPojazdow[id].oddajPrzegladDo().tm_mday << "/" << tablicaPojazdow[id].oddajPrzegladDo().tm_mon + 1 << "/" << tablicaPojazdow[id].oddajPrzegladDo().tm_year + 1900 << endl;
 	    cout << "Rejestracja: " << tablicaPojazdow[id].oddajRejestracja() << endl;
 	    cout << endl;
     } else if (!stricmp(format.c_str(), "tabela")) {
@@ -670,7 +779,19 @@ string wyswietlPojazd(unsigned int id, string format) {
 	    cout << left << tablicaPojazdow[id].oddajRokProd();
 	    cout.width( 18 );
 	    cout << left << tablicaPojazdow[id].oddajVin();
-	    cout.width( 15 );
+	    cout.width( 3 );
+	    cout << right << tablicaPojazdow[id].oddajPrzegladOd().tm_mday << "/";
+	    cout.width( 2 );
+		cout << left << tablicaPojazdow[id].oddajPrzegladOd().tm_mon + 1 << "/";
+		cout.width( 10 );
+		cout << left << tablicaPojazdow[id].oddajPrzegladOd().tm_year + 1900;
+		cout.width( 3 );
+	    cout << right <<  tablicaPojazdow[id].oddajPrzegladDo().tm_mday << "/";
+	    cout.width( 2 );
+		cout << left << tablicaPojazdow[id].oddajPrzegladDo().tm_mon + 1 << "/";
+		cout.width( 10 );
+		cout << left << tablicaPojazdow[id].oddajPrzegladDo().tm_year + 1900;
+		cout.width( 11 );
 	    cout << left << tablicaPojazdow[id].oddajRejestracja();
 	    cout << endl;	
 	}
@@ -833,6 +954,8 @@ string zapiszPlik(string nazwaPliku) {
 			plik << "Pojemnoœæ silnika: " << tablicaPojazdow[i].oddajPojSilnika() << endl;
 			plik << "Rok produkcji: " << tablicaPojazdow[i].oddajRokProd() << endl;
 			plik << "Nr.VIN: " << tablicaPojazdow[i].oddajVin() << endl;
+			plik << "Przegl¹d od: " << tablicaPojazdow[i].oddajPrzegladOd().tm_mday << "/" << tablicaPojazdow[i].oddajPrzegladOd().tm_mon + 1 << "/" << tablicaPojazdow[i].oddajPrzegladOd().tm_year + 1900 << endl;
+			plik << "Przegl¹d do: " << tablicaPojazdow[i].oddajPrzegladDo().tm_mday << "/" << tablicaPojazdow[i].oddajPrzegladDo().tm_mon + 1 << "/" << tablicaPojazdow[i].oddajPrzegladDo().tm_year + 1900 << endl;
 			plik << "Rejestracja: " << tablicaPojazdow[i].oddajRejestracja() << endl;
 			plik << endl;
 			plik.flush();
@@ -886,8 +1009,16 @@ string otworzPlik(string nazwaPliku, string opcja) {
 		fstream plik(nazwaPliku,ios::in);
 		if( plik.good() ) {
 			char typ;
-			string wiersz, marka, model, wersja, nadwozie, paliwo, vin, rejestracja;
+			string wiersz, marka, model, wersja, nadwozie, paliwo, vin, rejestracja, dzien, miesiac, rok;
 			unsigned int id, i = 0, pojSilnika, rokProd;
+			struct tm * ocOd, * ocDo, * przegladOd, * przegladDo;
+			
+			time_t rawtime;
+			time( &rawtime );
+			ocOd = localtime( &rawtime );
+			ocDo = localtime( &rawtime );
+		    przegladOd = localtime( &rawtime );
+		    przegladDo = localtime( &rawtime );
 			
 			while ( !plik.eof() ) {
 				getline(plik, wiersz);
@@ -932,13 +1063,39 @@ string otworzPlik(string nazwaPliku, string opcja) {
 						wiersz.erase(0,8);
 						vin = wiersz;
 						i++;
-					} else if (i==10) {
+					} else if (i==10) { // przeglad od
+						dzien = wiersz;
+						dzien.erase(0,13);
+						dzien.erase(2,8);
+						miesiac = wiersz;
+						miesiac.erase(0,16);
+						miesiac.erase(2,5);
+						rok = wiersz;
+						rok.erase(0,19);
+						przegladOd->tm_mday = stoi(dzien);
+						przegladOd->tm_mon = stoi(miesiac) - 1;
+						przegladOd->tm_year = stoi(rok) - 1990;
+						i++;
+					} else if (i==11) { // przeglad do
+						dzien = wiersz;
+						dzien.erase(0,13);
+						dzien.erase(2,8);
+						miesiac = wiersz;
+						miesiac.erase(0,16);
+						miesiac.erase(2,5);
+						rok = wiersz;
+						rok.erase(0,19);
+						przegladDo->tm_mday = stoi(dzien);
+						przegladDo->tm_mon = stoi(miesiac) - 1;
+						przegladDo->tm_year = stoi(rok) - 1990;
+						i++;
+					} else if (i==12) {
 						wiersz.erase(0,13);
 						rejestracja = wiersz;
 						if (opcja == "otworz" || opcja == "wymus") {
-							tablicaPojazdow.insert (tablicaPojazdow.begin() + id,Pojazd(typ,marka,model,wersja,nadwozie,paliwo,pojSilnika,rokProd,vin,rejestracja));
+							tablicaPojazdow.insert (tablicaPojazdow.begin() + id,Pojazd(typ,marka,model,wersja,nadwozie,paliwo,pojSilnika,rokProd,vin,rejestracja,przegladOd,przegladDo));
 						} else if (opcja == "dolacz") {
-							tablicaPojazdow.push_back (Pojazd(typ,marka,model,wersja,nadwozie,paliwo,pojSilnika,rokProd,vin,rejestracja));
+							tablicaPojazdow.push_back (Pojazd(typ,marka,model,wersja,nadwozie,paliwo,pojSilnika,rokProd,vin,rejestracja,przegladOd,przegladDo));
 						}
 						i=0;
 					}
@@ -1238,6 +1395,10 @@ int wyswietlMenu() {
 				cout.width( 18 );
 				cout << left << "Nr. VIN";
 				cout.width( 15 );
+				cout << "Przegl¹d od: ";
+				cout.width( 15 );
+				cout << "Przegl¹d do: ";
+				cout.width( 15 );
 				cout << left << "Rejestracja"; 
 				cout << endl;
 				SetConsoleTextAttribute(h, kolor::DEFAULT);	
@@ -1310,11 +1471,10 @@ int wyswietlMenu() {
 int main(int argc, char *argv[]) {
 	setlocale(LC_ALL,"");
 	
-	time_t czas;
-	time( & czas );
-	aktualnyCzas = localtime( & czas );
-	aktualnyCzas->tm_year += 1900;
-	aktualnyCzas->tm_mon += 1;
+	time_t czas = time(0);
+	aktualnyCzas = *localtime( & czas );
+	aktualnyCzas.tm_year += 1900;
+	aktualnyCzas.tm_mon += 1;
 
 	otworzPlik("baza.txt","wymus");
 	
