@@ -968,6 +968,7 @@ char pasekNarzedzi() {
 	unsigned int id, nrOperacji, blad;
 	string wynik, opcjaS;
 	char opcja;
+	bool found = true;
 	
 	SetConsoleTextAttribute(h, kolor::GREEN);
 	cout << "[M]";
@@ -1068,15 +1069,19 @@ char pasekNarzedzi() {
 			
 			if(opcjaS == "tak") {
  				for(int i = 0; i < historiaOperacji.size();i++) {
-						if(historiaOperacji[i].oddajWynik() == "x10") {
+							if(historiaOperacji[i].oddajWynik() == "x10") {
 							tablicaPojazdow.pop_back(); 
 							historiaOperacji.erase(historiaOperacji.begin()+i); 
 							cout << "Usuniêcie ostatnio dodanego pojazdu zakoñczono sukcesem." << endl;	
+							dodajOperacja("Cofniêto operacjê - Dodanie pojazdu");
+							found = false;
 							break;
-							} /*Do³o¿yæ obs³ugê edycji x10*/
+							} /*Do³o¿yæ obs³ugê edycji x20*/
 						}
+				if(found) {
+							cout << "Nie dodano ostatnio ¿adnego pojazdu" << endl;
+				}
 			}
-			cout << "Nie dodano ostatnio ¿adnego pojazdu" << endl;
 			break;
 		
 		default: 
