@@ -1063,23 +1063,30 @@ char pasekNarzedzi() {
 			historiaOperacji[nrOperacji].ustawWynik(wynik);
 			break;
 		case 'c': case 'C':
-			cout  << "Czy napewno chcesz cofn¹æ operacjê dodania pojazdu? \n Napisz \"tak\" aby potwierdziæ operacjê." << endl;
+			cout  << "Czy napewno chcesz cofn¹æ operacjê? (dodanie lub edycja pojazdu) \n Napisz \"tak\" aby potwierdziæ operacjê." << endl;
 			cin >> opcjaS;
 			transform(opcjaS.begin(), opcjaS.end(), opcjaS.begin(), ::tolower);
 			
 			if(opcjaS == "tak") {
  				for(int i = 0; i < historiaOperacji.size();i++) {
 							if(historiaOperacji[i].oddajWynik() == "x10") {
-							tablicaPojazdow.pop_back(); 
-							historiaOperacji.erase(historiaOperacji.begin()+i); 
-							cout << "Usuniêcie ostatnio dodanego pojazdu zakoñczono sukcesem." << endl;	
-							dodajOperacja("Cofniêto operacjê - Dodanie pojazdu");
-							found = false;
+								tablicaPojazdow.pop_back(); 
+								historiaOperacji.erase(historiaOperacji.begin()+i); 
+								cout << "Usuniêcie ostatnio dodanego pojazdu zakoñczono sukcesem." << endl;	
+								dodajOperacja("Cofniêto operacjê - Dodanie pojazdu");
+								found = false;
 							break;
-							} /*Do³o¿yæ obs³ugê edycji x20*/
+							} else if(historiaOperacji[i].oddajWynik() == "x20") {
+								// przypisanie starej wartosci 
+								historiaOperacji.erase(historiaOperacji.begin()+i);
+								cout << "Cofniêcie ostatniej edycji pojazdu zakoñczono sukcesem." << endl;	
+								dodajOperacja("Cofniêto operacjê - Edytowanie danych pojazdu");
+								found = false;
+								break;
+							}
 						}
 				if(found) {
-							cout << "Nie dodano ostatnio ¿adnego pojazdu" << endl;
+							cout << "Nie dodano, ani nie edytowano ostatnio ¿adnego pojazdu" << endl;
 				}
 			}
 			break;
