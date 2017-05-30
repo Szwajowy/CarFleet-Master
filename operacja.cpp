@@ -20,6 +20,24 @@ void Operacja::ustawOperacja(string operacja) {
 	this->operacja = operacja;	
 } 
 	
+// Zwracanie i ustawianie wartoœci zmiennej "atrybut"
+string Operacja::oddajAtrybut() {
+	return atrybut;
+}
+
+void Operacja::ustawAtrybut(string atrybut) {
+	this->atrybut = atrybut;	
+} 
+		
+// Zwracanie i ustawianie wartoœci zmiennej "poprzedniaWartosc"
+string Operacja::oddajPoprzedniaWartosc() {
+	return poprzedniaWartosc;
+}
+
+void Operacja::ustawPoprzedniaWartosc(string poprzedniaWartosc) {
+	this->poprzedniaWartosc = poprzedniaWartosc;	
+} 		
+	
 // Zwracanie i ustawianie wartoœci zmiennej "wynik"		
 string Operacja::oddajWynik() {
 	return wynik;	

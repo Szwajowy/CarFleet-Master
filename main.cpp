@@ -303,7 +303,7 @@ string dodajPojazd() {
 }
 
 // Metoda edytuj¹ca dane pojazdu o danym ID
-string edytujPojazd(unsigned int id) {
+string edytujPojazd(unsigned int id, unsigned int nrOperacji) {
 	// Obs³uga b³êdu - wektor jest pusty
 	if (tablicaPojazdow.size()<=0){
 		cout << "Nie dodano jeszcze ¿adnego pojazdu." << endl;
@@ -332,32 +332,44 @@ string edytujPojazd(unsigned int id) {
 		cout << endl;
 		
 		if (!stricmp(atrybut.c_str(), "typ")) {
+			historiaOperacji[nrOperacji].ustawAtrybut(atrybut);
+			historiaOperacji[nrOperacji].ustawPoprzedniaWartosc(string (1, tablicaPojazdow[id].oddajTyp()));
 			// Mo¿liwe typy pojazdów: 1.Jednoœlad, 2.Osobowy, 3.Autobus, 4.Ciezarowy, 5.Specjalny, 6.Przyczepa, 7.Naczepa
 			cout << "* Wybierz typ pojazdu: ";
 			cout << "[J]ednoœlad  [O]sobowy [A]utobus  [C]iê¿arowy [S]pecjalny [P]rzyczepa [N]aczepa" << endl;
 			typ = getch();
 			tablicaPojazdow[id].ustawTyp(typ);
 		} else if (!stricmp(atrybut.c_str(), "marka")) {
+			historiaOperacji[nrOperacji].ustawAtrybut(atrybut);
+			historiaOperacji[nrOperacji].ustawPoprzedniaWartosc(tablicaPojazdow[id].oddajMarka());
 			cout << "* Podaj marke pojazdu: ";
 			cin.sync();
 			getline( cin, marka );
 			tablicaPojazdow[id].ustawMarka(marka);
 		} else if (!stricmp(atrybut.c_str(), "model")) {
+			historiaOperacji[nrOperacji].ustawAtrybut(atrybut);
+			historiaOperacji[nrOperacji].ustawPoprzedniaWartosc(tablicaPojazdow[id].oddajModel());
 			cout << "* Podaj model pojazdu: ";
 			cin.sync();
 			getline( cin, model );
 			tablicaPojazdow[id].ustawModel(model);
 		} else if (!stricmp(atrybut.c_str(), "wersja")) {
+			historiaOperacji[nrOperacji].ustawAtrybut(atrybut);
+			historiaOperacji[nrOperacji].ustawPoprzedniaWartosc(tablicaPojazdow[id].oddajWersja());
 			cout << "* Podaj wersjê pojazdu: ";
 			cin.sync();
 			getline( cin, wersja );
 			tablicaPojazdow[id].ustawWersja(wersja);
 		} else if (!stricmp(atrybut.c_str(), "typ nadwozia") || !stricmp(atrybut.c_str(), "nadwozie")) {
+			historiaOperacji[nrOperacji].ustawAtrybut(atrybut);
+			historiaOperacji[nrOperacji].ustawPoprzedniaWartosc(tablicaPojazdow[id].oddajNadwozie());
 			cout << "* Podaj typ nadwozia pojazdu: ";
 			cin.sync();
 			getline( cin, nadwozie );
 			tablicaPojazdow[id].ustawNadwozie(nadwozie);
 		} else if (!stricmp(atrybut.c_str(), "pojemnosc silnika") || !stricmp(atrybut.c_str(), "pojemnosc")) {
+			historiaOperacji[nrOperacji].ustawAtrybut(atrybut);
+			historiaOperacji[nrOperacji].ustawPoprzedniaWartosc(to_string (tablicaPojazdow[id].oddajPojSilnika()));
 			cout << "* Podaj pojemnoœæ silnika: ";
 			while(!(cin>>pojSilnika)) {
 				cout << "Pojemnoœæ silnika powinna byæ liczb¹!" << endl;
@@ -367,15 +379,23 @@ string edytujPojazd(unsigned int id) {
 			}
 			tablicaPojazdow[id].ustawPojSilnika(pojSilnika);
 		} else if (!stricmp(atrybut.c_str(), "rok produkcji") || !stricmp(atrybut.c_str(), "rocznik")) {
+			historiaOperacji[nrOperacji].ustawAtrybut(atrybut);
+			historiaOperacji[nrOperacji].ustawPoprzedniaWartosc(to_string (tablicaPojazdow[id].oddajRokProd()));
 			cout << "B³¹d! Nie mo¿na dokonaæ edycji atrybutu \"rok produkcji\", poniewa¿ jest on sta³y." << endl;
 		} else if (!stricmp(atrybut.c_str(), "rodzaj paliwa") || !stricmp(atrybut.c_str(), "paliwo")) {
+			historiaOperacji[nrOperacji].ustawAtrybut(atrybut);
+			historiaOperacji[nrOperacji].ustawPoprzedniaWartosc(tablicaPojazdow[id].oddajPaliwo());
 			cout << "* Podaj rodzaj paliwa: ";
 			cin.sync();
 			getline( cin, paliwo );
 			tablicaPojazdow[id].ustawPaliwo(paliwo);
 		} else if (!stricmp(atrybut.c_str(), "nr.vin") || !stricmp(atrybut.c_str(), "nr vin") || !stricmp(atrybut.c_str(), "numer vin")) {
+			historiaOperacji[nrOperacji].ustawAtrybut(atrybut);
+			historiaOperacji[nrOperacji].ustawPoprzedniaWartosc(tablicaPojazdow[id].oddajVin());
 			cout << "B³¹d! Nie mo¿na dokonaæ edycji atrybutu \"VIN\", poniewa¿ jest on sta³y." << endl;
 		} else if (!stricmp(atrybut.c_str(), "rejestracja")) {
+			historiaOperacji[nrOperacji].ustawAtrybut(atrybut);
+			historiaOperacji[nrOperacji].ustawPoprzedniaWartosc(tablicaPojazdow[id].oddajRejestracja());
 			do {
 				cout << "* Podaj numer rejestracji: ";
 				cin.sync();
@@ -385,6 +405,8 @@ string edytujPojazd(unsigned int id) {
 			} while (blad != true);	
 			tablicaPojazdow[id].ustawRejestracja(rejestracja);
 		} else if (!stricmp(atrybut.c_str(), "moc silnika") || !stricmp(atrybut.c_str(), "moc")) {
+			historiaOperacji[nrOperacji].ustawAtrybut(atrybut);
+			historiaOperacji[nrOperacji].ustawPoprzedniaWartosc(to_string (tablicaPojazdow[id].oddajMoc()));
 			do {
 				blad = false;
 				cout << "Podaj moc silnika: ";
@@ -396,6 +418,8 @@ string edytujPojazd(unsigned int id) {
 				}
 			} while (blad != false);
 		}  else if (!stricmp(atrybut.c_str(), "liczba miejsc siedz¹cych") || !stricmp(atrybut.c_str(), "miejsca siedz¹ce") || !stricmp(atrybut.c_str(), "siedz¹ce")) {
+			historiaOperacji[nrOperacji].ustawAtrybut(atrybut);
+			historiaOperacji[nrOperacji].ustawPoprzedniaWartosc(to_string (tablicaPojazdow[id].oddajMiejscaSiedz()));
 			do {
 				blad = false;
 				cout << "Podaj liczbê miejsc siedz¹cych: ";
@@ -408,6 +432,8 @@ string edytujPojazd(unsigned int id) {
 			} while (blad != false);
 			tablicaPojazdow[id].ustawMiejscaSiedz(miejscaSiedz);
 		}  else if (!stricmp(atrybut.c_str(), "liczba miejsc ogó³em") || !stricmp(atrybut.c_str(), "miejsca ogó³em") || !stricmp(atrybut.c_str(), "ogó³em")) {
+			historiaOperacji[nrOperacji].ustawAtrybut(atrybut);
+			historiaOperacji[nrOperacji].ustawPoprzedniaWartosc(to_string (tablicaPojazdow[id].oddajMiejscaOgl()));
 			do {
 				blad = false;
 				cout << "Podaj liczbê miejsc ogó³em: ";
@@ -420,6 +446,8 @@ string edytujPojazd(unsigned int id) {
 			} while (blad != false);
 			tablicaPojazdow[id].ustawMiejscaOgl(miejscaOgl);
 		} else if (!stricmp(atrybut.c_str(), "masa pojazdu") || !stricmp(atrybut.c_str(), "masa")) {
+			historiaOperacji[nrOperacji].ustawAtrybut(atrybut);
+			historiaOperacji[nrOperacji].ustawPoprzedniaWartosc(to_string (tablicaPojazdow[id].oddajMasa()));
 			do {
 				blad = false;
 				cout << "Podaj masê pojazdu: ";
@@ -432,6 +460,8 @@ string edytujPojazd(unsigned int id) {
 			} while (blad != false);
 			tablicaPojazdow[id].ustawMasa(masa);
 		} else if (!stricmp(atrybut.c_str(), "dopuszczalna masa ca³kowita") || !stricmp(atrybut.c_str(), "masa ca³kowita")) {
+			historiaOperacji[nrOperacji].ustawAtrybut(atrybut);
+			historiaOperacji[nrOperacji].ustawPoprzedniaWartosc(to_string (tablicaPojazdow[id].oddajDopMasaCalk()));
 			do {
 				blad = false;
 				cout << "Podaj dopuszczaln¹ masê ca³kowit¹ pojazdu: ";
@@ -444,6 +474,8 @@ string edytujPojazd(unsigned int id) {
 			} while (blad != false);
 			tablicaPojazdow[id].ustawDopMasaCalk(dopMasaCalk);
 		} else if (!stricmp(atrybut.c_str(), "dopuszczalna masa przyczepy z hamulcem") || !stricmp(atrybut.c_str(), "masa przyczepy z hamulcem")) {
+			historiaOperacji[nrOperacji].ustawAtrybut(atrybut);
+			historiaOperacji[nrOperacji].ustawPoprzedniaWartosc(to_string (tablicaPojazdow[id].oddajMasaPrzyczHam()));
 			do {
 				blad = false;
 				cout << "Podaj maksymaln¹ dopuszczaln¹ masê przyczepy z hamulcem: ";
@@ -456,6 +488,8 @@ string edytujPojazd(unsigned int id) {
 			} while (blad != false);
 			tablicaPojazdow[id].ustawMasaPrzyczHam(masaPrzyczHam);
 		} else if (!stricmp(atrybut.c_str(), "dopuszczalna masa przyczepy bez hamulca") || !stricmp(atrybut.c_str(), "masa przyczepy bez hamulca")) {
+			historiaOperacji[nrOperacji].ustawAtrybut(atrybut);
+			historiaOperacji[nrOperacji].ustawPoprzedniaWartosc(to_string (tablicaPojazdow[id].oddajMasaPrzyczBezHam()));
 			do {
 				blad = false;
 				cout << "Podaj maksymaln¹ dopuszczaln¹ masê przyczepy bez hamulca: ";
@@ -468,6 +502,8 @@ string edytujPojazd(unsigned int id) {
 			} while (blad != false);
 			tablicaPojazdow[id].ustawMasaPrzyczBezHam(masaPrzyczBezHam);	
 		} else if (!stricmp(atrybut.c_str(), "liczba osi") || !stricmp(atrybut.c_str(), "osie")) {
+			historiaOperacji[nrOperacji].ustawAtrybut(atrybut);
+			historiaOperacji[nrOperacji].ustawPoprzedniaWartosc(to_string (tablicaPojazdow[id].oddajOsie()));
 			do {
 				blad = false;
 				cout << "Podaj liczbê osi pojazdu: ";
@@ -480,6 +516,8 @@ string edytujPojazd(unsigned int id) {
 			} while (blad != false);
 			tablicaPojazdow[id].ustawOsie(osie);
 		} else if (!stricmp(atrybut.c_str(), "rozstaw osi")) {
+			historiaOperacji[nrOperacji].ustawAtrybut(atrybut);
+			historiaOperacji[nrOperacji].ustawPoprzedniaWartosc(to_string (tablicaPojazdow[id].oddajRozstawOsi()));
 			do {
 				blad = false;
 				cout << "Podaj rozstaw osi pojazdu: ";
@@ -491,7 +529,9 @@ string edytujPojazd(unsigned int id) {
 				}
 			} while (blad != false);
 			tablicaPojazdow[id].ustawRozstawOsi(rozstawOsi);
-		} else if (!stricmp(atrybut.c_str(), "rozstaw kó³")) {	
+		} else if (!stricmp(atrybut.c_str(), "rozstaw kó³")) {
+			historiaOperacji[nrOperacji].ustawAtrybut(atrybut);
+			historiaOperacji[nrOperacji].ustawPoprzedniaWartosc(to_string (tablicaPojazdow[id].oddajRozstawKol()));
 			do {
 				blad = false;
 				cout << "Podaj rozstaw kó³ pojazdu: ";
@@ -503,7 +543,9 @@ string edytujPojazd(unsigned int id) {
 				}
 			} while (blad != false);
 			tablicaPojazdow[id].ustawRozstawKol(rozstawKol);
-		} else if (!stricmp(atrybut.c_str(), "maksymalny dopuszczalny nacisk na oœ") || !stricmp(atrybut.c_str(), "dopuszczalny nacisk na oœ") || !stricmp(atrybut.c_str(), "maksymalny nacisk na oœ")) {	
+		} else if (!stricmp(atrybut.c_str(), "maksymalny dopuszczalny nacisk na oœ") || !stricmp(atrybut.c_str(), "dopuszczalny nacisk na oœ") || !stricmp(atrybut.c_str(), "maksymalny nacisk na oœ")) {
+			historiaOperacji[nrOperacji].ustawAtrybut(atrybut);	
+			historiaOperacji[nrOperacji].ustawPoprzedniaWartosc(to_string (tablicaPojazdow[id].oddajDopNaciskNaOs()));
 			do {
 				blad = false;
 				cout << "Podaj maksymalny dopuszczalny nacisk na oœ pojazdu: ";
@@ -991,7 +1033,7 @@ char pasekNarzedzi() {
 			}
 			cout << endl;
 				
-			wynik = edytujPojazd(id);
+			wynik = edytujPojazd(id,nrOperacji);
 			historiaOperacji[nrOperacji].ustawWynik(wynik);
 			break;
 			

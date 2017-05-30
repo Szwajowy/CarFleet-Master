@@ -9,7 +9,7 @@ using namespace std;
 class Operacja {
 	private:
 		// Dane operacji
-		string operacja, wynik;
+		string operacja, atrybut, poprzedniaWartosc, wynik;
 	 	 
 	public:
 		// Konstruktor parametrowy
@@ -21,6 +21,14 @@ class Operacja {
 		// Zwracanie i ustawianie wartoœci zmiennej "operacja"
 		string oddajOperacja();
 		void ustawOperacja(string operacja);
+		
+		// Zwracanie i ustawianie wartoœci zmiennej "atrybut"
+		string oddajAtrybut();
+		void ustawAtrybut(string atrybut);
+		
+		// Zwracanie i ustawianie wartoœci zmiennej "poprzedniaWartosc"
+		string oddajPoprzedniaWartosc();
+		void ustawPoprzedniaWartosc(string poprzedniaWartosc);		
 		
 		// Zwracanie i ustawianie wartoœci zmiennej "wynik"
 		string oddajWynik();
