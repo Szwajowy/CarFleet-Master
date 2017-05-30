@@ -1242,7 +1242,7 @@ char pasekNarzedzi() {
 }
 
 int wyswietlMenu() {
-	unsigned int blad, nrOperacji;
+	unsigned int ile, blad, nrOperacji;
 	string plik, zapisz, format, wynik;
 	char opcja;
 	SetConsoleTextAttribute(h, kolor::WHITE);
@@ -1261,6 +1261,10 @@ int wyswietlMenu() {
 	cout <<"Historia operacji" << endl;
 	SetConsoleTextAttribute(h, kolor::GREEN);
 	cout << "4. ";
+	SetConsoleTextAttribute(h, kolor::DEFAULT);
+	cout <<"SprawdŸ wa¿noœæ przegl¹dów" << endl;
+	SetConsoleTextAttribute(h, kolor::GREEN);
+	cout << "5. ";
 	SetConsoleTextAttribute(h, kolor::DEFAULT);
 	cout << "Wyjœcie" << endl;
 	SetConsoleTextAttribute(h, kolor::WHITE);
@@ -1420,8 +1424,40 @@ int wyswietlMenu() {
 			}
 			cout << endl;
 			break;
-			
+		
 		case '4':
+			cout << "Dla ilu dni chcesz otrzymaæ wiadomoœæ o zbli¿aj¹cym siê przegl¹dzie:";
+			do {
+				blad = 0;
+				cin >> ile;
+				if (ile < 1 || ile > 30) {
+					cout << "B³¹d! Podana wartoœæ jest spoza zakresu." << endl;
+					blad = 1;
+				}
+			} while (blad != 0);
+			
+			for (int i=0; i<tablicaPojazdow.size();i++) {
+				if (tablicaPojazdow[i].oddajPrzegladDo().tm_year < aktualnyCzas.tm_year) {
+					cout << "Up³yne³a wa¿noœæ przegl¹du pojazdu nr.: " << i << endl;
+				} else if (tablicaPojazdow[i].oddajPrzegladDo().tm_year == aktualnyCzas.tm_year) {
+					if (tablicaPojazdow[i].oddajPrzegladDo().tm_mon < aktualnyCzas.tm_mon) {
+						cout << "Up³yne³a wa¿noœæ przegl¹du pojazdu nr.: " << i << endl;
+					} else if (tablicaPojazdow[i].oddajPrzegladDo().tm_mon == aktualnyCzas.tm_mon) {
+						if (tablicaPojazdow[i].oddajPrzegladDo().tm_mday < aktualnyCzas.tm_mday) {
+							cout << "Up³yne³a wa¿noœæ przegl¹du pojazdu nr.: " << i << endl;
+						} else if (tablicaPojazdow[i].oddajPrzegladDo().tm_mday == aktualnyCzas.tm_mday) {
+							cout << "Dzisiaj up³ywa wa¿noœæ przegl¹du pojazdu nr.: " << i << endl;
+						} else if (tablicaPojazdow[i].oddajPrzegladDo().tm_mday - aktualnyCzas.tm_mday <= ile) {
+							cout << "Zbli¿a siê koniec wa¿noœci przegl¹du pojazdu nr.: " << i << endl;
+						}
+					}	
+				}
+			}
+			
+			cout << endl;
+			break;
+			
+		case '5':
 			dodajOperacja("Zakoñczenie pracy z programem");
 			nrOperacji = historiaOperacji.size() - 1;
 			
@@ -1465,14 +1501,24 @@ int main(int argc, char *argv[]) {
 	otworzPlik("baza.txt","wymus");
 	
 	for (int i=0; i<tablicaPojazdow.size();i++) {
-		if (tablicaPojazdow[i].oddajPrzegladDo().tm_year == aktualnyCzas.tm_year) {
-			if (tablicaPojazdow[i].oddajPrzegladDo().tm_mon == aktualnyCzas.tm_mon) {
-				if (tablicaPojazdow[i].oddajPrzegladDo().tm_mday == aktualnyCzas.tm_mday) {
-					cout << "Dzisiaj up³ywa wa¿noœæ przegl¹du! " << endl;
+		if (tablicaPojazdow[i].oddajPrzegladDo().tm_year < aktualnyCzas.tm_year) {
+			cout << "Up³yne³a wa¿noœæ przegl¹du pojazdu nr.: " << i << endl;
+		} else if (tablicaPojazdow[i].oddajPrzegladDo().tm_year == aktualnyCzas.tm_year) {
+			if (tablicaPojazdow[i].oddajPrzegladDo().tm_mon < aktualnyCzas.tm_mon) {
+				cout << "Up³yne³a wa¿noœæ przegl¹du pojazdu nr.: " << i << endl;
+			} else if (tablicaPojazdow[i].oddajPrzegladDo().tm_mon == aktualnyCzas.tm_mon) {
+				if (tablicaPojazdow[i].oddajPrzegladDo().tm_mday < aktualnyCzas.tm_mday) {
+					cout << "Up³yne³a wa¿noœæ przegl¹du pojazdu nr.: " << i << endl;
+				} else if (tablicaPojazdow[i].oddajPrzegladDo().tm_mday == aktualnyCzas.tm_mday) {
+					cout << "Dzisiaj up³ywa wa¿noœæ przegl¹du pojazdu nr.: " << i << endl;
+				} else if (tablicaPojazdow[i].oddajPrzegladDo().tm_mday - aktualnyCzas.tm_mday <= 14) {
+					cout << "Zbli¿a siê koniec wa¿noœci przegl¹du pojazdu nr.: " << i << endl;
 				}
 			}	
 		}
 	}
+	
+	cout << endl;
 	
 	int exit;
 
