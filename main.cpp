@@ -112,15 +112,14 @@ string dodajPojazd(unsigned int id) {
 	string marka, model, wersja, nadwozie, paliwo, vin, rejestracja, opis, uwagi, smoc, spojSilnika, smiejscaSiedz, smiejscaOgl, smasa, sdopMasaCalk, smasaPrzyczHam, smasaPrzyczBezHam, sosie, srozstawOsi, srozstawKol, sdopNaciskNaOs;
 	unsigned int moc, pojSilnika, miejscaSiedz, miejscaOgl, masa, dopMasaCalk, masaPrzyczHam, masaPrzyczBezHam, osie, rozstawOsi, rozstawKol, dopNaciskNaOs, rokProd;
 	int dzien, miesiac, rok;
-	struct tm * ocOd, * ocDo, * przegladOd, * przegladDo;
+	struct tm ocOd, ocDo, przegladOd, przegladDo;
 	bool blad;
 	
-	time_t rawtime;
-	time( &rawtime );
-	ocOd = localtime( &rawtime );
-	ocDo = localtime( &rawtime );
-    przegladOd = localtime( &rawtime );
-    przegladDo = localtime( &rawtime );
+	time_t czas = time(0);
+	ocOd = *localtime( &czas );
+	ocDo = *localtime( &czas );
+    przegladOd = *localtime( &czas );
+    przegladDo = *localtime( &czas );
 	
 	cout << "Dane wymagane do dodania pojazdu s¹ oznaczone gwiazdk¹, wszelkie inne dane mo¿na pomin¹æ wciskaj¹c ENTER." << endl;
 	
@@ -221,9 +220,9 @@ string dodajPojazd(unsigned int id) {
 		}
 	} while (blad != false);
 	
-	przegladOd->tm_mday = dzien;
-	przegladOd->tm_mon = miesiac - 1;
-	przegladOd->tm_year = rok - 1900;	
+	przegladOd.tm_mday = dzien;
+	przegladOd.tm_mon = miesiac - 1;
+	przegladOd.tm_year = rok - 1900;	
 	
 	cout << "* Podaj datê wa¿noœci przegl¹du." << endl;
 	do {
@@ -265,9 +264,9 @@ string dodajPojazd(unsigned int id) {
 		}
 	} while (blad != false);
 	
-	przegladOd->tm_mday = dzien;
-	przegladOd->tm_mon = miesiac - 1;
-	przegladOd->tm_year = rok - 1900;	
+	przegladOd.tm_mday = dzien;
+	przegladOd.tm_mon = miesiac - 1;
+	przegladOd.tm_year = rok - 1900;	
 	
 	do {
 		cout << "* Podaj numer rejestracji: ";
@@ -1011,14 +1010,13 @@ string otworzPlik(string nazwaPliku, string opcja) {
 			char typ;
 			string wiersz, marka, model, wersja, nadwozie, paliwo, vin, rejestracja, dzien, miesiac, rok;
 			unsigned int id, i = 0, pojSilnika, rokProd;
-			struct tm * ocOd, * ocDo, * przegladOd, * przegladDo;
+			struct tm ocOd, ocDo, przegladOd, przegladDo;
 			
-			time_t rawtime;
-			time( &rawtime );
-			ocOd = localtime( &rawtime );
-			ocDo = localtime( &rawtime );
-		    przegladOd = localtime( &rawtime );
-		    przegladDo = localtime( &rawtime );
+			time_t czas = time(0);
+			ocOd = *localtime( &czas );
+			ocDo = *localtime( &czas );
+		    przegladOd = *localtime( &czas );
+		    przegladDo = *localtime( &czas );
 			
 			while ( !plik.eof() ) {
 				getline(plik, wiersz);
@@ -1072,9 +1070,9 @@ string otworzPlik(string nazwaPliku, string opcja) {
 						miesiac.erase(2,5);
 						rok = wiersz;
 						rok.erase(0,19);
-						przegladOd->tm_mday = stoi(dzien);
-						przegladOd->tm_mon = stoi(miesiac) - 1;
-						przegladOd->tm_year = stoi(rok) - 1990;
+						przegladOd.tm_mday = stoi(dzien);
+						przegladOd.tm_mon = stoi(miesiac) - 1;
+						przegladOd.tm_year = stoi(rok) - 1900;
 						i++;
 					} else if (i==11) { // przeglad do
 						dzien = wiersz;
@@ -1085,9 +1083,9 @@ string otworzPlik(string nazwaPliku, string opcja) {
 						miesiac.erase(2,5);
 						rok = wiersz;
 						rok.erase(0,19);
-						przegladDo->tm_mday = stoi(dzien);
-						przegladDo->tm_mon = stoi(miesiac) - 1;
-						przegladDo->tm_year = stoi(rok) - 1990;
+						przegladDo.tm_mday = stoi(dzien);
+						przegladDo.tm_mon = stoi(miesiac) - 1;
+						przegladDo.tm_year = stoi(rok) - 1900;
 						i++;
 					} else if (i==12) {
 						wiersz.erase(0,13);
@@ -1125,7 +1123,6 @@ char pasekNarzedzi() {
 	unsigned int id, nrOperacji, blad;
 	string wynik, opcjaS;
 	char opcja;
-	bool found = true;
 	
 	SetConsoleTextAttribute(h, kolor::GREEN);
 	cout << "[M]";
@@ -1220,32 +1217,21 @@ char pasekNarzedzi() {
 			historiaOperacji[nrOperacji].ustawWynik(wynik);
 			break;
 		case 'c': case 'C':
-			cout  << "Czy napewno chcesz cofn¹æ operacjê? (dodanie lub edycja pojazdu) \n Napisz \"tak\" aby potwierdziæ operacjê." << endl;
+			cout  << "Czy napewno chcesz cofn¹æ operacjê dodania pojazdu? \n Napisz \"tak\" aby potwierdziæ operacjê." << endl;
 			cin >> opcjaS;
 			transform(opcjaS.begin(), opcjaS.end(), opcjaS.begin(), ::tolower);
 			
 			if(opcjaS == "tak") {
  				for(int i = 0; i < historiaOperacji.size();i++) {
-							if(historiaOperacji[i].oddajWynik() == "x10") {
-								tablicaPojazdow.pop_back(); 
-								historiaOperacji.erase(historiaOperacji.begin()+i); 
-								cout << "Usuniêcie ostatnio dodanego pojazdu zakoñczono sukcesem." << endl;	
-								dodajOperacja("Cofniêto operacjê - Dodanie pojazdu");
-								found = false;
+						if(historiaOperacji[i].oddajWynik() == "x10") {
+							tablicaPojazdow.pop_back(); 
+							historiaOperacji.erase(historiaOperacji.begin()+i); 
+							cout << "Usuniêcie ostatnio dodanego pojazdu zakoñczono sukcesem." << endl;	
 							break;
-							} else if(historiaOperacji[i].oddajWynik() == "x20") {
-								// przypisanie starej wartosci 
-								historiaOperacji.erase(historiaOperacji.begin()+i);
-								cout << "Cofniêcie ostatniej edycji pojazdu zakoñczono sukcesem." << endl;	
-								dodajOperacja("Cofniêto operacjê - Edytowanie danych pojazdu");
-								found = false;
-								break;
-							}
+							} /*Do³o¿yæ obs³ugê edycji x10*/
 						}
-				if(found) {
-							cout << "Nie dodano, ani nie edytowano ostatnio ¿adnego pojazdu" << endl;
-				}
 			}
+			cout << "Nie dodano ostatnio ¿adnego pojazdu" << endl;
 			break;
 		
 		default: 
@@ -1477,6 +1463,16 @@ int main(int argc, char *argv[]) {
 	aktualnyCzas.tm_mon += 1;
 
 	otworzPlik("baza.txt","wymus");
+	
+	for (int i=0; i<tablicaPojazdow.size();i++) {
+		if (tablicaPojazdow[i].oddajPrzegladDo().tm_year == aktualnyCzas.tm_year) {
+			if (tablicaPojazdow[i].oddajPrzegladDo().tm_mon == aktualnyCzas.tm_mon) {
+				if (tablicaPojazdow[i].oddajPrzegladDo().tm_mday == aktualnyCzas.tm_mday) {
+					cout << "Dzisiaj up³ywa wa¿noœæ przegl¹du! " << endl;
+				}
+			}	
+		}
+	}
 	
 	int exit;
 

@@ -1,7 +1,7 @@
 #include "pojazd.hpp"
 
 // Konstruktor parametrowy dla zmiennych obowi¹zkowych
-Pojazd::Pojazd(char typ,string marka,string model,string wersja,string nadwozie,string paliwo,unsigned int pojSilnika,unsigned int rokProd,string vin,string rejestracja, tm * przegladOd, tm * przegladDo) {
+Pojazd::Pojazd(char typ,string marka,string model,string wersja,string nadwozie,string paliwo,unsigned int pojSilnika,unsigned int rokProd,string vin,string rejestracja, tm przegladOd, tm przegladDo) {
 	this->typ = typ;
     this->marka = marka;
 	this->model = model;
@@ -217,36 +217,36 @@ void Pojazd::ustawUwagi(string uwagi) {
 
 // Zwracanie i ustawianie wartoœci zmiennej "ocOd"
 tm Pojazd::oddajOcOd() {
-	return * ocOd;	
+	return ocOd;	
 }
 
-void Pojazd::ustawOcOd(tm * ocOd) {
+void Pojazd::ustawOcOd(tm ocOd) {
 	this->ocOd = ocOd;	
 } 
 		
 // Zwracanie i ustawianie wartoœci zmiennej "ocDo"
 tm Pojazd::oddajOcDo() {
-	return * ocDo;	
+	return ocDo;	
 }
 
-void Pojazd::ustawOcDo(tm * ocDo) {
+void Pojazd::ustawOcDo(tm ocDo) {
 	this->ocDo = ocDo;	
 } 
 		
 // Zwracanie i ustawianie wartoœci zmiennej "przegladOd"
 tm Pojazd::oddajPrzegladOd() {
-	return * przegladOd;	
+	return przegladOd;	
 }
 
-void Pojazd::ustawPrzegladOd(tm * przegladOd) {
+void Pojazd::ustawPrzegladOd(tm przegladOd) {
 	this->przegladOd = przegladOd;	
 } 
 		
 // Zwracanie i ustawianie wartoœci zmiennej "przegladDo"
 tm Pojazd::oddajPrzegladDo() {
-	return * przegladDo;	
+	return przegladDo;	
 }
 
-void Pojazd::ustawPrzegladDo(tm * przegladDo) {
+void Pojazd::ustawPrzegladDo(tm przegladDo) {
 	this->przegladDo = przegladDo;	
 } 
