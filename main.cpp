@@ -276,9 +276,9 @@ string dodajPojazd(unsigned int id) {
 		}
 	} while (blad != false);
 	
-	przegladOd.tm_mday = dzien;
-	przegladOd.tm_mon = miesiac - 1;
-	przegladOd.tm_year = rok - 1900;	
+	przegladDo.tm_mday = dzien;
+	przegladDo.tm_mon = miesiac - 1;
+	przegladDo.tm_year = rok - 1900;	
 	
 	do {
 		cout << "* Podaj numer rejestracji: ";
