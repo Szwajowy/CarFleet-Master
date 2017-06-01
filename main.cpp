@@ -39,40 +39,188 @@ static HANDLE h = GetStdHandle ( STD_OUTPUT_HANDLE );
 
 struct tm aktualnyCzas;
 
-bool sprawdzRokProd(unsigned int rokProd) {
-	if( rokProd < 1981 || rokProd > aktualnyCzas.tm_year) {
-		cout << "B³¹d! Rocznij mo¿e byæ tylko z przedzia³u od 1981 do " << aktualnyCzas.tm_year << "." << endl;
-		return true;
-	}	else {
-		return false;
-	}
+// Mo¿liwe typy pojazdów: 1.Jednoœlad, 2.Osobowy, 3.Autobus, 4.Ciezarowy, 5.Specjalny, 6.Przyczepa, 7.Naczepa
+char wprowadzTyp() {
+	bool blad;
+	char typ;
+
+	do {
+		blad = false;
+		cout << "* Wybierz typ pojazdu: " << endl;
+		cout << "[J]ednoœlad  [O]sobowy [A]utobus  [C]iê¿arowy [S]pecjalny [P]rzyczepa [N]aczepa" << endl;
+		typ = putchar (toupper(getch()));
+		cout << endl;
+		if (typ != 'J' && typ != 'O' && typ != 'A' && typ != 'C' && typ != 'S' && typ != 'P' && typ != 'N') {
+			cout << "Wybrano nieprawid³ow¹ opcje!" << endl;
+			blad = true;
+		}
+	} while(blad != false);
+	
+	return typ;
 }
 
-bool sprawdzVin(string vin) {
-	// VIN - 1-13 cyfry/litery, 14-17 cyfry np. W0L0SDL68B4352330
+string wprowadzMarka() {
+	string marka;
+	
+	do {
+		cout << "* Podaj marke pojazdu: ";
+		cin.sync();
+		getline( cin, marka );
+	} while (marka == "");
+	
+	return marka;
+}
+
+string wprowadzModel() {
+	string model;
+	
+	do {
+		cout << "* Podaj model pojazdu: ";
+		cin.sync();
+		getline( cin, model );
+	} while (model == "");
+	
+	return model;
+}
+
+string wprowadzWersja() {
+	string wersja;
+	
+	do {
+		cout << "* Podaj wersjê pojazdu: ";
+		cin.sync();
+		getline( cin, wersja );
+	} while (wersja == "");
+	
+	return wersja;
+}
+
+// Mo¿liwe typy nadwozia: Coupe, Dual cowl, Fastback, Hatchback, Kabriolet, Kombi, Liftback, Limuzyna, Pick-up, Roadster, Sedan, SUV, VAN
+char wprowadzNadwozie() {
+	bool blad;
+	char nadwozie;
+	
+	do {
+		blad = false;
+		cout << "* Wybierz typ nadwozia: " << endl;
+		cout << "[C]oupe [D]ual cowl [F]astback [H]atchback  [K]abriolet K[o]mbi [L]iftback L[i]muzyna [P]ick-up [R]oadster [S]edan S[U]V [V]AN" << endl;
+		nadwozie = putchar (toupper(getch()));
+		cout << endl;
+		if (nadwozie != 'C' && nadwozie != 'D' && nadwozie != 'F' && nadwozie != 'H' && nadwozie != 'K' && nadwozie != 'O' && nadwozie != 'L' && nadwozie != 'I' && nadwozie != 'P' && nadwozie != 'R' && nadwozie != 'S' && nadwozie != 'U' && nadwozie != 'V') {
+			cout << "Wybrano nieprawid³ow¹ opcje!" << endl;
+			blad = true;
+		}
+	} while(blad != false);
+	
+	return nadwozie;
+}
+
+// Mo¿liwe typy paliwo: Benzyna, Diesel, LPG, Elektryczny, Gaz ziemny
+char wprowadzPaliwo() {
+	bool blad;
+	char paliwo;
+	
+	do {
+		blad = false;
+		cout << "* Wybierz rodzaj paliwa: " << endl;
+		cout << "[B]enzyna [D]iesel [L]PG [E]lektryczny [G]az ziemny" << endl;
+		paliwo = putchar (toupper(getch()));
+		cout << endl;
+		if (paliwo != 'B' && paliwo != 'D' && paliwo != 'L' && paliwo != 'E' && paliwo != 'G') {
+			cout << "Wybrano nieprawid³ow¹ opcje!" << endl;
+			blad = true;
+		}
+	} while (blad != false);
+	
+	return paliwo;
+}
+
+float wprowadzPojSilnika() {
+	bool blad;
+	float pojSilnika;
+
+	do {
+		blad = false;
+		cout << "* Podaj pojemnoœæ silnika: ";
+		cin.sync();
+		cin >> pojSilnika;
+		
+		if (cin.fail() || pojSilnika <= 0) {
+			cout << "Pojemnoœæ silnika powinna byæ liczb¹ wiêksz¹ od zera!" << endl;
+			cin.clear();
+			blad = true;
+		}
+	} while (blad != false);
+	
+	return pojSilnika;
+}
+
+int wprowadzRokProd() {
+	bool blad;
+	int rokProd;
+	
+	do {
+		blad = false;
+		cout << "* Podaj rok produkcji: ";
+		cin.sync();
+		cin >> rokProd;
+		
+		if( rokProd < 1981 || rokProd > aktualnyCzas.tm_year) {
+			cout << "B³¹d! Rocznij mo¿e byæ tylko z przedzia³u od 1981 do " << aktualnyCzas.tm_year << "." << endl;
+			cin.clear();
+			blad = true;
+		}	
+	} while (blad != false);
+	
+	return rokProd;
+}
+
+// VIN - 1-13 cyfry/litery, 14-17 cyfry np. W0L0SDL68B4352330
+string wprowadzVin() {
+	bool blad;
+	string vin;
+	
 	regex wzorzecVin("(([0-9]|[A-H]|[K-N]|P|[R-Z]){13}[0-9]{4})");
 	smatch sprawdzonyVin;
 	
-	if( !regex_search(vin,sprawdzonyVin,wzorzecVin)) {
-		cout << "B³¹d! Wprowadzono niepoprawny VIN." << endl;
-		return true;
-	} else {
-		return false;
-	}
+	do {
+		blad = false;
+		cout << "* Podaj identyfikator VIN pojazdu: ";
+		cin.sync();
+		getline(cin,vin);
+		
+		transform(vin.begin(), vin.end(),vin.begin(), ::toupper);
+		if( !regex_search(vin,sprawdzonyVin,wzorzecVin)) {
+			cout << "B³¹d! Wprowadzono niepoprawny VIN." << endl;
+			blad = true;
+		}
+	} while (blad != false);
+	
+	return vin;
 }
 
-bool sprawdzRejestracja(string rejestracja) {
-	// Rejestracja - 2-3 litery, 4-5 cyfry/liter np. SBE G083
+// Rejestracja - 2-3 litery, 4-5 cyfry/liter np. SBE G083
+string wprowadzRejestracja() {
+	bool blad;
+	string rejestracja;
+	
 	regex wzorzecRejestracja("([A-Z]{2,3}[\x20]?[0-9A-Z]{4,5})|([A-Z]{1}[0-9]{1}[\x20]?[0-9A-Z]{3,5})");
 	smatch sprawdzonyRejestracja;
 	
-	if( !regex_search(rejestracja,sprawdzonyRejestracja,wzorzecRejestracja)) {
-		cout << rejestracja << endl;
-		cout << "B³¹d! Wprowadzono niepoprawn¹ rejestracjê." << endl;
-		return true;
-	} else {
-		return false;
-	}
+	do {
+		blad = false;
+		cout << "* Podaj numer rejestracji: ";
+		cin.sync();
+		getline( cin, rejestracja );
+		
+		transform(rejestracja.begin(), rejestracja.end(),rejestracja.begin(), ::toupper);
+		if( !regex_search(rejestracja,sprawdzonyRejestracja,wzorzecRejestracja)) {
+			cout << "B³¹d! Wprowadzono niepoprawn¹ rejestracjê." << endl;
+			blad = true;
+		}
+	} while (blad != false);
+	
+	return rejestracja;
 }
 
 bool sprawdzCzyLiczba(string liczba) {
@@ -108,12 +256,11 @@ vector <Pojazd> tablicaPojazdow;
 // Metoda dodajaca dane pojazdu dla odpowiedniego indeksu wektora
 // (je¿eli dla danego indeksu istnieje ju¿ obiekt to nastêpuje inkrementacja indeksu tego obiektu i ka¿dego nastêpnego, czyli przesuniêcie w prawo i dopiero dodanie naszego obiektu)	
 string dodajPojazd(unsigned int id) {
-	char typ;
-	string marka, model, wersja, nadwozie, paliwo, vin, rejestracja, opis, uwagi, smoc, spojSilnika, smiejscaSiedz, smiejscaOgl, smasa, sdopMasaCalk, smasaPrzyczHam, smasaPrzyczBezHam, sosie, srozstawOsi, srozstawKol, sdopNaciskNaOs;
-	unsigned int moc, pojSilnika, miejscaSiedz, miejscaOgl, masa, dopMasaCalk, masaPrzyczHam, masaPrzyczBezHam, osie, rozstawOsi, rozstawKol, dopNaciskNaOs, rokProd;
-	int dzien, miesiac, rok;
-	struct tm ocOd, ocDo, przegladOd, przegladDo;
 	bool blad;
+	char typ, nadwozie, paliwo;
+	string marka, model, wersja, vin, rejestracja, opis, uwagi, smoc, smiejscaSiedz, smiejscaOgl, smasa, sdopMasaCalk, smasaPrzyczHam, smasaPrzyczBezHam, sosie, srozstawOsi, srozstawKol, sdopNaciskNaOs;
+	unsigned int moc, pojSilnika, miejscaSiedz, miejscaOgl, masa, dopMasaCalk, masaPrzyczHam, masaPrzyczBezHam, osie, rozstawOsi, rozstawKol, dopNaciskNaOs, rokProd, dzien, miesiac, rok;
+	struct tm ocOd, ocDo, przegladOd, przegladDo;
 	
 	time_t czas = time(0);
 	ocOd = *localtime( &czas );
@@ -123,62 +270,15 @@ string dodajPojazd(unsigned int id) {
 	
 	cout << "Dane wymagane do dodania pojazdu s¹ oznaczone gwiazdk¹, wszelkie inne dane mo¿na pomin¹æ wciskaj¹c ENTER." << endl;
 	
-	// Mo¿liwe typy pojazdów: 1.Jednoœlad, 2.Osobowy, 3.Autobus, 4.Ciezarowy, 5.Specjalny, 6.Przyczepa, 7.Naczepa
-	cout << "* Wybierz typ pojazdu: ";
-	cout << "[J]ednoœlad  [O]sobowy [A]utobus  [C]iê¿arowy [S]pecjalny [P]rzyczepa [N]aczepa" << endl;
-	typ = getch();
-	
-	do {
-		cout << "* Podaj marke pojazdu: ";
-		cin.sync();
-		getline( cin, marka );
-	} while (marka == "");
-	
-	do {
-		cout << "* Podaj model pojazdu: ";
-		cin.sync();
-		getline( cin, model );
-	} while (model == "");
-	
-	do {
-		cout << "* Podaj wersjê pojazdu: ";
-		cin.sync();
-		getline( cin, wersja );
-	} while (wersja == "");
-	
-	do {
-		cout << "* Podaj typ nadwozia pojazdu: ";
-		cin.sync();
-		getline( cin, nadwozie );
-	} while (nadwozie == "");
-	
-	do {
-		cout << "* Podaj rodzaj paliwa: ";
-		cin.sync();
-		getline( cin, paliwo );
-	} while (paliwo == "");
-	
-	// Pojemnoœc powinno siê móc dodaæ zarówno jako "1.2" "1200"
-	cout << "* Podaj pojemnoœæ silnika: ";
-	while(!(cin>>pojSilnika)) {
-		cout << "Pojemnoœæ silnika powinna byæ liczb¹!" << endl;
-		cin.clear();
-		cin.sync(); 
-		cout << "* Podaj pojemnoœæ silnika: ";
-	}
-	
-	do {
-		cout << "* Podaj rok produkcji: ";
-		cin >> rokProd;
-		blad = sprawdzRokProd(rokProd);
-	} while (blad != false);
-	
-	do {
-		cout << "* Podaj identyfikator VIN pojazdu: ";
-		cin >> vin;
-		transform(vin.begin(), vin.end(),vin.begin(), ::toupper);
-		blad = sprawdzVin(vin);
-	} while (blad != false || vin == "");
+	typ = wprowadzTyp();
+	marka = wprowadzMarka();
+	model = wprowadzModel();
+	wersja = wprowadzWersja();
+	nadwozie = wprowadzNadwozie();
+	paliwo = wprowadzPaliwo();
+	pojSilnika = wprowadzPojSilnika();
+	rokProd = wprowadzRokProd();
+	vin = wprowadzVin();
 
 	cout << "* Podaj datê ostatniego przegl¹du." << endl;
 	do {
@@ -189,7 +289,6 @@ string dodajPojazd(unsigned int id) {
 			cin.sync();
 			cout << "Dzieñ: ";
 		}
-		cout << endl;
 		if (dzien < 1 || dzien > 31) {
 			cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
 			blad = true;
@@ -204,7 +303,6 @@ string dodajPojazd(unsigned int id) {
 			cin.sync();
 			cout << "Miesi¹c: ";
 		}
-		cout << endl;
 		if (miesiac < 1 || miesiac > 12) {
 			cout << "B³¹d! Podana wartoœæ nie jest prawid³owym miesi¹cem!" << endl;
 			blad = true;
@@ -219,8 +317,7 @@ string dodajPojazd(unsigned int id) {
 			cin.sync();
 			cout << "Rok: ";
 		}
-		cout << endl;
-		if (rok < 1981 || rok > aktualnyCzas.tm_year) {
+		if (rok < 1981 || rok > aktualnyCzas.tm_year || rok < rokProd) {
 			cout << "B³¹d! Podana wartoœæ nie jest prawid³owym rokiem!" << endl;
 			blad = true;
 		}
@@ -239,7 +336,6 @@ string dodajPojazd(unsigned int id) {
 			cin.sync();
 			cout << "Dzieñ: ";
 		}
-		cout << endl;
 		if (dzien < 1 || dzien > 31) {
 			cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
 			blad = true;
@@ -254,7 +350,6 @@ string dodajPojazd(unsigned int id) {
 			cin.sync();
 			cout << "Miesi¹c: ";
 		}
-		cout << endl;
 		if (miesiac < 1 || miesiac > 12) {
 			cout << "B³¹d! Podana wartoœæ nie jest prawid³owym miesi¹cem!" << endl;
 			blad = true;
@@ -269,8 +364,7 @@ string dodajPojazd(unsigned int id) {
 			cin.sync();
 			cout << "Rok: ";
 		}
-		cout << endl;
-		if (rok < 1981 || rok > aktualnyCzas.tm_year) {
+		if (rok < 1981 || rok > aktualnyCzas.tm_year || rok < przegladOd.tm_year + 1900) {
 			cout << "B³¹d! Podana wartoœæ nie jest prawid³owym rokiem!" << endl;
 			blad = true;
 		}
@@ -280,13 +374,7 @@ string dodajPojazd(unsigned int id) {
 	przegladDo.tm_mon = miesiac - 1;
 	przegladDo.tm_year = rok - 1900;	
 	
-	do {
-		cout << "* Podaj numer rejestracji: ";
-		cin.sync();
-		getline( cin, rejestracja );
-		transform(rejestracja.begin(), rejestracja.end(),rejestracja.begin(), ::toupper);
-		blad = sprawdzRejestracja(rejestracja);
-	} while (blad != false);	
+	rejestracja = wprowadzRejestracja();	
 	
 	tablicaPojazdow.insert (tablicaPojazdow.begin() + id,Pojazd(typ,marka,model,wersja,nadwozie,paliwo,pojSilnika,rokProd,vin,rejestracja, przegladOd,przegladDo));
 	
@@ -438,8 +526,8 @@ string edytujPojazd(unsigned int id, unsigned int nrOperacji) {
 		return "x22";
 	}
 	
-	char typ, opcja;
-	string atrybut, marka, model, wersja, nadwozie, paliwo, vin, rejestracja, opis, uwagi, smoc, spojSilnika, smiejscaSiedz, smiejscaOgl, smasa, sdopMasaCalk, smasaPrzyczHam, smasaPrzyczBezHam, sosie, srozstawOsi, srozstawKol, sdopNaciskNaOs;
+	char typ, nadwozie, paliwo, opcja;
+	string atrybut, marka, model, wersja, vin, rejestracja, opis, uwagi, smoc, spojSilnika, smiejscaSiedz, smiejscaOgl, smasa, sdopMasaCalk, smasaPrzyczHam, smasaPrzyczBezHam, sosie, srozstawOsi, srozstawKol, sdopNaciskNaOs;
 	unsigned int moc, pojSilnika, miejscaSiedz, miejscaOgl, masa, dopMasaCalk, masaPrzyczHam, masaPrzyczBezHam, osie, rozstawOsi, rozstawKol, dopNaciskNaOs, rokProd;
 	unsigned int blad;
 	
@@ -452,76 +540,53 @@ string edytujPojazd(unsigned int id, unsigned int nrOperacji) {
 		if (!stricmp(atrybut.c_str(), "typ")) {
 			historiaOperacji[nrOperacji].ustawAtrybut(atrybut);
 			historiaOperacji[nrOperacji].ustawPoprzedniaWartosc(string (1, tablicaPojazdow[id].oddajTyp()));
-			// Mo¿liwe typy pojazdów: 1.Jednoœlad, 2.Osobowy, 3.Autobus, 4.Ciezarowy, 5.Specjalny, 6.Przyczepa, 7.Naczepa
-			cout << "* Wybierz typ pojazdu: ";
-			cout << "[J]ednoœlad  [O]sobowy [A]utobus  [C]iê¿arowy [S]pecjalny [P]rzyczepa [N]aczepa" << endl;
-			typ = getch();
-			tablicaPojazdow[id].ustawTyp(typ);
+			
+			tablicaPojazdow[id].ustawTyp(wprowadzTyp());
 		} else if (!stricmp(atrybut.c_str(), "marka")) {
 			historiaOperacji[nrOperacji].ustawAtrybut(atrybut);
 			historiaOperacji[nrOperacji].ustawPoprzedniaWartosc(tablicaPojazdow[id].oddajMarka());
-			cout << "* Podaj marke pojazdu: ";
-			cin.sync();
-			getline( cin, marka );
-			tablicaPojazdow[id].ustawMarka(marka);
+			
+			tablicaPojazdow[id].ustawMarka(wprowadzMarka());
 		} else if (!stricmp(atrybut.c_str(), "model")) {
 			historiaOperacji[nrOperacji].ustawAtrybut(atrybut);
 			historiaOperacji[nrOperacji].ustawPoprzedniaWartosc(tablicaPojazdow[id].oddajModel());
-			cout << "* Podaj model pojazdu: ";
-			cin.sync();
-			getline( cin, model );
-			tablicaPojazdow[id].ustawModel(model);
+			
+			tablicaPojazdow[id].ustawModel(wprowadzModel());
 		} else if (!stricmp(atrybut.c_str(), "wersja")) {
 			historiaOperacji[nrOperacji].ustawAtrybut(atrybut);
 			historiaOperacji[nrOperacji].ustawPoprzedniaWartosc(tablicaPojazdow[id].oddajWersja());
-			cout << "* Podaj wersjê pojazdu: ";
-			cin.sync();
-			getline( cin, wersja );
-			tablicaPojazdow[id].ustawWersja(wersja);
+			
+			tablicaPojazdow[id].ustawWersja(wprowadzWersja());
 		} else if (!stricmp(atrybut.c_str(), "typ nadwozia") || !stricmp(atrybut.c_str(), "nadwozie")) {
 			historiaOperacji[nrOperacji].ustawAtrybut(atrybut);
-			historiaOperacji[nrOperacji].ustawPoprzedniaWartosc(tablicaPojazdow[id].oddajNadwozie());
-			cout << "* Podaj typ nadwozia pojazdu: ";
-			cin.sync();
-			getline( cin, nadwozie );
-			tablicaPojazdow[id].ustawNadwozie(nadwozie);
+			historiaOperacji[nrOperacji].ustawPoprzedniaWartosc(string (1, tablicaPojazdow[id].oddajNadwozie()));
+			
+			tablicaPojazdow[id].ustawNadwozie(wprowadzNadwozie());
+		} else if (!stricmp(atrybut.c_str(), "rodzaj paliwa") || !stricmp(atrybut.c_str(), "paliwo")) {
+			historiaOperacji[nrOperacji].ustawAtrybut(atrybut);
+			historiaOperacji[nrOperacji].ustawPoprzedniaWartosc(string (1, tablicaPojazdow[id].oddajPaliwo()));
+			
+			tablicaPojazdow[id].ustawPaliwo(wprowadzPaliwo());
 		} else if (!stricmp(atrybut.c_str(), "pojemnosc silnika") || !stricmp(atrybut.c_str(), "pojemnosc")) {
 			historiaOperacji[nrOperacji].ustawAtrybut(atrybut);
 			historiaOperacji[nrOperacji].ustawPoprzedniaWartosc(to_string (tablicaPojazdow[id].oddajPojSilnika()));
-			cout << "* Podaj pojemnoœæ silnika: ";
-			while(!(cin>>pojSilnika)) {
-				cout << "Pojemnoœæ silnika powinna byæ liczb¹!" << endl;
-				cin.clear();
-				cin.sync();
-				cout << "* Podaj pojemnoœæ silnika: ";
-			}
-			tablicaPojazdow[id].ustawPojSilnika(pojSilnika);
+			
+			tablicaPojazdow[id].ustawPojSilnika(wprowadzPojSilnika());
 		} else if (!stricmp(atrybut.c_str(), "rok produkcji") || !stricmp(atrybut.c_str(), "rocznik")) {
 			historiaOperacji[nrOperacji].ustawAtrybut(atrybut);
 			historiaOperacji[nrOperacji].ustawPoprzedniaWartosc(to_string (tablicaPojazdow[id].oddajRokProd()));
-			cout << "B³¹d! Nie mo¿na dokonaæ edycji atrybutu \"rok produkcji\", poniewa¿ jest on sta³y." << endl;
-		} else if (!stricmp(atrybut.c_str(), "rodzaj paliwa") || !stricmp(atrybut.c_str(), "paliwo")) {
-			historiaOperacji[nrOperacji].ustawAtrybut(atrybut);
-			historiaOperacji[nrOperacji].ustawPoprzedniaWartosc(tablicaPojazdow[id].oddajPaliwo());
-			cout << "* Podaj rodzaj paliwa: ";
-			cin.sync();
-			getline( cin, paliwo );
-			tablicaPojazdow[id].ustawPaliwo(paliwo);
+			
+			tablicaPojazdow[id].ustawRokProd(wprowadzRokProd());
 		} else if (!stricmp(atrybut.c_str(), "nr.vin") || !stricmp(atrybut.c_str(), "nr vin") || !stricmp(atrybut.c_str(), "numer vin") || !stricmp(atrybut.c_str(), "vin")) {
 			historiaOperacji[nrOperacji].ustawAtrybut(atrybut);
 			historiaOperacji[nrOperacji].ustawPoprzedniaWartosc(tablicaPojazdow[id].oddajVin());
+			
 			cout << "B³¹d! Nie mo¿na dokonaæ edycji atrybutu \"VIN\", poniewa¿ jest on sta³y." << endl;
 		} else if (!stricmp(atrybut.c_str(), "rejestracja")) {
 			historiaOperacji[nrOperacji].ustawAtrybut(atrybut);
 			historiaOperacji[nrOperacji].ustawPoprzedniaWartosc(tablicaPojazdow[id].oddajRejestracja());
-			do {
-				cout << "* Podaj numer rejestracji: ";
-				cin.sync();
-				getline( cin, rejestracja );
-				transform(rejestracja.begin(), rejestracja.end(),rejestracja.begin(), ::toupper);
-				blad = sprawdzRejestracja(rejestracja);
-			} while (blad != true);	
-			tablicaPojazdow[id].ustawRejestracja(rejestracja);
+			
+			tablicaPojazdow[id].ustawRejestracja(wprowadzRejestracja());
 		} else if (!stricmp(atrybut.c_str(), "moc silnika") || !stricmp(atrybut.c_str(), "moc")) {
 			historiaOperacji[nrOperacji].ustawAtrybut(atrybut);
 			historiaOperacji[nrOperacji].ustawPoprzedniaWartosc(to_string (tablicaPojazdow[id].oddajMoc()));
@@ -759,19 +824,19 @@ string wyswietlPojazd(unsigned int id, string format) {
 		cout << left << id;
 		cout.width( 15 );
 		// Zamiana litery typu na pe³n¹ nazwê: Jednoœlad, Osobowy, Autobus, Ciê¿arowy, Specjalny, Przyczepa, Naczepa
-		if (tablicaPojazdow[id].oddajTyp()== 'J' || tablicaPojazdow[id].oddajTyp()== 'j') {
+		if (tablicaPojazdow[id].oddajTyp()== 'J') {
 			cout << left << "Jednoœlad";
-		} else if (tablicaPojazdow[id].oddajTyp()== 'O' || tablicaPojazdow[id].oddajTyp()== 'o') {
+		} else if (tablicaPojazdow[id].oddajTyp()== 'O') {
 			cout << left << "Osobowy";
-		} else if (tablicaPojazdow[id].oddajTyp()== 'A' || tablicaPojazdow[id].oddajTyp()== 'a') {
+		} else if (tablicaPojazdow[id].oddajTyp()== 'A') {
 			cout << left << "Autobus";
-		} else if (tablicaPojazdow[id].oddajTyp()== 'C' || tablicaPojazdow[id].oddajTyp()== 'c') {
+		} else if (tablicaPojazdow[id].oddajTyp()== 'C') {
 			cout << left << "Ciê¿arowy";
-		} else if (tablicaPojazdow[id].oddajTyp()== 'S' || tablicaPojazdow[id].oddajTyp()== 's') {
+		} else if (tablicaPojazdow[id].oddajTyp()== 'S') {
 			cout << left << "Specjalny";
-		} else if (tablicaPojazdow[id].oddajTyp()== 'P' || tablicaPojazdow[id].oddajTyp()== 'p') {
+		} else if (tablicaPojazdow[id].oddajTyp()== 'P') {
 			cout << left << "Przyczepa";
-		} else if (tablicaPojazdow[id].oddajTyp()== 'N' || tablicaPojazdow[id].oddajTyp()== 'n') {
+		} else if (tablicaPojazdow[id].oddajTyp()== 'N') {
 			cout << left << "Naczepa";
 		}
 		cout.width( 15 );
@@ -781,9 +846,47 @@ string wyswietlPojazd(unsigned int id, string format) {
 	    cout.width( 15 );
 	    cout << left << tablicaPojazdow[id].oddajWersja();
 	    cout.width( 15 );
-	    cout << left << tablicaPojazdow[id].oddajNadwozie();
-	    cout.width( 15 );
-	    cout << left << tablicaPojazdow[id].oddajPaliwo();
+	    // Zamiana litery typu nadwozia na pe³n¹ nazwê: Coupe, Dual cowl, Fastback, Hatchback, Kabriolet, Kombi, Liftback, Limuzyna, Pick-up, Roadster, Sedan, SUV, VAN
+		if (tablicaPojazdow[id].oddajNadwozie()== 'C') {
+			cout << left << "Coupe";
+		} else if (tablicaPojazdow[id].oddajNadwozie()== 'D') {
+			cout << left << "Dual cowl";
+		} else if (tablicaPojazdow[id].oddajNadwozie()== 'F') {
+			cout << left << "Fastback";
+		} else if (tablicaPojazdow[id].oddajNadwozie()== 'H') {
+			cout << left << "Hatchback";
+		} else if (tablicaPojazdow[id].oddajNadwozie()== 'K') {
+			cout << left << "Kabriolet";
+		} else if (tablicaPojazdow[id].oddajNadwozie()== 'O') {
+			cout << left << "Kombi";
+		} else if (tablicaPojazdow[id].oddajNadwozie()== 'L') {
+			cout << left << "Liftback";
+		} else if (tablicaPojazdow[id].oddajNadwozie()== 'I') {
+			cout << left << "Limuzyna";
+		} else if (tablicaPojazdow[id].oddajNadwozie()== 'P') {
+			cout << left << "Pick-up";
+		} else if (tablicaPojazdow[id].oddajNadwozie()== 'R') {
+			cout << left << "Roadster";
+		} else if (tablicaPojazdow[id].oddajNadwozie()== 'S') {
+			cout << left << "Sedan";
+		} else if (tablicaPojazdow[id].oddajNadwozie()== 'U') {
+			cout << left << "SUV";
+		} else if (tablicaPojazdow[id].oddajNadwozie()== 'V') {
+			cout << left << "VAN";
+		}
+		// Zamiana litery typu nadwozia na pe³n¹ nazwê: Benzyna, Diesel, LPG, Elektryczny, Gaz ziemny
+		cout.width( 15 );
+		if (tablicaPojazdow[id].oddajPaliwo()== 'B') {
+			cout << left << "Benzyna";
+		} else if (tablicaPojazdow[id].oddajPaliwo()== 'D') {
+			cout << left << "Diesel";
+		} else if (tablicaPojazdow[id].oddajPaliwo()== 'L') {
+			cout << left << "LPG";
+		} else if (tablicaPojazdow[id].oddajPaliwo()== 'E') {
+			cout << left << "Elektryczny";
+		} else if (tablicaPojazdow[id].oddajPaliwo()== 'G') {
+			cout << left << "Gaz ziemny";
+		} 
 	    cout.width( 20 );
 	    cout << left << tablicaPojazdow[id].oddajPojSilnika();
 	    cout.width( 15 );
@@ -826,16 +929,17 @@ string przeszukajPojazdy() {
 	cout << "Podaj nazwe w³asnoœci pojazdu: ";
 	cin.sync();
 	getline(cin, atrybut);
-	if (stricmp(atrybut.c_str(), "typ")) {
+	if (!stricmp(atrybut.c_str(), "typ")) {
+		wartosc = wprowadzTyp();
+	} else if (!stricmp(atrybut.c_str(), "nadwozie")) {
+		wartosc = wprowadzNadwozie();
+	} else if (!stricmp(atrybut.c_str(), "paliwo")) {
+		wartosc = wprowadzPaliwo();
+	} else {
 		cout << "Podaj wartoœæ tej w³asnoœci: ";
 		cin.sync();
 		getline(cin, wartosc);
 		cout << endl;
-	} else {
-		// Mo¿liwe typy pojazdów: 1.Jednoœlad, 2.Osobowy, 3.Autobus, 4.Ciezarowy, 5.Specjalny, 6.Przyczepa, 7.Naczepa
-		cout << "* Wybierz typ pojazdu: ";
-		cout << "[J]ednoœlad  [O]sobowy [A]utobus  [C]iê¿arowy [S]pecjalny [P]rzyczepa [N]aczepa" << endl;
-		wartosc = getch();
 	}
 	
 	cout << "Chcesz wyœwietliæ wyniki jako \"tabela\", czy \"lista\" ?" << endl;
@@ -890,12 +994,12 @@ string przeszukajPojazdy() {
 				znalezionoWyniki += 1;	
 			}
 		} else if (!stricmp(atrybut.c_str(), "nadwozie")) {
-			if (tablicaPojazdow[i].oddajNadwozie()==wartosc) {
+			if (tablicaPojazdow[i].oddajNadwozie()==wartosc[0]) {
 				wyswietlPojazd(i,format);
 				znalezionoWyniki += 1;	
 			}
 		} else if (!stricmp(atrybut.c_str(), "rodzaj paliwa") || !stricmp(atrybut.c_str(), "paliwo")) {
-			if (tablicaPojazdow[i].oddajPaliwo()==wartosc) {
+			if (tablicaPojazdow[i].oddajPaliwo()==wartosc[0]) {
 				wyswietlPojazd(i,format);
 				znalezionoWyniki += 1;	
 			}
@@ -1019,8 +1123,8 @@ string otworzPlik(string nazwaPliku, string opcja) {
 
 		fstream plik(nazwaPliku,ios::in);
 		if( plik.good() ) {
-			char typ;
-			string wiersz, marka, model, wersja, nadwozie, paliwo, vin, rejestracja, dzien, miesiac, rok;
+			char typ, nadwozie, paliwo;
+			string wiersz, marka, model, wersja, vin, rejestracja, dzien, miesiac, rok;
 			unsigned int id, i = 0, pojSilnika, rokProd;
 			struct tm ocOd, ocDo, przegladOd, przegladDo;
 			
@@ -1055,11 +1159,11 @@ string otworzPlik(string nazwaPliku, string opcja) {
 						i++;
 					} else if (i==5) {
 						wiersz.erase(0,10);
-						nadwozie = wiersz;
+						nadwozie = wiersz[0];
 						i++;	
 					} else if (i==6) {
 						wiersz.erase(0,15);
-						paliwo = wiersz;
+						paliwo = wiersz[0];
 						i++;
 					} else if (i==7) {
 						wiersz.erase(0,19);

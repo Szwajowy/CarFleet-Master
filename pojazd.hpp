@@ -10,15 +10,15 @@ using namespace std;
 class Pojazd {
 	private:
 		// Dane pojazdu
-		char typ;
-		string marka, model, wersja, nadwozie, paliwo, vin, rejestracja, opis, uwagi;
+		char typ, nadwozie, paliwo;
+		string marka, model, wersja, vin, rejestracja, opis, uwagi;
 		unsigned int pojSilnika, moc, miejscaSiedz, miejscaOgl, masa, dopMasaCalk, masaPrzyczHam, masaPrzyczBezHam, osie, rozstawOsi, rozstawKol, dopNaciskNaOs, rokProd;
 		
 		struct tm ocOd, ocDo, przegladOd, przegladDo;
 		
 	public:
 		// Konstruktor parametrowy dla zmiennych obowi¹zkowych 
-		Pojazd(char typ,string marka,string model,string wersja,string nadwozie,string paliwo,unsigned int silnik,unsigned int rokProd,string vin,string rejestracja, tm przegladOd, tm przegladDo);
+		Pojazd(char typ,string marka,string model,string wersja,char nadwozie,char paliwo,unsigned int silnik,unsigned int rokProd,string vin,string rejestracja, tm przegladOd, tm przegladDo);
 		
 		// Konstruktor bezparametrowy
 		Pojazd();
@@ -40,12 +40,12 @@ class Pojazd {
 		void ustawWersja(string wersja);
 		
 		// Zwracanie i ustawianie wartoœci zmiennej "nadwozie"
-		string oddajNadwozie();
-		void ustawNadwozie(string nadwozie);
+		char oddajNadwozie();
+		void ustawNadwozie(char nadwozie);
 
 		// Zwracanie i ustawianie wartoœci zmiennej "paliwo"
-		string oddajPaliwo();
-		void ustawPaliwo(string paliwo);
+		char oddajPaliwo();
+		void ustawPaliwo(char paliwo);
 
 		// Zwracanie i ustawianie wartoœci zmiennej "pojSilnika"
 		unsigned int oddajPojSilnika();

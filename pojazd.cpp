@@ -1,7 +1,7 @@
 #include "pojazd.hpp"
 
 // Konstruktor parametrowy dla zmiennych obowi¹zkowych
-Pojazd::Pojazd(char typ,string marka,string model,string wersja,string nadwozie,string paliwo,unsigned int pojSilnika,unsigned int rokProd,string vin,string rejestracja, tm przegladOd, tm przegladDo) {
+Pojazd::Pojazd(char typ,string marka,string model,string wersja,char nadwozie,char paliwo,unsigned int pojSilnika,unsigned int rokProd,string vin,string rejestracja, tm przegladOd, tm przegladDo) {
 	this->typ = typ;
     this->marka = marka;
 	this->model = model;
@@ -18,7 +18,7 @@ Pojazd::Pojazd(char typ,string marka,string model,string wersja,string nadwozie,
     
 // Konstruktor bezparametrowy    
 Pojazd::Pojazd() {
-    Pojazd('N',"Nieznana","Nieznany","Nieznana","Nieznane","Nieznane",0,1981,"AAAAAAAAAAAAA0000","Nieznana", przegladOd, przegladDo);
+    Pojazd('N',"Nieznana","Nieznany","Nieznana",'N','N',0,1981,"AAAAAAAAAAAAA0000","Nieznana", przegladOd, przegladDo);
 }      
 	
 // Zwracanie i ustawianie wartoœci zmiennej "typ"		
@@ -58,20 +58,20 @@ void Pojazd::ustawWersja(string wersja) {
 }
 		
 // Zwracanie i ustawianie wartoœci zmiennej "nadwozie"
-string Pojazd::oddajNadwozie() {
+char Pojazd::oddajNadwozie() {
 	return nadwozie;	
 }
 
-void Pojazd::ustawNadwozie(string nadwozie) {
+void Pojazd::ustawNadwozie(char nadwozie) {
 	this->nadwozie = nadwozie;	
 }
 
 // Zwracanie i ustawianie wartoœci zmiennej "paliwo"
-string Pojazd::oddajPaliwo() {
+char Pojazd::oddajPaliwo() {
 	return paliwo;	
 }
 	
-void Pojazd::ustawPaliwo(string paliwo) {
+void Pojazd::ustawPaliwo(char paliwo) {
 	this->paliwo = paliwo;	
 }
 

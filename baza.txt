@@ -1,10 +1,10 @@
 Pojazd nr.0
-Typ: Osobowe
+Typ: O
 Marka: Opel
 Model: Corsa
 Wersja: D
-Nadwozie: Hatchback
-Rodzaj paliwa: Benzyna
+Nadwozie: H
+Rodzaj paliwa: B
 Pojemnoœæ silnika: 1229
 Rok produkcji: 2007
 Nr.VIN: W0L0SDL6874247208
@@ -13,12 +13,12 @@ Przegl¹d do: 01/03/2000
 Rejestracja: SBE 1234
 
 Pojazd nr.1
-Typ: Osobowy
+Typ: O
 Marka: Opel
 Model: Astra
 Wersja: J
-Nadwozie: Kombi
-Rodzaj paliwa: Diesel
+Nadwozie: O
+Rodzaj paliwa: D
 Pojemnoœæ silnika: 1686
 Rok produkcji: 2013
 Nr.VIN: W0LPD8EK0D8053251
@@ -27,12 +27,12 @@ Przegl¹d do: 18/09/2000
 Rejestracja: SO 1234
 
 Pojazd nr.2
-Typ: Osobowe
+Typ: O
 Marka: Skoda
 Model: Superb
 Wersja: III
-Nadwozie: Sedan
-Rodzaj paliwa: Benzyna
+Nadwozie: S
+Rodzaj paliwa: B
 Pojemnoœæ silnika: 1400
 Rok produkcji: 2017
 Nr.VIN: TMBAA7NP7H7553036
@@ -41,12 +41,12 @@ Przegl¹d do: 11/04/2000
 Rejestracja: KRK 1234
 
 Pojazd nr.3
-Typ: Osobowe
+Typ: O
 Marka: Toyota
 Model: Yaris
 Wersja: IV
-Nadwozie: Hatchback
-Rodzaj paliwa: Diesel
+Nadwozie: H
+Rodzaj paliwa: D
 Pojemnoœæ silnika: 1400
 Rok produkcji: 2010
 Nr.VIN: W0L0SDL68B4352330
