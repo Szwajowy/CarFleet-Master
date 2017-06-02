@@ -276,7 +276,11 @@ string dodajPojazd(unsigned int id) {
 	wersja = wprowadzWersja();
 	nadwozie = wprowadzNadwozie();
 	paliwo = wprowadzPaliwo();
-	pojSilnika = wprowadzPojSilnika();
+	if(paliwo == 'E') {
+		pojSilnika = 0;
+	} else if(paliwo != 'E') {
+		pojSilnika = wprowadzPojSilnika();
+	}	
 	rokProd = wprowadzRokProd();
 	vin = wprowadzVin();
 
