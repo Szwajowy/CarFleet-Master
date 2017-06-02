@@ -194,7 +194,7 @@ string wprowadzVin() {
 		getline(cin,vin);
 		
 		transform(vin.begin(), vin.end(),vin.begin(), ::toupper);
-		if( !regex_search(vin,sprawdzonyVin,wzorzecVin)) {
+		if(!regex_search(vin,sprawdzonyVin,wzorzecVin) || (vin.length() > 17)) {
 			cout << "B³¹d! Wprowadzono niepoprawny VIN." << endl;
 			blad = true;
 		}
@@ -218,7 +218,7 @@ string wprowadzRejestracja() {
 		getline( cin, rejestracja );
 		
 		transform(rejestracja.begin(), rejestracja.end(),rejestracja.begin(), ::toupper);
-		if( !regex_search(rejestracja,sprawdzonyRejestracja,wzorzecRejestracja)) {
+		if( !regex_search(rejestracja,sprawdzonyRejestracja,wzorzecRejestracja) || (rejestracja.length() > 7) ) {
 			cout << "B³¹d! Wprowadzono niepoprawn¹ rejestracjê." << endl;
 			blad = true;
 		}
