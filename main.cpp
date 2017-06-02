@@ -149,6 +149,10 @@ float wprowadzPojSilnika() {
 			cout << "Pojemnoœæ silnika powinna byæ liczb¹ wiêksz¹ od zera!" << endl;
 			cin.clear();
 			blad = true;
+		} else if (pojSilnika > 16500) {
+			cout << "Ciekawostka! Najwiêkszy silnik dopuszczony do ruchu publicznego to 16,5-litrowy V8 o mocy 1600 KM." << endl;
+			cin.clear();
+			blad = true;
 		}
 	} while (blad != false);
 	
@@ -389,7 +393,12 @@ string dodajPojazd(unsigned int id) {
 		getline( cin, smoc );
 		if (smoc != "") {
 			blad = sprawdzCzyLiczba(smoc);
-			if (blad == false) moc = stoi(smoc);
+			if (blad == false){
+				if(stoi(smoc) > 0 && stoi(smoc) < 5000) {
+					moc = stoi(smoc);
+				}
+				cout << "Moc silnika nie mo¿e byæ mniejsza lub równa 0, ani wiêksza od 5000km." << endl;
+			}
 		}
 	} while (blad != false);
 	
