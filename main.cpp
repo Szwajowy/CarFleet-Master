@@ -292,13 +292,10 @@ string dodajPojazd(unsigned int id) {
 	do {
 		blad = false;
 		cout << "Rok: ";
-		while (!(cin >> rok)) {
+		cin >> rok;
+		if (cin.fail() || rok < 1981 || rok < rokProd || rok > aktualnyCzas.tm_year) {
 			cout << "B³¹d! Podana wartoœæ nie jest prawid³owym rokiem!" << endl;
 			cin.sync();
-			cout << "Rok: ";
-		}
-		if (rok < 1981 || rok > aktualnyCzas.tm_year || rok < rokProd) {
-			cout << "B³¹d! Podana wartoœæ nie jest prawid³owym rokiem!" << endl;
 			blad = true;
 		}
 	} while (blad != false);
@@ -306,219 +303,65 @@ string dodajPojazd(unsigned int id) {
 	do {
 		blad = false;
 		cout << "Miesi¹c: ";
-		while (!(cin >> miesiac)) {
-			cout << "B³¹d! Podana wartoœæ nie jest prawid³owym miesi¹cem!" << endl;
-			cin.sync();
-			cout << "Miesi¹c: ";
-		}
+		cin >> miesiac;
 		if (miesiac < 1 || miesiac > 12) {
 			cout << "B³¹d! Podana wartoœæ nie jest prawid³owym miesi¹cem!" << endl;
+			cin.sync();
 			blad = true;
 		}
 	} while (blad != false);
 
-	do {
-		switch(miesiac)	{
-			case 1:
-					do {
-						blad = false;
-						cout << "Dzieñ: ";
-						while (!(cin >> dzien)) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							cin.sync();
-							cout << "Dzieñ: ";
-						}
-						if (dzien < 1 || dzien > 31) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							blad = true;
-						}
-					} while (blad != false);
-				break;
-			case 2: 
-					if((rok % 4 == 0) || (rok % 4 == 0 && rok % 400 == 0)) {
-						do {
-							blad = false;
-							cout << "Dzieñ: ";
-							while (!(cin >> dzien)) {
-								cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-								cin.sync();
-								cout << "Dzieñ: ";
-							}
-							if (dzien < 1 || dzien > 29) {
-								cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-								blad = true;
-							}
-						} while (blad != false);
-					} else if ((rok % 4 != 0) || (rok % 4 == 0 && rok % 100 == 0)) {
-						do {
-							blad = false;
-							cout << "Dzieñ: ";
-							while (!(cin >> dzien)) {
-								cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-								cin.sync();
-								cout << "Dzieñ: ";
-							}
-							if (dzien < 1 || dzien > 28) {
-								cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-								blad = true;
-							}
-						} while (blad != false);
+	switch(miesiac)	{
+		case 1:case 3:case 5:case 7:case 9:case 11:
+			do {
+				blad = false;
+				cout << "Dzieñ: ";
+				cin >> dzien;
+				if (cin.fail() || dzien < 1 || dzien > 31) {
+					cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
+					cin.sync();
+					blad = true;
+				}
+			} while (blad != false);
+			break;
+		case 2: 
+			if((rok % 4 == 0) || (rok % 100 == 0 && rok % 400 == 0)) {
+				do {
+					blad = false;
+					cout << "Dzieñ: ";
+					cin >> dzien;
+					if (dzien < 1 || dzien > 29) {
+						cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
+						cin.sync();
+						blad = true;
 					}
-				break;
-			case 3:
-					do {
-						blad = false;
-						cout << "Dzieñ: ";
-						while (!(cin >> dzien)) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							cin.sync();
-							cout << "Dzieñ: ";
-						}
-						if (dzien < 1 || dzien > 31) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							blad = true;
-						}
-					} while (blad != false);
-				break;
-			case 4:
-					do {
-						blad = false;
-						cout << "Dzieñ: ";
-						while (!(cin >> dzien)) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							cin.sync();
-							cout << "Dzieñ: ";
-						}
-						if (dzien < 1 || dzien > 30) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							blad = true;
-						}
-					} while (blad != false);
-				break;
-			case 5:
-					do {
-						blad = false;
-						cout << "Dzieñ: ";
-						while (!(cin >> dzien)) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							cin.sync();
-							cout << "Dzieñ: ";
-						}
-						if (dzien < 1 || dzien > 31) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							blad = true;
-						}
-					} while (blad != false);
-				break;
-			case 6:
-					do {
-						blad = false;
-						cout << "Dzieñ: ";
-						while (!(cin >> dzien)) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							cin.sync();
-							cout << "Dzieñ: ";
-						}
-						if (dzien < 1 || dzien > 30) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							blad = true;
-						}
-					} while (blad != false);
-				break;
-			case 7:
-					do {
-						blad = false;
-						cout << "Dzieñ: ";
-						while (!(cin >> dzien)) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							cin.sync();
-							cout << "Dzieñ: ";
-						}
-						if (dzien < 1 || dzien > 31) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							blad = true;
-						}
-					} while (blad != false);
-				break;
-			case 8:
-					do {
-						blad = false;
-						cout << "Dzieñ: ";
-						while (!(cin >> dzien)) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							cin.sync();
-							cout << "Dzieñ: ";
-						}
-						if (dzien < 1 || dzien > 31) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							blad = true;
-						}
-					} while (blad != false);
-				break;
-			case 9:
-					do {
-						blad = false;
-						cout << "Dzieñ: ";
-						while (!(cin >> dzien)) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							cin.sync();
-							cout << "Dzieñ: ";
-						}
-						if (dzien < 1 || dzien > 30) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							blad = true;
-						}
-					} while (blad != false);
-				break;
-			case 10:
-					do {
-						blad = false;
-						cout << "Dzieñ: ";
-						while (!(cin >> dzien)) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							cin.sync();
-							cout << "Dzieñ: ";
-						}
-						if (dzien < 1 || dzien > 31) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							blad = true;
-						}
-					} while (blad != false);
-				break;
-			case 11:
-					do {
-						blad = false;
-						cout << "Dzieñ: ";
-						while (!(cin >> dzien)) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							cin.sync();
-							cout << "Dzieñ: ";
-						}
-						if (dzien < 1 || dzien > 30) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							blad = true;
-						}
-					} while (blad != false);
-				break;
-			case 12:
-					do {
-						blad = false;
-						cout << "Dzieñ: ";
-						while (!(cin >> dzien)) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							cin.sync();
-							cout << "Dzieñ: ";
-						}
-						if (dzien < 1 || dzien > 31) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							blad = true;
-						}
-					} while (blad != false);
-				break;
-			default: blad = true;
-				break;
-		}
-	} while (blad != false);
+				} while (blad != false);
+			} else {
+				do {
+					blad = false;
+					cout << "Dzieñ: ";
+					cin >> dzien;
+					if (dzien < 1 || dzien > 28) {
+						cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
+						cin.sync();
+						blad = true;
+					}
+				} while (blad != false);
+			}
+		break;
+		case 4:case 6:case 8:case 10:case 12:
+			do {
+				blad = false;
+				cout << "Dzieñ: ";
+				cin >> dzien;
+				if (dzien < 1 || dzien > 30) {
+					cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
+					cin.sync();
+					blad = true;
+				}
+			} while (blad != false);
+		break;
+	}
 	
 	przegladOd.tm_mday = dzien;
 	przegladOd.tm_mon = miesiac - 1;
@@ -528,232 +371,107 @@ string dodajPojazd(unsigned int id) {
 	do {
 		blad = false;
 		cout << "Rok: ";
-		while (!(cin >> rok)) {
+		cin >> rok;
+		if (cin.fail() || rok < 1981 || rok < rokProd || rok < przegladOd.tm_year + 1900) {
 			cout << "B³¹d! Podana wartoœæ nie jest prawid³owym rokiem!" << endl;
 			cin.sync();
-			cout << "Rok: ";
-		}
-		if (rok < 1981 || rok > aktualnyCzas.tm_year || rok < przegladOd.tm_year + 1900) {
-			cout << "B³¹d! Podana wartoœæ nie jest prawid³owym rokiem!" << endl;
-			blad = true;
-		}
-	} while (blad != false);
-	do {
-		blad = false;
-		cout << "Miesi¹c: ";
-		while (!(cin >> miesiac)) {
-			cout << "B³¹d! Podana wartoœæ nie jest prawid³owym miesi¹cem!" << endl;
-			cin.sync();
-			cout << "Miesi¹c: ";
-		}
-		if (miesiac < 1 || miesiac > 12) {
-			cout << "B³¹d! Podana wartoœæ nie jest prawid³owym miesi¹cem!" << endl;
 			blad = true;
 		}
 	} while (blad != false);
 	
-		do {
-		switch(miesiac)	{
-			case 1:
-					do {
-						blad = false;
-						cout << "Dzieñ: ";
-						while (!(cin >> dzien)) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							cin.sync();
-							cout << "Dzieñ: ";
-						}
-						if (dzien < 1 || dzien > 31) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							blad = true;
-						}
-					} while (blad != false);
+	do {
+		blad = false;
+		cout << "Miesi¹c: ";
+		cin >> miesiac;
+		if (miesiac < 1 || miesiac > 12 || (rok == przegladOd.tm_year + 1900 && miesiac < przegladOd.tm_mon + 1)) {
+			cout << "B³¹d! Podana wartoœæ nie jest prawid³owym miesi¹cem!" << endl;
+			cin.sync();
+			blad = true;
+		}
+		switch (miesiac) {
+			case 1:case 3:case 5:case 7:case 9:case 11:
+				if (rok == przegladOd.tm_year + 1900 && miesiac == przegladOd.tm_mon + 1 && przegladOd.tm_mday == 31) {
+					cout << "B³¹d! Data ostatniego przegl¹du to ostatni dzieñ tego miesi¹ca!" << endl;
+					cin.sync();
+					blad = true;	
+				}
 				break;
 			case 2:
-					if((rok % 4 == 0) || (rok % 4 == 0 && rok % 400 == 0)) {
-						do {
-							blad = false;
-							cout << "Dzieñ: ";
-							while (!(cin >> dzien)) {
-								cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-								cin.sync();
-								cout << "Dzieñ: ";
-							}
-							if (dzien < 1 || dzien > 29) {
-								cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-								blad = true;
-							}
-						} while (blad != false);
-					} else if ((rok % 4 != 0) || (rok % 4 == 0 && rok % 100 == 0)) {
-						do {
-							blad = false;
-							cout << "Dzieñ: ";
-							while (!(cin >> dzien)) {
-								cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-								cin.sync();
-								cout << "Dzieñ: ";
-							}
-							if (dzien < 1 || dzien > 28) {
-								cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-								blad = true;
-							}
-						} while (blad != false);
+				if((rok % 4 == 0) || (rok % 100 == 0 && rok % 400 == 0)) {
+					if (rok == przegladOd.tm_year + 1900 && miesiac == przegladOd.tm_mon + 1 && przegladOd.tm_mday == 29) {
+						cout << "B³¹d! Data ostatniego przegl¹du to ostatni dzieñ tego miesi¹ca!" << endl;
+						cin.sync();
+						blad = true;	
 					}
+				} else {
+					if (rok == przegladOd.tm_year + 1900 && miesiac == przegladOd.tm_mon + 1 && przegladOd.tm_mday == 28) {
+						cout << "B³¹d! Data ostatniego przegl¹du to ostatni dzieñ tego miesi¹ca!" << endl;
+						cin.sync();
+						blad = true;	
+					}	
+				}
 				break;
-			case 3:
-					do {
-						blad = false;
-						cout << "Dzieñ: ";
-						while (!(cin >> dzien)) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							cin.sync();
-							cout << "Dzieñ: ";
-						}
-						if (dzien < 1 || dzien > 31) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							blad = true;
-						}
-					} while (blad != false);
-				break;
-			case 4:
-					do {
-						blad = false;
-						cout << "Dzieñ: ";
-						while (!(cin >> dzien)) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							cin.sync();
-							cout << "Dzieñ: ";
-						}
-						if (dzien < 1 || dzien > 30) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							blad = true;
-						}
-					} while (blad != false);
-				break;
-			case 5:
-					do {
-						blad = false;
-						cout << "Dzieñ: ";
-						while (!(cin >> dzien)) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							cin.sync();
-							cout << "Dzieñ: ";
-						}
-						if (dzien < 1 || dzien > 31) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							blad = true;
-						}
-					} while (blad != false);
-				break;
-			case 6:
-					do {
-						blad = false;
-						cout << "Dzieñ: ";
-						while (!(cin >> dzien)) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							cin.sync();
-							cout << "Dzieñ: ";
-						}
-						if (dzien < 1 || dzien > 30) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							blad = true;
-						}
-					} while (blad != false);
-				break;
-			case 7:
-					do {
-						blad = false;
-						cout << "Dzieñ: ";
-						while (!(cin >> dzien)) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							cin.sync();
-							cout << "Dzieñ: ";
-						}
-						if (dzien < 1 || dzien > 31) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							blad = true;
-						}
-					} while (blad != false);
-				break;
-			case 8:
-					do {
-						blad = false;
-						cout << "Dzieñ: ";
-						while (!(cin >> dzien)) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							cin.sync();
-							cout << "Dzieñ: ";
-						}
-						if (dzien < 1 || dzien > 31) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							blad = true;
-						}
-					} while (blad != false);
-				break;
-			case 9:
-					do {
-						blad = false;
-						cout << "Dzieñ: ";
-						while (!(cin >> dzien)) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							cin.sync();
-							cout << "Dzieñ: ";
-						}
-						if (dzien < 1 || dzien > 30) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							blad = true;
-						}
-					} while (blad != false);
-				break;
-			case 10:
-					do {
-						blad = false;
-						cout << "Dzieñ: ";
-						while (!(cin >> dzien)) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							cin.sync();
-							cout << "Dzieñ: ";
-						}
-						if (dzien < 1 || dzien > 31) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							blad = true;
-						}
-					} while (blad != false);
-				break;
-			case 11:
-					do {
-						blad = false;
-						cout << "Dzieñ: ";
-						while (!(cin >> dzien)) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							cin.sync();
-							cout << "Dzieñ: ";
-						}
-						if (dzien < 1 || dzien > 30) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							blad = true;
-						}
-					} while (blad != false);
-				break;
-			case 12:
-					do {
-						blad = false;
-						cout << "Dzieñ: ";
-						while (!(cin >> dzien)) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							cin.sync();
-							cout << "Dzieñ: ";
-						}
-						if (dzien < 1 || dzien > 31) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							blad = true;
-						}
-					} while (blad != false);
-				break;
-			default: blad = true;
+			case 4:case 6:case 8:case 10:case 12:
+				if (rok == przegladOd.tm_year + 1900 && miesiac == przegladOd.tm_mon + 1 && przegladOd.tm_mday == 30) {
+					cout << "B³¹d! Data ostatniego przegl¹du to ostatni dzieñ tego miesi¹ca!" << endl;
+					cin.sync();
+					blad = true;	
+				}
 				break;
 		}
 	} while (blad != false);
+	
+	switch(miesiac)	{
+		case 1:case 3:case 5:case 7:case 9:case 11:
+			do {
+				blad = false;
+				cout << "Dzieñ: ";
+				cin >> dzien;
+				if (cin.fail() || dzien < 1 || dzien > 31 || (rok == przegladOd.tm_year + 1900 && miesiac == przegladOd.tm_mon + 1 && dzien <= przegladOd.tm_mday)) {
+					cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
+					cin.sync();
+					blad = true;
+				}
+			} while (blad != false);
+			break;
+		case 2: 
+			if(rok % 4 == 0 || (rok % 100 == 0 && rok % 400 == 0)) {
+				do {
+					blad = false;
+					cout << "Dzieñ: ";
+					cin >> dzien;
+					if (dzien < 1 || dzien > 29 || (rok == przegladOd.tm_year + 1900 && miesiac == przegladOd.tm_mon + 1 && dzien <= przegladOd.tm_mday)) {
+						cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
+						cin.sync();
+						blad = true;
+					}
+				} while (blad != false);
+			} else {
+				do {
+					blad = false;
+					cout << "Dzieñ: ";
+					cin >> dzien;
+					if (dzien < 1 || dzien > 28 || (rok == przegladOd.tm_year + 1900 && miesiac == przegladOd.tm_mon + 1 && dzien <= przegladOd.tm_mday)) {
+						cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
+						cin.sync();
+						blad = true;
+					}
+				} while (blad != false);
+			}
+		break;
+		case 4:case 6:case 8:case 10:case 12:
+			do {
+				blad = false;
+				cout << "Dzieñ: ";
+				cin >> dzien;
+				if (dzien < 1 || dzien > 30 || (rok == przegladOd.tm_year + 1900 && miesiac == przegladOd.tm_mon + 1 && dzien <= przegladOd.tm_mday)) {
+					cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
+					cin.sync();
+					blad = true;
+				}
+			} while (blad != false);
+		break;
+	}
 	
 	przegladDo.tm_mday = dzien;
 	przegladDo.tm_mon = miesiac - 1;
