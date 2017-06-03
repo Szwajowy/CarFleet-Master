@@ -5,7 +5,6 @@
 * konta użytkowników
 * GUI
 * podzielenie programu na więcej plików źródłowych
-* predefiniowane wartości wybierać z menu ([H]atchback [S]edan)
 * opcja "cofnij" i "ponów" operacje (tablica/wektor operacji wykonanych i cofnietych wraz z poprzednimi wartosciami)
 * dopasować wyświetlane informacje do okna konsoli (ostatni wiersz jako menu opcji, indeks strony, itd)
 * wyświetlanie bazy pojazdów podzielić na strony
