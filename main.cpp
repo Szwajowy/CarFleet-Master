@@ -288,7 +288,21 @@ string dodajPojazd(unsigned int id) {
 	rokProd = wprowadzRokProd();
 	vin = wprowadzVin();
 
-	cout << "* Podaj datê ostatniego przegl¹du." << endl;
+	cout << "* Podaj datê ostatniego przegl¹du." << endl;	
+	do {
+		blad = false;
+		cout << "Rok: ";
+		while (!(cin >> rok)) {
+			cout << "B³¹d! Podana wartoœæ nie jest prawid³owym rokiem!" << endl;
+			cin.sync();
+			cout << "Rok: ";
+		}
+		if (rok < 1981 || rok > aktualnyCzas.tm_year || rok < rokProd) {
+			cout << "B³¹d! Podana wartoœæ nie jest prawid³owym rokiem!" << endl;
+			blad = true;
+		}
+	} while (blad != false);
+	
 	do {
 		blad = false;
 		cout << "Miesi¹c: ";
@@ -320,20 +334,36 @@ string dodajPojazd(unsigned int id) {
 						}
 					} while (blad != false);
 				break;
-			case 2:
-					do {
-						blad = false;
-						cout << "Dzieñ: ";
-						while (!(cin >> dzien)) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							cin.sync();
+			case 2: 
+					if((rok % 4 == 0) || (rok % 4 == 0 && rok % 400 == 0)) {
+						do {
+							blad = false;
 							cout << "Dzieñ: ";
-						}
-						if (dzien < 1 || dzien > 28) { //dodac rok przestepny
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							blad = true;
-						}
-					} while (blad != false);
+							while (!(cin >> dzien)) {
+								cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
+								cin.sync();
+								cout << "Dzieñ: ";
+							}
+							if (dzien < 1 || dzien > 29) {
+								cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
+								blad = true;
+							}
+						} while (blad != false);
+					} else if ((rok % 4 != 0) || (rok % 4 == 0 && rok % 100 == 0)) {
+						do {
+							blad = false;
+							cout << "Dzieñ: ";
+							while (!(cin >> dzien)) {
+								cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
+								cin.sync();
+								cout << "Dzieñ: ";
+							}
+							if (dzien < 1 || dzien > 28) {
+								cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
+								blad = true;
+							}
+						} while (blad != false);
+					}
 				break;
 			case 3:
 					do {
@@ -490,7 +520,11 @@ string dodajPojazd(unsigned int id) {
 		}
 	} while (blad != false);
 	
+	przegladOd.tm_mday = dzien;
+	przegladOd.tm_mon = miesiac - 1;
+	przegladOd.tm_year = rok - 1900;	
 	
+	cout << "* Podaj datê wa¿noœci przegl¹du." << endl;
 	do {
 		blad = false;
 		cout << "Rok: ";
@@ -499,17 +533,11 @@ string dodajPojazd(unsigned int id) {
 			cin.sync();
 			cout << "Rok: ";
 		}
-		if (rok < 1981 || rok > aktualnyCzas.tm_year || rok < rokProd) {
+		if (rok < 1981 || rok > aktualnyCzas.tm_year || rok < przegladOd.tm_year + 1900) {
 			cout << "B³¹d! Podana wartoœæ nie jest prawid³owym rokiem!" << endl;
 			blad = true;
 		}
 	} while (blad != false);
-	
-	przegladOd.tm_mday = dzien;
-	przegladOd.tm_mon = miesiac - 1;
-	przegladOd.tm_year = rok - 1900;	
-	
-	cout << "* Podaj datê wa¿noœci przegl¹du." << endl;
 	do {
 		blad = false;
 		cout << "Miesi¹c: ";
@@ -542,19 +570,35 @@ string dodajPojazd(unsigned int id) {
 					} while (blad != false);
 				break;
 			case 2:
-					do {
-						blad = false;
-						cout << "Dzieñ: ";
-						while (!(cin >> dzien)) {
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							cin.sync();
+					if((rok % 4 == 0) || (rok % 4 == 0 && rok % 400 == 0)) {
+						do {
+							blad = false;
 							cout << "Dzieñ: ";
-						}
-						if (dzien < 1 || dzien > 28) { //dodac rok przestepny
-							cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
-							blad = true;
-						}
-					} while (blad != false);
+							while (!(cin >> dzien)) {
+								cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
+								cin.sync();
+								cout << "Dzieñ: ";
+							}
+							if (dzien < 1 || dzien > 29) {
+								cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
+								blad = true;
+							}
+						} while (blad != false);
+					} else if ((rok % 4 != 0) || (rok % 4 == 0 && rok % 100 == 0)) {
+						do {
+							blad = false;
+							cout << "Dzieñ: ";
+							while (!(cin >> dzien)) {
+								cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
+								cin.sync();
+								cout << "Dzieñ: ";
+							}
+							if (dzien < 1 || dzien > 28) {
+								cout << "B³¹d! Podana wartoœæ nie jest prawid³owym dniem!" << endl;
+								blad = true;
+							}
+						} while (blad != false);
+					}
 				break;
 			case 3:
 					do {
@@ -708,20 +752,6 @@ string dodajPojazd(unsigned int id) {
 				break;
 			default: blad = true;
 				break;
-		}
-	} while (blad != false);
-	
-	do {
-		blad = false;
-		cout << "Rok: ";
-		while (!(cin >> rok)) {
-			cout << "B³¹d! Podana wartoœæ nie jest prawid³owym rokiem!" << endl;
-			cin.sync();
-			cout << "Rok: ";
-		}
-		if (rok < 1981 || rok > aktualnyCzas.tm_year || rok < przegladOd.tm_year + 1900) {
-			cout << "B³¹d! Podana wartoœæ nie jest prawid³owym rokiem!" << endl;
-			blad = true;
 		}
 	} while (blad != false);
 	
