@@ -123,7 +123,7 @@ char wprowadzPaliwo() {
 	do {
 		blad = false;
 		cout << "* Wybierz rodzaj paliwa: " << endl;
-		cout << "[B]enzyna [D]iesel [L]PG [E]lektryczny [G]az ziemny" << endl;
+		cout << "[B]enzyna [D]iesel [L]PG + Benzyna [E]lektryczny [G]az ziemny" << endl;
 		paliwo = putchar (toupper(getch()));
 		cout << endl;
 		if (paliwo != 'B' && paliwo != 'D' && paliwo != 'L' && paliwo != 'E' && paliwo != 'G') {
@@ -169,7 +169,7 @@ int wprowadzRokProd() {
 		cin.sync();
 		cin >> rokProd;
 		
-		if( rokProd < 1981 || rokProd > aktualnyCzas.tm_year) {
+		if( cin.fail() || rokProd < 1981 || rokProd > aktualnyCzas.tm_year) {
 			cout << "B³¹d! Rocznij mo¿e byæ tylko z przedzia³u od 1981 do " << aktualnyCzas.tm_year << "." << endl;
 			cin.clear();
 			blad = true;
@@ -278,11 +278,20 @@ string dodajPojazd(unsigned int id) {
 	marka = wprowadzMarka();
 	model = wprowadzModel();
 	wersja = wprowadzWersja();
-	nadwozie = wprowadzNadwozie();
-	paliwo = wprowadzPaliwo();
+	if(typ == 'O' ) {
+		nadwozie = wprowadzNadwozie();
+	}
+	// [J]ednoœlad  [O]sobowy [A]utobus  [C]iê¿arowy [S]pecjalny [P]rzyczepa [N]aczepa
+	if(typ == 'J' ) {
+		paliwo = 'B';
+	} else if (typ == 'C') {	
+		paliwo = 'D';
+	} else if (typ == 'O' || typ == 'A' || typ == 'S') {
+		paliwo = wprowadzPaliwo();
+	}
 	if(paliwo == 'E') {
 		pojSilnika = 0;
-	} else if(paliwo != 'E') {
+	} else {
 		pojSilnika = wprowadzPojSilnika();
 	}	
 	rokProd = wprowadzRokProd();
@@ -1733,10 +1742,10 @@ int main(int argc, char *argv[]) {
 			} else if (tablicaPojazdow[i].oddajPrzegladDo().tm_mon == aktualnyCzas.tm_mon) {
 				if (tablicaPojazdow[i].oddajPrzegladDo().tm_mday < aktualnyCzas.tm_mday) {
 					cout << "Up³yne³a wa¿noœæ przegl¹du pojazdu nr.: " << i << endl;
-				} else if (tablicaPojazdow[i].oddajPrzegladDo().tm_mday == aktualnyCzas.tm_mday) {
-					cout << "Dzisiaj up³ywa wa¿noœæ przegl¹du pojazdu nr.: " << i << endl;
 				} else if (tablicaPojazdow[i].oddajPrzegladDo().tm_mday - aktualnyCzas.tm_mday <= 14) {
 					cout << "Zbli¿a siê koniec wa¿noœci przegl¹du pojazdu nr.: " << i << endl;
+				} else if (tablicaPojazdow[i].oddajPrzegladDo().tm_mday == aktualnyCzas.tm_mday) {
+					cout << "Dzisiaj up³ywa wa¿noœæ przegl¹du pojazdu nr.: " << i << endl;
 				}
 			}	
 		}
