@@ -1670,12 +1670,12 @@ int wyswietlMenu() {
 			} while (blad != 0);
 			
 			for (int i=0; i<tablicaPojazdow.size();i++) {
-				if (tablicaPojazdow[i].oddajPrzegladDo().tm_year < aktualnyCzas.tm_year) {
+				if (tablicaPojazdow[i].oddajPrzegladDo().tm_year + 1900 < aktualnyCzas.tm_year) {
 					cout << "Up³yne³a wa¿noœæ przegl¹du pojazdu nr.: " << i << endl;
-				} else if (tablicaPojazdow[i].oddajPrzegladDo().tm_year == aktualnyCzas.tm_year) {
-					if (tablicaPojazdow[i].oddajPrzegladDo().tm_mon < aktualnyCzas.tm_mon) {
+				} else if (tablicaPojazdow[i].oddajPrzegladDo().tm_year + 1900 == aktualnyCzas.tm_year) {
+					if (tablicaPojazdow[i].oddajPrzegladDo().tm_mon + 1 < aktualnyCzas.tm_mon) {
 						cout << "Up³yne³a wa¿noœæ przegl¹du pojazdu nr.: " << i << endl;
-					} else if (tablicaPojazdow[i].oddajPrzegladDo().tm_mon == aktualnyCzas.tm_mon) {
+					} else if (tablicaPojazdow[i].oddajPrzegladDo().tm_mon + 1 == aktualnyCzas.tm_mon) {
 						if (tablicaPojazdow[i].oddajPrzegladDo().tm_mday < aktualnyCzas.tm_mday) {
 							cout << "Up³yne³a wa¿noœæ przegl¹du pojazdu nr.: " << i << endl;
 						} else if (tablicaPojazdow[i].oddajPrzegladDo().tm_mday == aktualnyCzas.tm_mday) {
@@ -1734,18 +1734,18 @@ int main(int argc, char *argv[]) {
 	otworzPlik("baza.txt","wymus");
 	
 	for (int i=0; i<tablicaPojazdow.size();i++) {
-		if (tablicaPojazdow[i].oddajPrzegladDo().tm_year < aktualnyCzas.tm_year) {
+		if (tablicaPojazdow[i].oddajPrzegladDo().tm_year + 1900 < aktualnyCzas.tm_year) {
 			cout << "Up³yne³a wa¿noœæ przegl¹du pojazdu nr.: " << i << endl;
-		} else if (tablicaPojazdow[i].oddajPrzegladDo().tm_year == aktualnyCzas.tm_year) {
-			if (tablicaPojazdow[i].oddajPrzegladDo().tm_mon < aktualnyCzas.tm_mon) {
+		} else if (tablicaPojazdow[i].oddajPrzegladDo().tm_year + 1900 == aktualnyCzas.tm_year) {
+			if (tablicaPojazdow[i].oddajPrzegladDo().tm_mon + 1 < aktualnyCzas.tm_mon) {
 				cout << "Up³yne³a wa¿noœæ przegl¹du pojazdu nr.: " << i << endl;
-			} else if (tablicaPojazdow[i].oddajPrzegladDo().tm_mon == aktualnyCzas.tm_mon) {
+			} else if (tablicaPojazdow[i].oddajPrzegladDo().tm_mon + 1 == aktualnyCzas.tm_mon) {
 				if (tablicaPojazdow[i].oddajPrzegladDo().tm_mday < aktualnyCzas.tm_mday) {
 					cout << "Up³yne³a wa¿noœæ przegl¹du pojazdu nr.: " << i << endl;
-				} else if (tablicaPojazdow[i].oddajPrzegladDo().tm_mday - aktualnyCzas.tm_mday <= 14) {
-					cout << "Zbli¿a siê koniec wa¿noœci przegl¹du pojazdu nr.: " << i << endl;
 				} else if (tablicaPojazdow[i].oddajPrzegladDo().tm_mday == aktualnyCzas.tm_mday) {
 					cout << "Dzisiaj up³ywa wa¿noœæ przegl¹du pojazdu nr.: " << i << endl;
+				} else if (tablicaPojazdow[i].oddajPrzegladDo().tm_mday - aktualnyCzas.tm_mday <= 14) {
+					cout << "Zbli¿a siê koniec wa¿noœci przegl¹du pojazdu nr.: " << i << endl;
 				}
 			}	
 		}
