@@ -13,6 +13,8 @@
 #include "pojazd.hpp"
 #include "operacja.hpp"
 
+//autorzy: Krzysztof Czaja i Andrzej Karwat
+
 using namespace std;
 namespace kolor {
   enum {
@@ -47,7 +49,34 @@ char wprowadzTyp() {
 	do {
 		blad = false;
 		cout << "* Wybierz typ pojazdu: " << endl;
-		cout << "[J]ednoœlad  [O]sobowy [A]utobus  [C]iê¿arowy [S]pecjalny [P]rzyczepa [N]aczepa" << endl;
+		SetConsoleTextAttribute(h, kolor::GREEN);
+		cout << "[J]";
+		SetConsoleTextAttribute(h, kolor::DEFAULT);
+		cout << "ednoœlad ";
+		SetConsoleTextAttribute(h, kolor::GREEN);
+		cout << "[O]";
+		SetConsoleTextAttribute(h, kolor::DEFAULT);
+		cout << "sobowy ";
+		SetConsoleTextAttribute(h, kolor::GREEN);
+		cout << "[A]";
+		SetConsoleTextAttribute(h, kolor::DEFAULT);
+		cout << "utobus  ";
+		SetConsoleTextAttribute(h, kolor::GREEN);
+		cout << "[C]";
+		SetConsoleTextAttribute(h, kolor::DEFAULT);
+		cout << "iê¿arowy ";
+		SetConsoleTextAttribute(h, kolor::GREEN);
+		cout << "[S]";
+		SetConsoleTextAttribute(h, kolor::DEFAULT);
+		cout << "pecjalny ";
+		SetConsoleTextAttribute(h, kolor::GREEN);
+		cout << "[P]";
+		SetConsoleTextAttribute(h, kolor::DEFAULT);
+		cout << "rzyczepa ";
+		SetConsoleTextAttribute(h, kolor::GREEN);
+		cout << "[N]";
+		SetConsoleTextAttribute(h, kolor::DEFAULT);
+		cout << "aczepa" << endl;
 		typ = putchar (toupper(getch()));
 		cout << endl;
 		if (typ != 'J' && typ != 'O' && typ != 'A' && typ != 'C' && typ != 'S' && typ != 'P' && typ != 'N') {
@@ -1509,7 +1538,7 @@ int wyswietlMenu() {
 	do {
 		blad = 0;
 		opcja = getch();
-		if (opcja == '1' || opcja == '2' || opcja == '3' || opcja == '4') {
+		if (opcja == '1' || opcja == '2' || opcja == '3' || opcja == '4' || opcja == '5') {
 			cout << opcja << endl;
 		} else {
 			blad = 1;
